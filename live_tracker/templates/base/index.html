@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>API Test</title>
+  <link rel="stylesheet" href="{% static 'live_tracker/styles.css' %}">
+</head>
+
+<body>
+  <form id="apiForm">
+    <label for="artistID">Artist ID:</label>
+    <input type="text" id="artistID" name="artistID">
+    <label for="artistName">Artist Name:</label>
+    <input type="text" id="artistName" name="artistName">
+    <button type="submit">UPDATE</button>
+  </form>
+  <p id="statusMessage">In Progress...</p>
+  <script src="{% static 'live_tracker/script.js' %}"></script>
+</body>
+
+</html>
