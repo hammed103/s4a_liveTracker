@@ -3,6 +3,10 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
 
     var artistID = document.getElementById('artistID').value;
     var artistName = document.getElementById('artistName').value;
+    var statusMessage = document.getElementById('statusMessage');
+
+    statusMessage.textContent = 'In Progress...';
+    statusMessage.className = 'inProgress';
 
     fetch('http://127.0.0.1:8000/api/upload-audio', {
         method: 'POST',
@@ -16,13 +20,16 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     })
     .then(response => {
         if (response.status === 200 || response.status === 201) {
-            document.getElementById('statusMessage').textContent = 'SUCCESS';
+            statusMessage.textContent = 'SUCCESS';
+            statusMessage.className = 'success';
         } else {
-            document.getElementById('statusMessage').textContent = 'FAILED';
+            statusMessage.textContent = 'FAILED';
+            statusMessage.className = 'failed';
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        document.getElementById('statusMessage').textContent = 'FAILED';
+        statusMessage.textContent = 'FAILED';
+        statusMessage.className = 'failed';
     });
 });
