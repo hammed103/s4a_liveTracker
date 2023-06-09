@@ -3,7 +3,7 @@
 <html>
 
 <head>
-  <title>API Test</title>
+  <title>UPDATER</title>
   <link rel="stylesheet" href="{% static 'live_tracker/styles.css' %}">
 </head>
 
@@ -13,10 +13,12 @@
     <input type="text" id="artistID" name="artistID">
     <label for="artistName">Artist Name:</label>
     <input type="text" id="artistName" name="artistName">
-    <button type="submit">UPDATE</button>
+    <button type="submit">Call API</button>
   </form>
-  <p id="statusMessage">In Progress...</p>
+  <p class="instruction">Make sure the ArtistName exists as a column header in Airtable.</p>
+  <p id="statusMessage">Idle</p>
   <script src="{% static 'live_tracker/script.js' %}"></script>
 </body>
 
 </html>
+
