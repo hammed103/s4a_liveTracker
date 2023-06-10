@@ -2,7 +2,6 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the form from submitting normally
 
     var artistID = document.getElementById('artistID').value;
-    var artistName = document.getElementById('artistName').value;
     var statusMessage = document.getElementById('statusMessage');
 
     statusMessage.textContent = 'In Progress...';
@@ -15,7 +14,6 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
         },
         body: JSON.stringify({
             "aid": artistID,
-            "artistName": artistName
         })
     })
     .then(response => {

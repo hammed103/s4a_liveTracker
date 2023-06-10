@@ -1,35 +1,64 @@
 body {
   font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  /* Adding a background color to the body */
+  display: flex;
+  /* Flex layout to center the form */
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* Full viewport height */
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 form {
-  margin-bottom: 20px;
+  background-color: #fff;
+  /* Form background color */
+  padding: 30px;
+  /* More padding to the form */
+  border-radius: 10px;
+  /* Rounded borders */
+  box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
+  /* Adding a shadow to the form */
+  width: 100%;
+  max-width: 400px;
+  /* Limit the form width */
 }
 
 label {
-  display: block;
-  margin-top: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 input {
-  margin-bottom: 10px;
-  padding: 10px;
-  width: 200px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(15, 15, 15, 0.1);
+  /* Adding a shadow to the inputs */
+  width: 100%;
 }
 
 button {
-  display: block;
-  margin-top: 20px;
-  padding: 10px 20px;
   background-color: #007BFF;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 100%;
+  /* Full width button */
 }
 
-#statusMessage {
+#statusMessage,
+.instruction {
+  text-align: center;
+  /* Center the text */
   margin-top: 20px;
+}
+
+.instruction {
+  color: #888;
 }
 
 .idle {
@@ -46,10 +75,4 @@ button {
 
 .failed {
   color: #FF0000;
-}
-
-.instruction {
-  margin-top: 20px;
-  color: #888;
-  /* adjust color as needed */
 }
