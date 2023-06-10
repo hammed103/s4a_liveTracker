@@ -8,15 +8,16 @@
 </head>
 
 <body>
-  <form id="apiForm">
-    <label for="artistID">Artist ID:</label>
-    <input type="text" id="artistID" name="artistID">
-    <button type="submit">UPDATE</button>
-  </form>
+  <div class="container">
+    <form id="apiForm">
+      <label for="artistID">Artist ID:</label>
+      <input type="text" id="artistID" name="artistID">
+      <button type="submit">UPDATE</button>
+    </form>
+    <p id="statusMessage">IDLE</p>
+  </div>
   <p class="instruction">Make sure the ArtistName exists as a column header in Airtable.</p>
-  <p id="statusMessage">IDLE</p>
   <script src="{% static 'live_tracker/script.js' %}"></script>
 </body>
 
 </html>
-
