@@ -3,20 +3,21 @@
 <html>
 
 <head>
-  <title>UPDATER</title>
+  <title>UPDATE Playlist</title>
   <link rel="stylesheet" href="{% static 'live_tracker/styles.css' %}">
 </head>
 
 <body>
   <div class="container">
-    <form id="apiForm">
-      <label for="artistID">Artist URL/ ID :</label>
+    <form id="playForm">
+      <label for="artistID">Playlist URL/ID :</label>
       <input type="text" id="artistID" name="artistID">
       <button type="submit">UPDATE</button>
     </form>
     <p id="statusMessage">IDLE</p>
   </div>
-  <script src="{% static 'live_tracker/script.js' %}"></script>
+  <script src="{% static 'live_tracker/statica.js' %}"></script>
 </body>
 
 </html>
+

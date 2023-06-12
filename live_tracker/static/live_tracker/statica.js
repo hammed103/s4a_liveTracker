@@ -2,7 +2,7 @@
 
 
 
-document.getElementById('apiForm').addEventListener('submit', function(event) {
+document.getElementById('playForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the form from submitting normally
 
     var artistID = document.getElementById('artistID').value;
@@ -11,13 +11,13 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     statusMessage.textContent = 'In Progress...';
     statusMessage.className = 'inProgress';
 
-    fetch('http://tracker.purpledorm.io:8000/api/upload-audio', {
+    fetch('http://tracker.purpledorm.io:8000/api/upload-play', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            "aid": artistID,
+            "playid": artistID,
         })
     })
     .then(response => {
