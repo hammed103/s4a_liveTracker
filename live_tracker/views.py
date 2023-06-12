@@ -459,7 +459,7 @@ class refresh(APIView):
 
         worksheet.clear()
 
-        # worksheet.set_dataframe(ll, start="A1",extend=True)
+        worksheet.set_dataframe(ll, start="A1",extend=True)
 
         return Response(
             {
@@ -595,21 +595,6 @@ class refreshMain(APIView):
                         record,
                     )
                     upx = record
-                    client = WebClient(token=slack_token)
-
-                    message = f"*{topic.upper()} New Record*\n"
-                    max_key_length = max(len(key) for key in upx.keys()) + 6
-
-                    for key, value in upx.items():
-                        if key == "Date":
-                            message += (
-                                f":date: *{key.ljust(max_key_length)}*: *_{value}_*\n\n"
-                            )
-                        else:
-                            message += f":globe_with_meridians: *{key.ljust(max_key_length)}*: *_{value}_*\n\n"
-
-                    response = client.chat_postMessage(channel=channel_id, text=message)
-
         return Response(
             {
                 "status": "success",
