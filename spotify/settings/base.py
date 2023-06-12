@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-n4=)xew-o$r%5(pxgxzt@j4h@32ilnzi%4%i(pwrq^0l$9r^oo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
+ALLOWED_HOSTS = ["tracker.purpledorm.io",
     "127.0.0.1",
     "localhost",
     "167.99.195.35",
@@ -41,12 +41,15 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "rest_framework",
+    'corsheaders',
     "live_tracker",
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
 
 MIDDLEWARE = [
+     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -132,3 +135,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "live_tracker.CustomUser"
+
+
+# If you want to allow all origins:
+CORS_ORIGIN_ALLOW_ALL = True
+
+# If you want to whitelist certain origins:
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://127.0.0.1:9000',
+    'http://167.99.195.35:8000',
+    'http://tracker.purpledorm.io'
+]
