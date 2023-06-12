@@ -10,7 +10,47 @@ import io
 from urllib.parse import urlparse
 from time import sleep
 import pandas as pd
+from bs4 import BeautifulSoup
+import pygsheets
 
+def extract_artist_id(url):
+    # Split the URL by "/"
+    url_parts = url.split("/")
+    
+    # Find the index of "artist" in the URL
+    artist_index = url_parts.index("artist")
+    
+    # Extract the artist ID
+    artist_id = url_parts[artist_index + 1]
+    
+    return artist_id
+
+def extract_playlist_id(url):
+    # Split the URL by "/"
+    url_parts = url.split("/")
+    
+    # Find the index of "artist" in the URL
+    artist_index = url_parts.index("playlist")
+    
+    # Extract the artist ID
+    artist_id = url_parts[artist_index + 1]
+    
+    return artist_id
+
+
+
+# Example usage
+
+
+def colnum_to_colname(colnum):
+    colname = ""
+    while colnum > 0:
+        colnum, remainder = divmod(colnum - 1, 26)
+        colname = chr(65 + remainder) + colname
+    return colname
+def soup_from_html(html_string):
+    soup = BeautifulSoup(html_string, "html.parser")
+    return soup
 
 import pyairtable
 from pyairtable.formulas import match
@@ -49,11 +89,6 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 
 
 
-
-
-
-
-
 # Create a new instance of ChromeDriver
 driver = wirewebdriver.Chrome(service=service, options=chrome_options,seleniumwire_options=options)
 # Now you can use the `driver` object to interact with the browser and access the requests made
@@ -82,6 +117,50 @@ for request in driver.requests:
 
 print("Authorization Header:", auth_header)
 
+# %%
+
+
+import requests
+import base64
+from time import sleep
+
+def vio(playlist_id) :
+    client_id = '53fb1dbe5f42480ba654fcc3c7e168d6'
+    client_secret = '5c1da4cce90f410e88966cdfc0785e3a'
+
+    auth_str = client_id + ':' + client_secret
+    b64_auth_str = base64.b64encode(auth_str.encode()).decode()
+
+    auth_options = {
+        'url': 'https://accounts.spotify.com/api/token',
+        'headers': {
+            'Authorization': 'Basic ' + b64_auth_str
+        },
+        'data': {
+            'grant_type': 'client_credentials'
+        }
+    }
+
+    response = requests.post(**auth_options)
+    if response.status_code == 200:
+        token = response.json()['access_token']
+
+    headers = {
+        'Authorization': f'Bearer {token}' # Replace with actual token
+    }
+
+    response = requests.get(f'https://api.spotify.com/v1/playlists/{playlist_id}', headers=headers)
+
+    if response.status_code == 200:
+        playlist_data = response.json()
+        # Do something with the playlist data
+    else:
+        print(f'Error: {response.status_code}')
+
+    cnt = (playlist_data["followers"]["total"],playlist_data["name"])
+
+    return {"id": playlist_id , "name":playlist_data["name"], "total":playlist_data["followers"]["total"]}
+
 
 def HomePage(req):
     return render(
@@ -89,12 +168,26 @@ def HomePage(req):
         "base/index.html",
     )
 
+def Playlist(req):
+    return render(
+        req,
+        "base/play.html",
+    )
+
+
 
 class UploadView(APIView):
     @staticmethod
     def post(req):
         aid = req.data["aid"]
-        artistName = req.data["artistName"]
+        try:
+          aid = extract_artist_id(aid)
+        except:
+          pass
+        print(aid)
+        rff = requests.get(f"https://open.spotify.com/artist/{aid}")
+
+        artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
         airtable = pyairtable.Table(api_key, base_id, table_name)
         global driver
         for request in driver.requests:
@@ -139,9 +232,13 @@ class UploadView(APIView):
             response = response.json()["timelinePoint"][:180]
         except:
             # Create a new instance of ChromeDriver
-            driver = wirewebdriver.Chrome(service=service, options=chrome_options,seleniumwire_options=options)
+            driver = wirewebdriver.Chrome(
+                service=service, options=chrome_options, seleniumwire_options=options
+            )
             # Now you can use the `driver` object to interact with the browser and access the requests made
-            driver.get("https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home")
+            driver.get(
+                "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
+            )
             sleep(3)
             # Find the login input box by its ID and enter the login credentials
             from selenium.webdriver.common.by import By
@@ -165,7 +262,6 @@ class UploadView(APIView):
                             break
 
             print("Authorization Header:", auth_header)
-
 
             headers = {
                 "authority": "generic.wg.spotify.com",
@@ -222,14 +318,46 @@ class UploadView(APIView):
             for item in response
         ]
 
-        for rr in response:
-            records = airtable.first(formula=match({"Date": rr["Date"]}))
-            if not records:
-                airtable.create(rr)
-            else:
-                record_id = records["id"]
-                updated_fields = rr
-                airtable.update(record_id, rr)
+        dc = pd.DataFrame(response)
+        gc = pygsheets.authorize(
+            service_file="./my-project-1515950162194-ea018b910e23.json"
+        )
+
+        # Open the Excel sheet by its name
+        sh = gc.open("Competitors")
+
+        wks = sh.worksheet_by_title("Competitor-Grid view")
+        pt = wks.get_as_df()
+
+        # Merge df1 and df2 on 'Date', and if there are common columns, df2's values will be used
+        df = pt.merge(dc, on="Date", how="outer", suffixes=("", "_y"))
+
+        # Delete the columns from df1 which are common with df2
+        to_drop = [x for x in df if x.endswith("_y")]
+        df.drop(to_drop, axis=1, inplace=True)
+
+        wks.clear()
+
+        num_columns = df.shape[1]
+
+        # Convert the number of columns into a column label
+        last_column_label = colnum_to_colname(num_columns)
+
+
+        df["Total Amount"] = pd.DataFrame([f'=SUM(C{i+2}:{last_column_label}{i+2})' for i in range(wks.rows-1)], columns=['Total Amount'])
+
+        wks.set_dataframe(df, start="A1",extend=True)
+        try:
+            for rr in response:
+                records = airtable.first(formula=match({"Date": rr["Date"]}))
+                if not records:
+                    airtable.create(rr)
+                else:
+                    record_id = records["id"]
+                    updated_fields = rr
+                    airtable.update(record_id, rr)
+        except:
+            pass
 
         print("Upload complete")
 
@@ -241,3 +369,41 @@ class UploadView(APIView):
             status=201,
         )
         print("Upload complete")
+
+
+
+class UploadPlay(APIView):
+    @staticmethod
+    def post(req):
+        aid = req.data["playid"]
+        try:
+            data = vio(aid)
+        except:
+            aid = extract_playlist_id(aid)
+        data = vio(aid)
+        # Authenticate with Google Sheets
+        gc = pygsheets.authorize(service_file='my-project-1515950162194-ea018b910e23.json')
+
+        # Open the Google Spreadsheet using its title
+        spreadsheet = gc.open('Playlist Tracker')
+
+        # Select the worksheet
+        worksheet = spreadsheet.sheet1
+
+        # Add new data
+        
+        new_row = [data['id'], data['name'], data['total'], 0]  # Assuming Last24Hours is 0 for new rows
+
+        # Add the new row to the end of the sheet
+        worksheet.append_table(new_row)
+
+
+        return Response(
+            {
+                "status": "success",
+                "data": new_row,
+            },
+            status=201,
+        )
+        print("Upload complete")
+
