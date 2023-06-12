@@ -407,3 +407,34 @@ class UploadPlay(APIView):
         )
         print("Upload complete")
 
+
+
+class refresh(APIView):
+    @staticmethod
+    def get(req):  
+        gc = pygsheets.authorize(service_file='my-project-1515950162194-ea018b910e23.json')
+
+        # Open the Google Spreadsheet using its title
+        spreadsheet = gc.open('Playlist Tracker')
+
+        # Select the worksheet
+        worksheet = spreadsheet.sheet1
+
+        ll = worksheet.get_as_df()
+        for index,val in ll.iterrows() :
+            data = vio(val.PlaylistId)
+            pix = (data["total"] - val.Total)
+            ll.loc[index,"Total"] = data["total"]
+            ll.loc[index,"Last24Hours"] = pix
+
+        worksheet.clear()
+
+        #worksheet.set_dataframe(ll, start="A1",extend=True)
+        
+        return Response(
+            {
+                "status": "success",
+            },
+            status=201,
+        )
+        print("Upload complete")
