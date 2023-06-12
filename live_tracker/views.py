@@ -599,6 +599,6 @@ class refreshMain(APIView):
             {
                 "status": "success",
             },
-            status=201,
+            status=200,
         )
         print("Upload complete")
