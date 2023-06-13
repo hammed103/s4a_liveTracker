@@ -550,8 +550,6 @@ class UploadView(APIView):
 
         df = df.fillna(0)
 
-        wks.clear()
-
         num_columns = df.shape[1]
 
         # Convert the number of columns into a column label
@@ -561,7 +559,7 @@ class UploadView(APIView):
             [f"=SUM(C{i+2}:{last_column_label}{i+2})" for i in range(wks.rows - 1)],
             columns=["Total Amount"],
         )
-
+        wks.clear()
         wks.set_dataframe(df, start="A1", extend=True)
         try:
             for rr in response:
