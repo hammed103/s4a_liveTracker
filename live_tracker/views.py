@@ -40,6 +40,15 @@ def extract_playlist_id(url):
     return artist_id
 
 
+codes = ["WS","PG","TL","SB","NR","KI","TO","NZ","FJ","VU","PW","TV","AU","FM","MH","MO","MN","TW","JP","KR","HK",
+"VN","MY","KH","LA","PH","BN","SG","TH","ID","BR","MX","CR","SV","PA","HN","BZ","NI","GT","DO","DM","KN","JM",
+"GY","BS","VC","TT","GD","SR","LC","AG","HT","BB","CW","CL","AR","UY","PY","CO","EC","PE","BO","VE","BT","NP","IN",
+"MV","BD","LK","PK","BF","LR","CD","GN","SL","ZW","UG","CI","GM","SZ","MZ","ZA","BJ","GW","TZ","CM","MR","GQ","TD","BI",
+"AO","RW","MU","NA","GH","GA","KE","SN","SC","CV","ZM","NE","BW","ML","ST","KM","NG","CG","LS","MG","TG","ET","MW","LY","MA",
+"LB","QA","KW","DZ","OM","IQ","DJ","TN","JO","AE","EG","PS","SA","BH","CA","US","DK","FI","IS","NO","SE","PL","LT","UA","BG","EE","RO",
+"SK","HR","HU","ME","CZ","SI","XK","AL","MK","LV","RS","BA","GB","IE","ES","CY","SM","IL","GR","MT","AD","PT","TR","IT","LU","FR","MC","NL",
+"BE","DE","LI","AT","CH", "GE","UZ","BY","TJ","KG","AM","KZ","MD","AZ"]
+
 # Example usage
 slack_token = "xoxb-907605934689-5286686717863-8EN26FvWuun1C8M8ZkUe7uZj"
 channel_id = "C05901NKQSY"
@@ -518,9 +527,6 @@ class refreshMain(APIView):
 
             airtable = pyairtable.Table(api_key, base_id, table_name)
 
-            slack_token = "xoxb-907605934689-5286686717863-8EN26FvWuun1C8M8ZkUe7uZj"
-            channel_id = "C05901NKQSY"
-
             comb = []
             for aid, anam in art:
 
@@ -596,8 +602,149 @@ class refreshMain(APIView):
                     )
                     upx = record
 
+        if cont :
 
-        
+
+
+            for request in driver.requests:
+                if request.headers:
+                    if "authorization" in request.headers:
+                        auth_header = request.headers["Authorization"]
+                        if auth_header != "":
+                            break
+
+            print("Authorization Header:", auth_header)
+            headers = {
+                "authority": "generic.wg.spotify.com",
+                "accept": "application/json",
+                "accept-language": "en-US",
+                "app-platform": "Browser",
+                "authorization": f"{auth_header}",
+                "content-type": "application/json",
+                "origin": "https://artists.spotify.com",
+                "referer": "https://artists.spotify.com/",
+                "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": '"Windows"',
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-site",
+                "spotify-app-version": "1.0.0.48e3603",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+            }
+                
+            current_date = merged_list[0]["Date"]
+            # Define a function that calculates the difference between the last and first value
+            def diff(x):
+                return x.iloc[-1] - x.iloc[0]
+            table_name = 'Country Demographics Monthly Listeners'  # Replace with your Airtable table name
+
+            airtable = pyairtable.Table( api_key,base_id, table_name)
+
+            existing_records = airtable.all()
+
+            record_exists = False
+
+            bobo = [(i["fields"]["Date"],i["fields"]["Country"],i["fields"]["ArtistName"],i["fields"]["Age Group"] )for i in existing_records]
+            for cd in codes :
+                params = {
+                    'time-filter': '28day',
+                    'aggregation-level': 'recording',
+                    'country': f'{cd}',
+                }
+
+
+            
+                for aid,anam in artx :
+                    try:
+
+                        response = requests.get(
+                        f'https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age',
+                        params=params,
+                        headers=headers,
+                        )
+
+                        if response.text == "" :
+                            print("skipping",aid)
+                            continue
+                        else:
+                            print("running :" ,aid)
+                            data = response.json()
+
+                    except:
+                        for request in driver.requests:
+                            if request.headers:
+                                if "authorization" in request.headers:
+                                    auth_header = request.headers["Authorization"]
+                                    if auth_header != "":
+                                        break
+
+                        print("Authorization Header:", auth_header)
+                        headers = {
+                            "authority": "generic.wg.spotify.com",
+                            "accept": "application/json",
+                            "accept-language": "en-US",
+                            "app-platform": "Browser",
+                            "authorization": f"{auth_header}",
+                            "content-type": "application/json",
+                            "origin": "https://artists.spotify.com",
+                            "referer": "https://artists.spotify.com/",
+                            "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                            "sec-ch-ua-mobile": "?0",
+                            "sec-ch-ua-platform": '"Windows"',
+                            "sec-fetch-dest": "empty",
+                            "sec-fetch-mode": "cors",
+                            "sec-fetch-site": "same-site",
+                            "spotify-app-version": "1.0.0.48e3603",
+                            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                            "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+                        }
+                        response = requests.get(
+                            f'https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age',
+                            params=params,
+                            headers=headers,
+                            )
+
+                        if response.text == "" :
+                            print("skipping",aid)
+                            continue
+                        else:
+                            print("running :" ,aid)
+                            data = response.json()
+
+                    age_groups = ["0-17", "18-22", "23-27", "28-34", "35-44", "45-59", "60+"]
+
+                    # The current date
+                    
+
+
+                    # List of dictionaries for Airtable
+                    airtable_data = []
+                    for i, age_group in enumerate(age_groups):
+                        age_group_data = {
+                            "Date": current_date,
+                            "ArtistName": anam,
+                            "Age Group": age_group.replace("0-17","<18"),
+                            "Country" : cd,
+                            "Total Amount": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}"]),
+                            "Female": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}_gender"]["female"]),
+                            "Male": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}_gender"]["male"]),
+                            "Nonbinary": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}_gender"]["nonbinary"]),
+                            "Unknown": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}_gender"]["unknown"])
+                        }
+                        airtable_data.append(age_group_data)
+
+                print("uploading",cd)
+
+                # Print the data to check it
+                for record in airtable_data:
+                    if (record['Date'],record["Country"],record["ArtistName"],record["Age Group"]) in bobo :
+                        pass
+                    else:
+                        #print(f"Update made for {record['Date'] }")
+                        airtable.create(record,)
+                    
         return Response(
             {
                 "status": "success",
