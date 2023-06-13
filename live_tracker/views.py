@@ -545,6 +545,11 @@ class UploadView(APIView):
         to_drop = [x for x in df if x.endswith("_y")]
         df.drop(to_drop, axis=1, inplace=True)
 
+        df["Date"] = pd.to_datetime(df['Date'])
+        df = df.sort_values("Date",ascending=False)
+
+        df = df.fillna(0)
+
         wks.clear()
 
         num_columns = df.shape[1]
