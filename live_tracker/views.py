@@ -40,14 +40,192 @@ def extract_playlist_id(url):
     return artist_id
 
 
-codes = ["WS","PG","TL","SB","NR","KI","TO","NZ","FJ","VU","PW","TV","AU","FM","MH","MO","MN","TW","JP","KR","HK",
-"VN","MY","KH","LA","PH","BN","SG","TH","ID","BR","MX","CR","SV","PA","HN","BZ","NI","GT","DO","DM","KN","JM",
-"GY","BS","VC","TT","GD","SR","LC","AG","HT","BB","CW","CL","AR","UY","PY","CO","EC","PE","BO","VE","BT","NP","IN",
-"MV","BD","LK","PK","BF","LR","CD","GN","SL","ZW","UG","CI","GM","SZ","MZ","ZA","BJ","GW","TZ","CM","MR","GQ","TD","BI",
-"AO","RW","MU","NA","GH","GA","KE","SN","SC","CV","ZM","NE","BW","ML","ST","KM","NG","CG","LS","MG","TG","ET","MW","LY","MA",
-"LB","QA","KW","DZ","OM","IQ","DJ","TN","JO","AE","EG","PS","SA","BH","CA","US","DK","FI","IS","NO","SE","PL","LT","UA","BG","EE","RO",
-"SK","HR","HU","ME","CZ","SI","XK","AL","MK","LV","RS","BA","GB","IE","ES","CY","SM","IL","GR","MT","AD","PT","TR","IT","LU","FR","MC","NL",
-"BE","DE","LI","AT","CH", "GE","UZ","BY","TJ","KG","AM","KZ","MD","AZ"]
+codes = [
+    "WS",
+    "PG",
+    "TL",
+    "SB",
+    "NR",
+    "KI",
+    "TO",
+    "NZ",
+    "FJ",
+    "VU",
+    "PW",
+    "TV",
+    "AU",
+    "FM",
+    "MH",
+    "MO",
+    "MN",
+    "TW",
+    "JP",
+    "KR",
+    "HK",
+    "VN",
+    "MY",
+    "KH",
+    "LA",
+    "PH",
+    "BN",
+    "SG",
+    "TH",
+    "ID",
+    "BR",
+    "MX",
+    "CR",
+    "SV",
+    "PA",
+    "HN",
+    "BZ",
+    "NI",
+    "GT",
+    "DO",
+    "DM",
+    "KN",
+    "JM",
+    "GY",
+    "BS",
+    "VC",
+    "TT",
+    "GD",
+    "SR",
+    "LC",
+    "AG",
+    "HT",
+    "BB",
+    "CW",
+    "CL",
+    "AR",
+    "UY",
+    "PY",
+    "CO",
+    "EC",
+    "PE",
+    "BO",
+    "VE",
+    "BT",
+    "NP",
+    "IN",
+    "MV",
+    "BD",
+    "LK",
+    "PK",
+    "BF",
+    "LR",
+    "CD",
+    "GN",
+    "SL",
+    "ZW",
+    "UG",
+    "CI",
+    "GM",
+    "SZ",
+    "MZ",
+    "ZA",
+    "BJ",
+    "GW",
+    "TZ",
+    "CM",
+    "MR",
+    "GQ",
+    "TD",
+    "BI",
+    "AO",
+    "RW",
+    "MU",
+    "NA",
+    "GH",
+    "GA",
+    "KE",
+    "SN",
+    "SC",
+    "CV",
+    "ZM",
+    "NE",
+    "BW",
+    "ML",
+    "ST",
+    "KM",
+    "NG",
+    "CG",
+    "LS",
+    "MG",
+    "TG",
+    "ET",
+    "MW",
+    "LY",
+    "MA",
+    "LB",
+    "QA",
+    "KW",
+    "DZ",
+    "OM",
+    "IQ",
+    "DJ",
+    "TN",
+    "JO",
+    "AE",
+    "EG",
+    "PS",
+    "SA",
+    "BH",
+    "CA",
+    "US",
+    "DK",
+    "FI",
+    "IS",
+    "NO",
+    "SE",
+    "PL",
+    "LT",
+    "UA",
+    "BG",
+    "EE",
+    "RO",
+    "SK",
+    "HR",
+    "HU",
+    "ME",
+    "CZ",
+    "SI",
+    "XK",
+    "AL",
+    "MK",
+    "LV",
+    "RS",
+    "BA",
+    "GB",
+    "IE",
+    "ES",
+    "CY",
+    "SM",
+    "IL",
+    "GR",
+    "MT",
+    "AD",
+    "PT",
+    "TR",
+    "IT",
+    "LU",
+    "FR",
+    "MC",
+    "NL",
+    "BE",
+    "DE",
+    "LI",
+    "AT",
+    "CH",
+    "GE",
+    "UZ",
+    "BY",
+    "TJ",
+    "KG",
+    "AM",
+    "KZ",
+    "MD",
+    "AZ",
+]
 
 # Example usage
 slack_token = "xoxb-907605934689-5286686717863-8EN26FvWuun1C8M8ZkUe7uZj"
@@ -468,7 +646,7 @@ class refresh(APIView):
 
         worksheet.clear()
 
-        worksheet.set_dataframe(ll, start="A1",extend=True)
+        worksheet.set_dataframe(ll, start="A1", extend=True)
 
         return Response(
             {
@@ -603,9 +781,9 @@ class refreshMain(APIView):
                     )
                     upx = record
 
-        if cont :
+        if cont:
 
-            #COUNTRY DEMOGRAPHIC #################################################
+            # COUNTRY DEMOGRAPHIC #################################################
 
             for request in driver.requests:
                 if request.headers:
@@ -634,43 +812,50 @@ class refreshMain(APIView):
                 "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
                 "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
             }
-                
+
             current_date = merged_list[0]["Date"]
             # Define a function that calculates the difference between the last and first value
             def diff(x):
                 return x.iloc[-1] - x.iloc[0]
-            table_name = 'Country Demographics Monthly Listeners'  # Replace with your Airtable table name
 
-            airtable = pyairtable.Table( api_key,base_id, table_name)
+            table_name = "Country Demographics Monthly Listeners"  # Replace with your Airtable table name
+
+            airtable = pyairtable.Table(api_key, base_id, table_name)
 
             existing_records = airtable.all()
 
             record_exists = False
 
-            bobo = [(i["fields"]["Date"],i["fields"]["Country"],i["fields"]["ArtistName"],i["fields"]["Age Group"] )for i in existing_records]
-            for cd in codes :
+            bobo = [
+                (
+                    i["fields"]["Date"],
+                    i["fields"]["Country"],
+                    i["fields"]["ArtistName"],
+                    i["fields"]["Age Group"],
+                )
+                for i in existing_records
+            ]
+            for cd in codes:
                 params = {
-                    'time-filter': '28day',
-                    'aggregation-level': 'recording',
-                    'country': f'{cd}',
+                    "time-filter": "28day",
+                    "aggregation-level": "recording",
+                    "country": f"{cd}",
                 }
 
-
-            
-                for aid,anam in artx :
+                for aid, anam in artx:
                     try:
 
                         response = requests.get(
-                        f'https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age',
-                        params=params,
-                        headers=headers,
+                            f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age",
+                            params=params,
+                            headers=headers,
                         )
 
-                        if response.text == "" :
-                            print("skipping",aid)
+                        if response.text == "":
+                            print("skipping", aid)
                             continue
                         else:
-                            print("running :" ,aid)
+                            print("running :", aid)
                             data = response.json()
 
                     except:
@@ -702,23 +887,29 @@ class refreshMain(APIView):
                             "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
                         }
                         response = requests.get(
-                            f'https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age',
+                            f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age",
                             params=params,
                             headers=headers,
-                            )
+                        )
 
-                        if response.text == "" :
-                            print("skipping",aid)
+                        if response.text == "":
+                            print("skipping", aid)
                             continue
                         else:
-                            print("running :" ,aid)
+                            print("running :", aid)
                             data = response.json()
 
-                    age_groups = ["0-17", "18-22", "23-27", "28-34", "35-44", "45-59", "60+"]
+                    age_groups = [
+                        "0-17",
+                        "18-22",
+                        "23-27",
+                        "28-34",
+                        "35-44",
+                        "45-59",
+                        "60+",
+                    ]
 
                     # The current date
-                    
-
 
                     # List of dictionaries for Airtable
                     airtable_data = []
@@ -726,29 +917,53 @@ class refreshMain(APIView):
                         age_group_data = {
                             "Date": current_date,
                             "ArtistName": anam,
-                            "Age Group": age_group.replace("0-17","<18"),
-                            "Country" : cd,
-                            "Total Amount": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}"]),
-                            "Female": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}_gender"]["female"]),
-                            "Male": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}_gender"]["male"]),
-                            "Nonbinary": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}_gender"]["nonbinary"]),
-                            "Unknown": int(data[f"age_{age_group.replace('-', '_').replace('+', '')}_gender"]["unknown"])
+                            "Age Group": age_group.replace("0-17", "<18"),
+                            "Country": cd,
+                            "Total Amount": int(
+                                data[
+                                    f"age_{age_group.replace('-', '_').replace('+', '')}"
+                                ]
+                            ),
+                            "Female": int(
+                                data[
+                                    f"age_{age_group.replace('-', '_').replace('+', '')}_gender"
+                                ]["female"]
+                            ),
+                            "Male": int(
+                                data[
+                                    f"age_{age_group.replace('-', '_').replace('+', '')}_gender"
+                                ]["male"]
+                            ),
+                            "Nonbinary": int(
+                                data[
+                                    f"age_{age_group.replace('-', '_').replace('+', '')}_gender"
+                                ]["nonbinary"]
+                            ),
+                            "Unknown": int(
+                                data[
+                                    f"age_{age_group.replace('-', '_').replace('+', '')}_gender"
+                                ]["unknown"]
+                            ),
                         }
                         airtable_data.append(age_group_data)
 
-                print("uploading",cd)
-
-
+                print("uploading", cd)
 
                 # Print the data to check it
                 for record in airtable_data:
-                    if (record['Date'],record["Country"],record["ArtistName"],record["Age Group"]) in bobo :
+                    if (
+                        record["Date"],
+                        record["Country"],
+                        record["ArtistName"],
+                        record["Age Group"],
+                    ) in bobo:
                         pass
                     else:
-                        #print(f"Update made for {record['Date'] }")
-                        airtable.create(record,)
+                        # print(f"Update made for {record['Date'] }")
+                        airtable.create(
+                            record,
+                        )
                 ####################################################
-
 
             ######## CITY MONTHLY ############################
             for request in driver.requests:
@@ -780,40 +995,42 @@ class refreshMain(APIView):
             }
 
             params = {
-                'time-filter': '28day',
-                'aggregation-level': 'recording',
+                "time-filter": "28day",
+                "aggregation-level": "recording",
             }
-            table_name = 'City Listeners Monthly'  # Replace with your Airtable table name
+            table_name = (
+                "City Listeners Monthly"  # Replace with your Airtable table name
+            )
 
-            airtable = pyairtable.Table( api_key,base_id, table_name)
+            airtable = pyairtable.Table(api_key, base_id, table_name)
 
             # Get all records
             records = airtable.all()
 
             # Delete each record
             for record in records:
-                airtable.delete(record['id'])
-                
+                airtable.delete(record["id"])
+
             comb = []
-            for cd in codes :
+            for cd in codes:
                 params = {
-                    'time-filter': '28day',
-                    'aggregation-level': 'recording',
-                    'country':f'{cd}'
+                    "time-filter": "28day",
+                    "aggregation-level": "recording",
+                    "country": f"{cd}",
                 }
-                for aid,anam in artx :
+                for aid, anam in artx:
 
                     try:
                         response = requests.get(
-                        f'https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording',
-                        params=params,
-                        headers=headers,
+                            f"https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording",
+                            params=params,
+                            headers=headers,
                         )
-                        if response.text == "" :
-                            print("skipping",aid)
+                        if response.text == "":
+                            print("skipping", aid)
                             continue
                         else:
-                            #print("running :" ,aid)
+                            # print("running :" ,aid)
                             HYPERTECHNO = response.json()["geography"]
 
                     except:
@@ -847,73 +1064,247 @@ class refreshMain(APIView):
                         }
 
                         response = requests.get(
-                        f'https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording',
-                        params=params,
-                        headers=headers,
+                            f"https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording",
+                            params=params,
+                            headers=headers,
                         )
-                        if response.text == "" :
-                            print("skipping",aid)
+                        if response.text == "":
+                            print("skipping", aid)
                             continue
                         else:
-                            #print("running :" ,aid)
+                            # print("running :" ,aid)
                             HYPERTECHNO = response.json()["geography"]
                     # Iterate over each dictionary in the list
                     # Example list of dictionaries
 
-
                     # Define a mapping from old keys to new keys
-                    key_mapping = {"name": "City", "num": anam, "country": "Country","region" :"Region",}
+                    key_mapping = {
+                        "name": "City",
+                        "num": anam,
+                        "country": "Country",
+                        "region": "Region",
+                    }
 
                     # Create a new list of dictionaries with renamed keys
-                    new_HYPERTECHNO = [{key_mapping.get(key, key): value for key, value in item.items()} for item in HYPERTECHNO]
+                    new_HYPERTECHNO = [
+                        {
+                            key_mapping.get(key, key): value
+                            for key, value in item.items()
+                        }
+                        for item in HYPERTECHNO
+                    ]
 
                     # Print the updated list of dictionaries
                     # Add 'daye' key to each dictionary
-                    new_HYPERTECHNO = [{**d, 'Date': current_date} for d in new_HYPERTECHNO]
+                    new_HYPERTECHNO = [
+                        {**d, "Date": current_date} for d in new_HYPERTECHNO
+                    ]
                     # Define the keys to convert from string to integer
                     keys_to_convert = [f"{anam}"]
 
                     # Convert string values to integers using list comprehension
                     new_HYPERTECHNO = [
-                        {key: int(value) if key in keys_to_convert else value for key, value in item.items()}
+                        {
+                            key: int(value) if key in keys_to_convert else value
+                            for key, value in item.items()
+                        }
                         for item in new_HYPERTECHNO
                     ]
-
 
                     # Print the updated dictionary
                     comb.append(new_HYPERTECHNO)
 
             comb = [i for j in comb for i in j]
 
+            # Merge dictionaries based on 'Date' and 'City'
+            merged_dict = {}
+
+            for item in comb:
+                date = item["Date"]
+                city = item["City"]
+                if (date, city) not in merged_dict:
+                    merged_dict[(date, city)] = {}
+
+                for key, value in item.items():
+                    # if key not in ['Date', ]:
+                    merged_dict[(date, city)][key] = value
+
+            # Convert merged_dict to a list of dictionaries
+            merged_list = [
+                {"Datex": key, **value} for key, value in merged_dict.items()
+            ]
+            # Remove 'Datex' key from each dictionary
+            merged_list = [
+                {k: v for k, v in d.items() if k != "Datex"} for d in merged_list
+            ]
+
+            for record in merged_list:
+
+                # print(f"Update made for {record['Date'] }")
+                # Insert the new record at the top
+                airtable.create(
+                    record,
+                )
+
+            ######## COUNTRY MONTHLY ############################
+            for request in driver.requests:
+                if request.headers:
+                    if "authorization" in request.headers:
+                        auth_header = request.headers["Authorization"]
+                        if auth_header != "":
+                            break
+
+            print("Authorization Header:", auth_header)
+            headers = {
+                "authority": "generic.wg.spotify.com",
+                "accept": "application/json",
+                "accept-language": "en-US",
+                "app-platform": "Browser",
+                "authorization": f"{auth_header}",
+                "content-type": "application/json",
+                "origin": "https://artists.spotify.com",
+                "referer": "https://artists.spotify.com/",
+                "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": '"Windows"',
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-site",
+                "spotify-app-version": "1.0.0.48e3603",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+            }
+
+            params = {
+                "time-filter": "28day",
+                "aggregation-level": "recording",
+            }
+            table_name = (
+                "Country Listeners Monthly"  # Replace with your Airtable table name
+            )
+
+            airtable = pyairtable.Table(api_key, base_id, table_name)
+            comb = []
+
+            for aid, anam in artx:
+
+                try:
+                    response = requests.get(
+                        f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/locations?time-filter=28day&aggregation-level=recording",
+                        params=params,
+                        headers=headers,
+                    )
+                    if response.text == "":
+                        print("skipping", aid)
+                        continue
+                    else:
+                        print("running :", aid)
+                    HYPERTECHNO = response.json()["geography"]
+                except:
+                    for request in driver.requests:
+                        if request.headers:
+                            if "authorization" in request.headers:
+                                auth_header = request.headers["Authorization"]
+                                if auth_header != "":
+                                    break
+
+                    print("Authorization Header:", auth_header)
+                    headers = {
+                        "authority": "generic.wg.spotify.com",
+                        "accept": "application/json",
+                        "accept-language": "en-US",
+                        "app-platform": "Browser",
+                        "authorization": f"{auth_header}",
+                        "content-type": "application/json",
+                        "origin": "https://artists.spotify.com",
+                        "referer": "https://artists.spotify.com/",
+                        "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                        "sec-ch-ua-mobile": "?0",
+                        "sec-ch-ua-platform": '"Windows"',
+                        "sec-fetch-dest": "empty",
+                        "sec-fetch-mode": "cors",
+                        "sec-fetch-site": "same-site",
+                        "spotify-app-version": "1.0.0.48e3603",
+                        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                        "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+                    }
+                    response = requests.get(
+                        f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/locations?time-filter=28day&aggregation-level=recording",
+                        params=params,
+                        headers=headers,
+                    )
+                    if response.text == "":
+                        print("skipping", aid)
+                        continue
+                    else:
+                        print("running :", aid)
+                    HYPERTECHNO = response.json()["geography"]
+
+                # Iterate over each dictionary in the list
+                # Example list of dictionaries
+
+                # Define a mapping from old keys to new keys
+                key_mapping = {
+                    "name": "Country",
+                    "num": anam,
+                    "region": "Region",
+                }
+
+                # Create a new list of dictionaries with renamed keys
+                new_HYPERTECHNO = [
+                    {key_mapping.get(key, key): value for key, value in item.items()}
+                    for item in HYPERTECHNO
+                ]
+
+                # Print the updated list of dictionaries
+                # Add 'daye' key to each dictionary
+                new_HYPERTECHNO = [{**d, "Date": current_date} for d in new_HYPERTECHNO]
+                # Define the keys to convert from string to integer
+                keys_to_convert = [f"{anam}"]
+
+                # Convert string values to integers using list comprehension
+                new_HYPERTECHNO = [
+                    {
+                        key: int(value) if key in keys_to_convert else value
+                        for key, value in item.items()
+                    }
+                    for item in new_HYPERTECHNO
+                ]
+
+                # Print the updated dictionary
+                comb.append(new_HYPERTECHNO)
+
+            comb = [i for j in comb for i in j]
 
             # Merge dictionaries based on 'Date' and 'City'
             merged_dict = {}
 
             for item in comb:
-                date = item['Date']
-                city = item['City']
+                date = item["Date"]
+                city = item["Country"]
                 if (date, city) not in merged_dict:
                     merged_dict[(date, city)] = {}
 
                 for key, value in item.items():
-                    #if key not in ['Date', ]:
+                    # if key not in ['Date', ]:
                     merged_dict[(date, city)][key] = value
 
-
-
             # Convert merged_dict to a list of dictionaries
-            merged_list = [{'Datex': key, **value} for key, value in merged_dict.items()]
+            merged_list = [
+                {"Datex": key, **value} for key, value in merged_dict.items()
+            ]
             # Remove 'Datex' key from each dictionary
-            merged_list = [{k: v for k, v in d.items() if k != 'Datex'} for d in merged_list]
+            merged_list = [
+                {k: v for k, v in d.items() if k != "Datex"} for d in merged_list
+            ]
+            for record in merged_list:
 
-            for record in merged_list :
-                
-            #print(f"Update made for {record['Date'] }")
-            # Insert the new record at the top
-                airtable.create(record,)
+                # print(f"Update made for {record['Date'] }")
+                # Insert the new record at the top
+                airtable.create(
+                    record,
+                )
 
-        
-                    
         return Response(
             {
                 "status": "success",
