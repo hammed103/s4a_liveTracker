@@ -539,14 +539,14 @@ class UploadView(APIView):
         pt = wks.get_as_df()
 
         # Merge df1 and df2 on 'Date', and if there are common columns, df2's values will be used
-        df = pt.merge(dc, on="Date", how="outer", suffixes=("", "_y"))
+        df = pt.merge(dc, on="Date", how="outer", suffixes=("_y", ""))
 
         # Delete the columns from df1 which are common with df2
         to_drop = [x for x in df if x.endswith("_y")]
         df.drop(to_drop, axis=1, inplace=True)
 
-        df["Date"] = pd.to_datetime(df['Date'],format="mixed")
-        df = df.sort_values("Date",ascending=False)
+        df["Date"] = pd.to_datetime(df["Date"], format="mixed")
+        df = df.sort_values("Date", ascending=False)
 
         df = df.fillna(0)
 
