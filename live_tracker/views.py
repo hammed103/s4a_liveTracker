@@ -503,7 +503,7 @@ class UploadView(APIView):
                 headers=headers,
             )
 
-            response = response.json()["timelinePoint"][:180]
+            response = response.json()["timelinePoint"]
 
         key_mapping = {"date": "Date", "num": artistName}
 
