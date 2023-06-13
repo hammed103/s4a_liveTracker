@@ -484,6 +484,7 @@ class refreshMain(APIView):
     def get(req):
         cont = False
         global driver
+        #########  MAIN   ###################################
         for request in driver.requests:
             if request.headers:
                 if "authorization" in request.headers:
@@ -604,7 +605,7 @@ class refreshMain(APIView):
 
         if cont :
 
-
+            #COUNTRY DEMOGRAPHIC #################################################
 
             for request in driver.requests:
                 if request.headers:
@@ -737,6 +738,8 @@ class refreshMain(APIView):
 
                 print("uploading",cd)
 
+
+
                 # Print the data to check it
                 for record in airtable_data:
                     if (record['Date'],record["Country"],record["ArtistName"],record["Age Group"]) in bobo :
@@ -744,6 +747,172 @@ class refreshMain(APIView):
                     else:
                         #print(f"Update made for {record['Date'] }")
                         airtable.create(record,)
+                ####################################################
+
+
+            ######## CITY MONTHLY ############################
+            for request in driver.requests:
+                if request.headers:
+                    if "authorization" in request.headers:
+                        auth_header = request.headers["Authorization"]
+                        if auth_header != "":
+                            break
+
+            print("Authorization Header:", auth_header)
+            headers = {
+                "authority": "generic.wg.spotify.com",
+                "accept": "application/json",
+                "accept-language": "en-US",
+                "app-platform": "Browser",
+                "authorization": f"{auth_header}",
+                "content-type": "application/json",
+                "origin": "https://artists.spotify.com",
+                "referer": "https://artists.spotify.com/",
+                "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": '"Windows"',
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-site",
+                "spotify-app-version": "1.0.0.48e3603",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+            }
+
+            params = {
+                'time-filter': '28day',
+                'aggregation-level': 'recording',
+            }
+            table_name = 'City Listeners Monthly'  # Replace with your Airtable table name
+
+            airtable = pyairtable.Table( api_key,base_id, table_name)
+
+            # Get all records
+            records = airtable.all()
+
+            # Delete each record
+            for record in records:
+                airtable.delete(record['id'])
+                
+            comb = []
+            for cd in codes :
+                params = {
+                    'time-filter': '28day',
+                    'aggregation-level': 'recording',
+                    'country':f'{cd}'
+                }
+                for aid,anam in artx :
+
+                    try:
+                        response = requests.get(
+                        f'https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording',
+                        params=params,
+                        headers=headers,
+                        )
+                        if response.text == "" :
+                            print("skipping",aid)
+                            continue
+                        else:
+                            #print("running :" ,aid)
+                            HYPERTECHNO = response.json()["geography"]
+
+                    except:
+
+                        for request in driver.requests:
+                            if request.headers:
+                                if "authorization" in request.headers:
+                                    auth_header = request.headers["Authorization"]
+                                    if auth_header != "":
+                                        break
+
+                        print("Authorization Header:", auth_header)
+                        headers = {
+                            "authority": "generic.wg.spotify.com",
+                            "accept": "application/json",
+                            "accept-language": "en-US",
+                            "app-platform": "Browser",
+                            "authorization": f"{auth_header}",
+                            "content-type": "application/json",
+                            "origin": "https://artists.spotify.com",
+                            "referer": "https://artists.spotify.com/",
+                            "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                            "sec-ch-ua-mobile": "?0",
+                            "sec-ch-ua-platform": '"Windows"',
+                            "sec-fetch-dest": "empty",
+                            "sec-fetch-mode": "cors",
+                            "sec-fetch-site": "same-site",
+                            "spotify-app-version": "1.0.0.48e3603",
+                            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                            "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+                        }
+
+                        response = requests.get(
+                        f'https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording',
+                        params=params,
+                        headers=headers,
+                        )
+                        if response.text == "" :
+                            print("skipping",aid)
+                            continue
+                        else:
+                            #print("running :" ,aid)
+                            HYPERTECHNO = response.json()["geography"]
+                    # Iterate over each dictionary in the list
+                    # Example list of dictionaries
+
+
+                    # Define a mapping from old keys to new keys
+                    key_mapping = {"name": "City", "num": anam, "country": "Country","region" :"Region",}
+
+                    # Create a new list of dictionaries with renamed keys
+                    new_HYPERTECHNO = [{key_mapping.get(key, key): value for key, value in item.items()} for item in HYPERTECHNO]
+
+                    # Print the updated list of dictionaries
+                    # Add 'daye' key to each dictionary
+                    new_HYPERTECHNO = [{**d, 'Date': current_date} for d in new_HYPERTECHNO]
+                    # Define the keys to convert from string to integer
+                    keys_to_convert = [f"{anam}"]
+
+                    # Convert string values to integers using list comprehension
+                    new_HYPERTECHNO = [
+                        {key: int(value) if key in keys_to_convert else value for key, value in item.items()}
+                        for item in new_HYPERTECHNO
+                    ]
+
+
+                    # Print the updated dictionary
+                    comb.append(new_HYPERTECHNO)
+
+            comb = [i for j in comb for i in j]
+
+
+            # Merge dictionaries based on 'Date' and 'City'
+            merged_dict = {}
+
+            for item in comb:
+                date = item['Date']
+                city = item['City']
+                if (date, city) not in merged_dict:
+                    merged_dict[(date, city)] = {}
+
+                for key, value in item.items():
+                    #if key not in ['Date', ]:
+                    merged_dict[(date, city)][key] = value
+
+
+
+            # Convert merged_dict to a list of dictionaries
+            merged_list = [{'Datex': key, **value} for key, value in merged_dict.items()]
+            # Remove 'Datex' key from each dictionary
+            merged_list = [{k: v for k, v in d.items() if k != 'Datex'} for d in merged_list]
+
+            for record in merged_list :
+                
+            #print(f"Update made for {record['Date'] }")
+            # Insert the new record at the top
+                airtable.create(record,)
+
+        
                     
         return Response(
             {
