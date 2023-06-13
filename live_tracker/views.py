@@ -473,7 +473,7 @@ class refresh(APIView):
 class refreshMain(APIView):
     @staticmethod
     def get(req):
-
+        cont = False
         global driver
         for request in driver.requests:
             if request.headers:
@@ -588,13 +588,16 @@ class refreshMain(APIView):
                 if record["Date"] in bobo:
                     pass
                 else:
-
+                    cont = True
                     print(f"Update made for {record['Date'] }")
                     # Insert the new record at the top
                     airtable.create(
                         record,
                     )
                     upx = record
+
+
+        
         return Response(
             {
                 "status": "success",
