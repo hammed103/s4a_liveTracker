@@ -540,7 +540,7 @@ class UploadView(APIView):
         pt.columns = [i.strip(" ") for i in pt.columns]
         dc.columns = [i.strip(" ") for i in dc.columns]
         # Merge df1 and df2 on 'Date', and if there are common columns, df2's values will be used
-        df = pt.merge(dc, on="Date", how="outer", suffixes=("_yxx","_xser"))
+        df = pt.merge(dc, on="Date", how="outer", suffixes=("_yxx", "_xser"))
 
         # Get the common columns
         common_columns = [col for col in df.columns if col.endswith("_xser")]
@@ -548,13 +548,13 @@ class UploadView(APIView):
         # Update the old column with new values where they are common
         for col in common_columns:
             # Remove the suffix "_y" to get the old column name
-            df[col[:-5] +"_yxx"] = df[col]
+            df[col[:-5] + "_yxx"] = df[col]
 
         # Delete the columns from df1 which are common with df2
         to_drop = [x for x in df if x.endswith("_xser")]
         df.drop(to_drop, axis=1, inplace=True)
         # Rename columns ending with "_xser"
-        df.rename(columns=lambda x: x[:-4] if x.endswith('_yxx') else x, inplace=True)
+        df.rename(columns=lambda x: x[:-4] if x.endswith("_yxx") else x, inplace=True)
 
         df["Date"] = pd.to_datetime(df["Date"], format="mixed")
         df = df.sort_values("Date", ascending=False)
@@ -570,21 +570,19 @@ class UploadView(APIView):
             [f"=SUM(C{i+3}:{last_column_label}{i+3})" for i in range(wks.rows - 1)],
             columns=["Total Amount"],
         )
-        wks.clear(start ="A2")
+        wks.clear(start="A2")
         wks.set_dataframe(df, start="A2", extend=True)
 
-        
         # Find the title row
         title_row = wks.get_row(2)
 
         # Iterate over the cells in the title row
-        for index,cell in enumerate(title_row):
+        for index, cell in enumerate(title_row):
             # Check the cell value against the desired title
 
-            if cell ==artistName:
+            if cell == artistName.strip(" "):
                 # Update the cell below the title
-                wks.update_value((1, index+1), aid)
-
+                wks.update_value((1, index + 1), aid)
 
         try:
             for rr in response:
@@ -746,10 +744,11 @@ class refreshMain(APIView):
                     )
                 except:
 
-
-                                        # Create a new instance of ChromeDriver
+                    # Create a new instance of ChromeDriver
                     driver = wirewebdriver.Chrome(
-                        service=service, options=chrome_options, seleniumwire_options=options
+                        service=service,
+                        options=chrome_options,
+                        seleniumwire_options=options,
                     )
                     # Now you can use the `driver` object to interact with the browser and access the requests made
                     driver.get(
