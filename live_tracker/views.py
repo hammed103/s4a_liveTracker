@@ -850,7 +850,7 @@ class refreshMain(APIView):
             merged_list = [{"Date": key, **value} for key, value in merged_dict.items()]
 
             # Print the merged list
-            print(merged_list)
+            # print(merged_list)
 
             existing_records = airtable.all()
 
@@ -863,7 +863,7 @@ class refreshMain(APIView):
                     pass
                 else:
                     cont = True
-                    print(f"Update made for {record['Date'] }")
+                    # print(f"Update made for {record['Date'] }")
                     # Insert the new record at the top
                     airtable.create(
                         record,
@@ -982,10 +982,10 @@ class refreshMain(APIView):
                         )
 
                         if response.text == "":
-                            print("skipping", aid)
+                            # print("skipping", aid)
                             continue
                         else:
-                            print("running :", aid)
+                            # print("running :", aid)
                             data = response.json()
 
                     age_groups = [
@@ -1036,7 +1036,7 @@ class refreshMain(APIView):
                         }
                         airtable_data.append(age_group_data)
 
-                print("uploading", cd)
+                # print("uploading", cd)
 
                 # Print the data to check it
                 for record in airtable_data:
@@ -1158,7 +1158,7 @@ class refreshMain(APIView):
                             headers=headers,
                         )
                         if response.text == "":
-                            print("skipping", aid)
+                            # print("skipping", aid)
                             continue
                         else:
                             # print("running :" ,aid)
@@ -1284,7 +1284,7 @@ class refreshMain(APIView):
                         headers=headers,
                     )
                     if response.text == "":
-                        print("skipping", aid)
+                        # print("skipping", aid)
                         continue
                     else:
                         print("running :", aid)
@@ -1323,7 +1323,7 @@ class refreshMain(APIView):
                         headers=headers,
                     )
                     if response.text == "":
-                        print("skipping", aid)
+                        # print("skipping", aid)
                         continue
                     else:
                         print("running :", aid)
