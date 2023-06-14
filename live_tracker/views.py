@@ -438,7 +438,7 @@ class UploadView(APIView):
             headers=headers,
         )
         try:
-            response = response.json()["timelinePoint"][:180]
+            response = response.json()["timelinePoint"]
         except:
             # Create a new instance of ChromeDriver
             driver = wirewebdriver.Chrome(
@@ -556,33 +556,32 @@ class UploadView(APIView):
         # Rename columns ending with "_xser"
         df.rename(columns=lambda x: x[:-4] if x.endswith("_yxx") else x, inplace=True)
 
-        df["Date"] = pd.to_datetime(df["Date"], format="mixed")
-        df = df.sort_values("Date", ascending=False)
+        df.loc[1:, "Date"] = pd.to_datetime(
+            df["Date"].iloc[1:], format="%Y-%m-%d"
+        ).dt.date
 
-        df = df.fillna(0)
+        # Separate the first row
+        first_row = df.iloc[:1]
+
+        # Sort the remaining rows by column 'A'
+        sorted_rows = df.iloc[1:].sort_values(by="Date", ascending=False)
+
+        # Concatenate the first row and the sorted rows
+        df = pd.concat([first_row, sorted_rows])
+
+        df = df.fillna(0).reset_index(drop=True)
 
         num_columns = df.shape[1]
 
         # Convert the number of columns into a column label
         last_column_label = colnum_to_colname(num_columns)
-
         df["Total Amount"] = pd.DataFrame(
-            [f"=SUM(C{i+3}:{last_column_label}{i+3})" for i in range(wks.rows - 1)],
+            [f"=SUM(C{i+2}:{last_column_label}{i+2})" for i in range(wks.rows - 1)],
             columns=["Total Amount"],
         )
-        wks.clear(start="A2")
-        wks.set_dataframe(df, start="A2", extend=True)
 
-        # Find the title row
-        title_row = wks.get_row(2)
-
-        # Iterate over the cells in the title row
-        for index, cell in enumerate(title_row):
-            # Check the cell value against the desired title
-
-            if cell == artistName.strip(" "):
-                # Update the cell below the title
-                wks.update_value((1, index + 1), aid)
+        wks.clear(start="A1")
+        wks.set_dataframe(df, start="A1", extend=True)
 
         try:
             for rr in response:
