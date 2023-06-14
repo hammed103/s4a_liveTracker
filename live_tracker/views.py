@@ -537,8 +537,8 @@ class UploadView(APIView):
 
         wks = sh.worksheet_by_title("Competitor-Grid view")
         pt = wks.get_as_df(start="A2")
-        pt.columns = [i.strip(" ") for i in pt.columns]
-        dc.columns = [i.strip(" ") for i in dc.columns]
+        pt.columns = [str(i).strip(" ") for i in pt.columns]
+        dc.columns = [str(i).strip(" ") for i in dc.columns]
         # Merge df1 and df2 on 'Date', and if there are common columns, df2's values will be used
         df = pt.merge(dc, on="Date", how="outer", suffixes=("_yxx", "_xser"))
 
