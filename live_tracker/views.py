@@ -526,21 +526,24 @@ class UploadView(APIView):
             }
             for item in response
         ]
-
+        response.insert(0,{"Date":"Date",artistName:aid})
         dc = pd.DataFrame(response)
+
         gc = pygsheets.authorize(
             service_file="./my-project-1515950162194-ea018b910e23.json"
         )
 
         # Open the Excel sheet by its name
         sh = gc.open("Competitors")
+        # Find the title row
 
         wks = sh.worksheet_by_title("Competitor-Grid view")
-        pt = wks.get_as_df(start="A2")
-        pt.columns = [str(i).strip(" ") for i in pt.columns]
-        dc.columns = [str(i).strip(" ") for i in dc.columns]
+        pt = wks.get_as_df(start="A1")
+        pt.columns = [i.strip(" ") for i in pt.columns]
+        dc.columns = [i.strip(" ") for i in dc.columns]
         # Merge df1 and df2 on 'Date', and if there are common columns, df2's values will be used
-        df = pt.merge(dc, on="Date", how="outer", suffixes=("_yxx", "_xser"))
+        df = pt.merge(dc, on="Date", how="outer", suffixes=("_yxx","_xser"))
+
 
         # Get the common columns
         common_columns = [col for col in df.columns if col.endswith("_xser")]
@@ -548,26 +551,24 @@ class UploadView(APIView):
         # Update the old column with new values where they are common
         for col in common_columns:
             # Remove the suffix "_y" to get the old column name
-            df[col[:-5] + "_yxx"] = df[col]
+            df[col[:-5] +"_yxx"] = df[col]
 
         # Delete the columns from df1 which are common with df2
         to_drop = [x for x in df if x.endswith("_xser")]
         df.drop(to_drop, axis=1, inplace=True)
         # Rename columns ending with "_xser"
-        df.rename(columns=lambda x: x[:-4] if x.endswith("_yxx") else x, inplace=True)
+        df.rename(columns=lambda x: x[:-4] if x.endswith('_yxx') else x, inplace=True)
 
-        df.loc[1:, "Date"] = pd.to_datetime(
-            df["Date"].iloc[1:], format="%Y-%m-%d"
-        ).dt.date
+        df.loc[1:,"Date"] = pd.to_datetime(df["Date"].iloc[1:],format='%Y-%m-%d' ).dt.date
 
         # Separate the first row
         first_row = df.iloc[:1]
 
         # Sort the remaining rows by column 'A'
-        sorted_rows = df.iloc[1:].sort_values(by="Date", ascending=False)
+        sorted_rows = df.iloc[1:].sort_values(by='Date',ascending=False)
 
         # Concatenate the first row and the sorted rows
-        df = pd.concat([first_row, sorted_rows])
+        df= pd.concat([first_row, sorted_rows])
 
         df = df.fillna(0).reset_index(drop=True)
 
@@ -576,12 +577,16 @@ class UploadView(APIView):
         # Convert the number of columns into a column label
         last_column_label = colnum_to_colname(num_columns)
         df["Total Amount"] = pd.DataFrame(
-            [f"=SUM(C{i+2}:{last_column_label}{i+2})" for i in range(wks.rows - 1)],
+            [f"=SUM(C{i+2}:{last_column_label}{i+2})" for i in range(wks.rows - 1) ],
             columns=["Total Amount"],
         )
 
         wks.clear(start="A1")
         wks.set_dataframe(df, start="A1", extend=True)
+
+
+
+
 
         try:
             for rr in response:
