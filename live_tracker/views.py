@@ -406,8 +406,12 @@ class UploadView(APIView):
                     if auth_header != "":
                         break
 
-        # print("Authorization Header:", auth_header)
-        headers = {
+        
+        #print("Authorization Header:", auth_header)
+        
+        try:
+            response = response.json()["timelinePoint"]
+            headers = {
             "authority": "generic.wg.spotify.com",
             "accept": "application/json",
             "accept-language": "en-US",
@@ -425,20 +429,18 @@ class UploadView(APIView):
             "spotify-app-version": "1.0.0.48e3603",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
             "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-        }
+            }
 
-        params = {
-            "aggregation-level": "recording",
-            "time-filter": "last5years",
-        }
+            params = {
+                "aggregation-level": "recording",
+                "time-filter": "last5years",
+            }
 
-        response = requests.get(
-            f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/streams/{aid}",
-            params=params,
-            headers=headers,
-        )
-        try:
-            response = response.json()["timelinePoint"]
+            response = requests.get(
+                f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/streams/{aid}",
+                params=params,
+                headers=headers,
+            )
         except:
             # Create a new instance of ChromeDriver
             driver = wirewebdriver.Chrome(
