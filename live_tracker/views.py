@@ -294,66 +294,35 @@ chrome_options.add_argument("--user-data-dir=Default")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
+# Create a new instance of ChromeDriver
+driver = wirewebdriver.Chrome(
+    service=service, options=chrome_options, seleniumwire_options=options
+)
+# Now you can use the `driver` object to interact with the browser and access the requests made
+driver.get("https://artists.spotify.com/c/artist/2MDj296KJIfgWDNBtHzeFi/home")
+sleep(8)
+# Find the login input box by its ID and enter the login credentials
+from selenium.webdriver.common.by import By
+
 try:
-    # Create a new instance of ChromeDriver
-    driver = wirewebdriver.Chrome(
-        service=service, options=chrome_options, seleniumwire_options=options
-    )
-    # Now you can use the `driver` object to interact with the browser and access the requests made
-    driver.get("https://artists.spotify.com/c/artist/2MDj296KJIfgWDNBtHzeFi/home")
-    sleep(3)
-    # Find the login input box by its ID and enter the login credentials
-    from selenium.webdriver.common.by import By
-
-    try:
-        username_input = driver.find_element(By.ID, "login-username")
-        username_input.send_keys("hammedfree@gmail.com")
-        sleep(1)
-        username_input = driver.find_element(By.ID, "login-password")
-        username_input.send_keys("Hammedbalo2*")
-        sleep(1)
-        driver.find_element(By.ID, "login-button").click()
-    except:
-        pass
-    # Iterate over the requests made by the browser
-    for request in driver.requests:
-        if request.headers:
-            if "authorization" in request.headers:
-                auth_header = request.headers["Authorization"]
-                if auth_header != "":
-                    break
-
-    print("Authorization Header:", auth_header)
+    username_input = driver.find_element(By.ID, "login-username")
+    username_input.send_keys("hammedfree@gmail.com")
+    sleep(1)
+    username_input = driver.find_element(By.ID, "login-password")
+    username_input.send_keys("Hammedbalo2*")
+    sleep(1)
+    driver.find_element(By.ID, "login-button").click()
 except:
-    # Create a new instance of ChromeDriver
-    driver = wirewebdriver.Chrome(
-        service=service, options=chrome_options, seleniumwire_options=options
-    )
-    # Now you can use the `driver` object to interact with the browser and access the requests made
-    driver.get("https://artists.spotify.com/c/artist/4KGcll2G3f04WMGTT19eyz/home")
-    sleep(3)
-    # Find the login input box by its ID and enter the login credentials
-    from selenium.webdriver.common.by import By
+    pass
+# Iterate over the requests made by the browser
+for request in driver.requests:
+    if request.headers:
+        if "authorization" in request.headers:
+            auth_header = request.headers["Authorization"]
+            if auth_header != "":
+                break
 
-    try:
-        username_input = driver.find_element(By.ID, "login-username")
-        username_input.send_keys("hammedfree@gmail.com")
-        sleep(1)
-        username_input = driver.find_element(By.ID, "login-password")
-        username_input.send_keys("Hammedbalo2*")
-        sleep(1)
-        driver.find_element(By.ID, "login-button").click()
-    except:
-        pass
-    # Iterate over the requests made by the browser
-    for request in driver.requests:
-        if request.headers:
-            if "authorization" in request.headers:
-                auth_header = request.headers["Authorization"]
-                if auth_header != "":
-                    break
-
-    print("Authorization Header:", auth_header)
+print("Authorization Header:", auth_header)
 
 # %%
 
