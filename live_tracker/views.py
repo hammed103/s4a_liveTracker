@@ -299,8 +299,8 @@ driver = wirewebdriver.Chrome(
     service=service, options=chrome_options, seleniumwire_options=options
 )
 # Now you can use the `driver` object to interact with the browser and access the requests made
-driver.get("https://artists.spotify.com/c/artist/2MDj296KJIfgWDNBtHzeFi/home")
-sleep(8)
+driver.get("https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home")
+sleep(4)
 # Find the login input box by its ID and enter the login credentials
 from selenium.webdriver.common.by import By
 
@@ -321,7 +321,7 @@ for request in driver.requests:
             auth_header = request.headers["Authorization"]
             if auth_header != "":
                 break
-
+print(driver.find_element(By.ID, "s4a-home-header-title").text)
 print("Authorization Header:", auth_header)
 
 # %%
