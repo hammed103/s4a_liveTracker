@@ -439,7 +439,7 @@ class UploadView(APIView):
         # print("Authorization Header:", auth_header)
 
         try:
-            response = response.json()["timelinePoint"]
+
             headers = {
                 "authority": "generic.wg.spotify.com",
                 "accept": "application/json",
@@ -470,6 +470,8 @@ class UploadView(APIView):
                 params=params,
                 headers=headers,
             )
+
+            response = response.json()["timelinePoint"]
         except:
             # Create a new instance of ChromeDriver
             driver = wirewebdriver.Chrome(
