@@ -406,29 +406,28 @@ class UploadView(APIView):
                     if auth_header != "":
                         break
 
-        
-        #print("Authorization Header:", auth_header)
-        
+        # print("Authorization Header:", auth_header)
+
         try:
             response = response.json()["timelinePoint"]
             headers = {
-            "authority": "generic.wg.spotify.com",
-            "accept": "application/json",
-            "accept-language": "en-US",
-            "app-platform": "Browser",
-            "authorization": f"{auth_header}",
-            "content-type": "application/json",
-            "origin": "https://artists.spotify.com",
-            "referer": "https://artists.spotify.com/",
-            "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": '"Windows"',
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-site",
-            "spotify-app-version": "1.0.0.48e3603",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-            "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+                "authority": "generic.wg.spotify.com",
+                "accept": "application/json",
+                "accept-language": "en-US",
+                "app-platform": "Browser",
+                "authorization": f"{auth_header}",
+                "content-type": "application/json",
+                "origin": "https://artists.spotify.com",
+                "referer": "https://artists.spotify.com/",
+                "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": '"Windows"',
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-site",
+                "spotify-app-version": "1.0.0.48e3603",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
             }
 
             params = {
@@ -528,7 +527,7 @@ class UploadView(APIView):
             }
             for item in response
         ]
-        response.insert(0,{"Date":"Date",artistName:aid})
+        response.insert(0, {"Date": "Date", artistName: aid})
         dc = pd.DataFrame(response)
 
         gc = pygsheets.authorize(
@@ -544,8 +543,7 @@ class UploadView(APIView):
         pt.columns = [i.strip(" ") for i in pt.columns]
         dc.columns = [i.strip(" ") for i in dc.columns]
         # Merge df1 and df2 on 'Date', and if there are common columns, df2's values will be used
-        df = pt.merge(dc, on="Date", how="outer", suffixes=("_yxx","_xser"))
-
+        df = pt.merge(dc, on="Date", how="outer", suffixes=("_yxx", "_xser"))
 
         # Get the common columns
         common_columns = [col for col in df.columns if col.endswith("_xser")]
@@ -553,24 +551,26 @@ class UploadView(APIView):
         # Update the old column with new values where they are common
         for col in common_columns:
             # Remove the suffix "_y" to get the old column name
-            df[col[:-5] +"_yxx"] = df[col]
+            df[col[:-5] + "_yxx"] = df[col]
 
         # Delete the columns from df1 which are common with df2
         to_drop = [x for x in df if x.endswith("_xser")]
         df.drop(to_drop, axis=1, inplace=True)
         # Rename columns ending with "_xser"
-        df.rename(columns=lambda x: x[:-4] if x.endswith('_yxx') else x, inplace=True)
+        df.rename(columns=lambda x: x[:-4] if x.endswith("_yxx") else x, inplace=True)
 
-        df.loc[1:,"Date"] = pd.to_datetime(df["Date"].iloc[1:],format='%Y-%m-%d' ).dt.date
+        df.loc[1:, "Date"] = pd.to_datetime(
+            df["Date"].iloc[1:], format="%Y-%m-%d"
+        ).dt.date
 
         # Separate the first row
         first_row = df.iloc[:1]
 
         # Sort the remaining rows by column 'A'
-        sorted_rows = df.iloc[1:].sort_values(by='Date',ascending=False)
+        sorted_rows = df.iloc[1:].sort_values(by="Date", ascending=False)
 
         # Concatenate the first row and the sorted rows
-        df= pd.concat([first_row, sorted_rows])
+        df = pd.concat([first_row, sorted_rows])
 
         df = df.fillna(0).reset_index(drop=True)
 
@@ -579,16 +579,12 @@ class UploadView(APIView):
         # Convert the number of columns into a column label
         last_column_label = colnum_to_colname(num_columns)
         df["Total Amount"] = pd.DataFrame(
-            [f"=SUM(C{i+2}:{last_column_label}{i+2})" for i in range(wks.rows - 1) ],
+            [f"=SUM(C{i+2}:{last_column_label}{i+2})" for i in range(wks.rows - 1)],
             columns=["Total Amount"],
         )
 
         wks.clear(start="A1")
         wks.set_dataframe(df, start="A1", extend=True)
-
-
-
-
 
         try:
             for rr in response:
@@ -695,33 +691,6 @@ class refreshMain(APIView):
         cont = False
         global driver
         #########  MAIN   ###################################
-        for request in driver.requests:
-            if request.headers:
-                if "authorization" in request.headers:
-                    auth_header = request.headers["Authorization"]
-                    if auth_header != "":
-                        break
-
-        print("Authorization Header:", auth_header)
-        headers = {
-            "authority": "generic.wg.spotify.com",
-            "accept": "application/json",
-            "accept-language": "en-US",
-            "app-platform": "Browser",
-            "authorization": f"{auth_header}",
-            "content-type": "application/json",
-            "origin": "https://artists.spotify.com",
-            "referer": "https://artists.spotify.com/",
-            "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": '"Windows"',
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-site",
-            "spotify-app-version": "1.0.0.48e3603",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-            "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-        }
 
         table_name = "main"  # Replace with your Airtable table name
 
@@ -742,7 +711,33 @@ class refreshMain(APIView):
             for aid, anam in art:
 
                 try:
+                    for request in driver.requests:
+                        if request.headers:
+                            if "authorization" in request.headers:
+                                auth_header = request.headers["Authorization"]
+                                if auth_header != "":
+                                    break
 
+                    print("Authorization Header:", auth_header)
+                    headers = {
+                        "authority": "generic.wg.spotify.com",
+                        "accept": "application/json",
+                        "accept-language": "en-US",
+                        "app-platform": "Browser",
+                        "authorization": f"{auth_header}",
+                        "content-type": "application/json",
+                        "origin": "https://artists.spotify.com",
+                        "referer": "https://artists.spotify.com/",
+                        "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                        "sec-ch-ua-mobile": "?0",
+                        "sec-ch-ua-platform": '"Windows"',
+                        "sec-fetch-dest": "empty",
+                        "sec-fetch-mode": "cors",
+                        "sec-fetch-site": "same-site",
+                        "spotify-app-version": "1.0.0.48e3603",
+                        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                        "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+                    }
                     response = requests.get(
                         f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/{topic.lower()}/{aid}",
                         params=params,
