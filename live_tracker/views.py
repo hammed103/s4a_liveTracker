@@ -312,6 +312,7 @@ try:
     username_input.send_keys("Hammedbalo2*")
     sleep(1)
     driver.find_element(By.ID, "login-button").click()
+    print("password entered ...")
 except:
     pass
 # Iterate over the requests made by the browser
@@ -321,7 +322,7 @@ for request in driver.requests:
             auth_header = request.headers["Authorization"]
             if auth_header != "":
                 break
-print(driver.page_source)
+
 print("Authorization Header:", auth_header)
 
 # %%
