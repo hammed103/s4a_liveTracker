@@ -294,36 +294,66 @@ chrome_options.add_argument("--user-data-dir=Default")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
-
-# Create a new instance of ChromeDriver
-driver = wirewebdriver.Chrome(
-    service=service, options=chrome_options, seleniumwire_options=options
-)
-# Now you can use the `driver` object to interact with the browser and access the requests made
-driver.get("https://artists.spotify.com/c/artist/2MDj296KJIfgWDNBtHzeFi/home")
-sleep(3)
-# Find the login input box by its ID and enter the login credentials
-from selenium.webdriver.common.by import By
-
 try:
-    username_input = driver.find_element(By.ID, "login-username")
-    username_input.send_keys("hammedfree@gmail.com")
-    sleep(1)
-    username_input = driver.find_element(By.ID, "login-password")
-    username_input.send_keys("Hammedbalo2*")
-    sleep(1)
-    driver.find_element(By.ID, "login-button").click()
-except:
-    pass
-# Iterate over the requests made by the browser
-for request in driver.requests:
-    if request.headers:
-        if "authorization" in request.headers:
-            auth_header = request.headers["Authorization"]
-            if auth_header != "":
-                break
+    # Create a new instance of ChromeDriver
+    driver = wirewebdriver.Chrome(
+        service=service, options=chrome_options, seleniumwire_options=options
+    )
+    # Now you can use the `driver` object to interact with the browser and access the requests made
+    driver.get("https://artists.spotify.com/c/artist/2MDj296KJIfgWDNBtHzeFi/home")
+    sleep(3)
+    # Find the login input box by its ID and enter the login credentials
+    from selenium.webdriver.common.by import By
 
-print("Authorization Header:", auth_header)
+    try:
+        username_input = driver.find_element(By.ID, "login-username")
+        username_input.send_keys("hammedfree@gmail.com")
+        sleep(1)
+        username_input = driver.find_element(By.ID, "login-password")
+        username_input.send_keys("Hammedbalo2*")
+        sleep(1)
+        driver.find_element(By.ID, "login-button").click()
+    except:
+        pass
+    # Iterate over the requests made by the browser
+    for request in driver.requests:
+        if request.headers:
+            if "authorization" in request.headers:
+                auth_header = request.headers["Authorization"]
+                if auth_header != "":
+                    break
+
+    print("Authorization Header:", auth_header)
+except:
+    # Create a new instance of ChromeDriver
+    driver = wirewebdriver.Chrome(
+        service=service, options=chrome_options, seleniumwire_options=options
+    )
+    # Now you can use the `driver` object to interact with the browser and access the requests made
+    driver.get("https://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/home")
+    sleep(3)
+    # Find the login input box by its ID and enter the login credentials
+    from selenium.webdriver.common.by import By
+
+    try:
+        username_input = driver.find_element(By.ID, "login-username")
+        username_input.send_keys("hammedfree@gmail.com")
+        sleep(1)
+        username_input = driver.find_element(By.ID, "login-password")
+        username_input.send_keys("Hammedbalo2*")
+        sleep(1)
+        driver.find_element(By.ID, "login-button").click()
+    except:
+        pass
+    # Iterate over the requests made by the browser
+    for request in driver.requests:
+        if request.headers:
+            if "authorization" in request.headers:
+                auth_header = request.headers["Authorization"]
+                if auth_header != "":
+                    break
+
+    print("Authorization Header:", auth_header)
 
 # %%
 
@@ -447,7 +477,7 @@ class UploadView(APIView):
             )
             # Now you can use the `driver` object to interact with the browser and access the requests made
             driver.get(
-                "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
+                "https://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/home"
             )
             sleep(3)
             # Find the login input box by its ID and enter the login credentials
@@ -942,14 +972,13 @@ class refreshMain(APIView):
                         )
 
                         if response.text == "":
-                            #print("skipping", aid)
+                            # print("skipping", aid)
                             continue
                         else:
-                            #print("running :", aid)
+                            # print("running :", aid)
                             data = response.json()
 
                     except:
-
 
                         for request in driver.requests:
                             if request.headers:
@@ -1218,8 +1247,6 @@ class refreshMain(APIView):
 
             ######## CITY MONTHLY ############################
 
-
-
             for request in driver.requests:
                 if request.headers:
                     if "authorization" in request.headers:
@@ -1401,8 +1428,7 @@ class refreshMain(APIView):
                 )
 
         return Response(
-            {
-            },
+            {},
             status=200,
         )
         print("Upload complete")
