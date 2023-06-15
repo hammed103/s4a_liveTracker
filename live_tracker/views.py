@@ -321,7 +321,7 @@ for request in driver.requests:
             auth_header = request.headers["Authorization"]
             if auth_header != "":
                 break
-print(driver.find_element(By.ID, "s4a-home-header-title").text)
+print(driver.page_source)
 print("Authorization Header:", auth_header)
 
 # %%
