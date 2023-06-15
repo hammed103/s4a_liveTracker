@@ -749,15 +749,20 @@ class refreshMain(APIView):
                 except:
 
                     # Create a new instance of ChromeDriver
-                    driver = wirewebdriver.Chrome(
+                    try:
+                    # Now you can use the `driver` object to interact with the browser and access the requests made
+                        driver.get(
+                            "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
+                        )
+                    except:
+                        driver = wirewebdriver.Chrome(
                         service=service,
                         options=chrome_options,
                         seleniumwire_options=options,
-                    )
-                    # Now you can use the `driver` object to interact with the browser and access the requests made
-                    driver.get(
-                        "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
-                    )
+                        )
+                        driver.get(
+                            "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
+                        )
                     sleep(3)
                     # Find the login input box by its ID and enter the login credentials
                     from selenium.webdriver.common.by import By
