@@ -324,7 +324,7 @@ for request in driver.requests:
             if auth_header != "":
                 break
 
-#print("Authorization Header:", auth_header)
+print("Authorization Header:", auth_header)
 
 # %%
 
