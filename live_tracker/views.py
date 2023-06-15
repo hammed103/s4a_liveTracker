@@ -873,35 +873,9 @@ class refreshMain(APIView):
 
         if cont:
 
-            # COUNTRY DEMOGRAPHIC #################################################
+            ########## COUNTRY DEMOGRAPHIC #################################################
 
-            for request in driver.requests:
-                if request.headers:
-                    if "authorization" in request.headers:
-                        auth_header = request.headers["Authorization"]
-                        if auth_header != "":
-                            break
-
-            print("Authorization Header:", auth_header)
-            headers = {
-                "authority": "generic.wg.spotify.com",
-                "accept": "application/json",
-                "accept-language": "en-US",
-                "app-platform": "Browser",
-                "authorization": f"{auth_header}",
-                "content-type": "application/json",
-                "origin": "https://artists.spotify.com",
-                "referer": "https://artists.spotify.com/",
-                "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                "sec-ch-ua-mobile": "?0",
-                "sec-ch-ua-platform": '"Windows"',
-                "sec-fetch-dest": "empty",
-                "sec-fetch-mode": "cors",
-                "sec-fetch-site": "same-site",
-                "spotify-app-version": "1.0.0.48e3603",
-                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-                "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-            }
+            #################################################################################################################
 
             current_date = merged_list[0]["Date"]
             # Define a function that calculates the difference between the last and first value
@@ -934,7 +908,33 @@ class refreshMain(APIView):
 
                 for aid, anam in artx:
                     try:
+                        for request in driver.requests:
+                            if request.headers:
+                                if "authorization" in request.headers:
+                                    auth_header = request.headers["Authorization"]
+                                    if auth_header != "":
+                                        break
 
+                        print("Authorization Header:", auth_header)
+                        headers = {
+                            "authority": "generic.wg.spotify.com",
+                            "accept": "application/json",
+                            "accept-language": "en-US",
+                            "app-platform": "Browser",
+                            "authorization": f"{auth_header}",
+                            "content-type": "application/json",
+                            "origin": "https://artists.spotify.com",
+                            "referer": "https://artists.spotify.com/",
+                            "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                            "sec-ch-ua-mobile": "?0",
+                            "sec-ch-ua-platform": '"Windows"',
+                            "sec-fetch-dest": "empty",
+                            "sec-fetch-mode": "cors",
+                            "sec-fetch-site": "same-site",
+                            "spotify-app-version": "1.0.0.48e3603",
+                            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
+                            "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
+                        }
                         response = requests.get(
                             f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age",
                             params=params,
@@ -942,13 +942,15 @@ class refreshMain(APIView):
                         )
 
                         if response.text == "":
-                            print("skipping", aid)
+                            #print("skipping", aid)
                             continue
                         else:
-                            print("running :", aid)
+                            #print("running :", aid)
                             data = response.json()
 
                     except:
+
+
                         for request in driver.requests:
                             if request.headers:
                                 if "authorization" in request.headers:
@@ -1215,6 +1217,9 @@ class refreshMain(APIView):
                 )
 
             ######## CITY MONTHLY ############################
+
+
+
             for request in driver.requests:
                 if request.headers:
                     if "authorization" in request.headers:
@@ -1397,7 +1402,6 @@ class refreshMain(APIView):
 
         return Response(
             {
-                "status": "success",
             },
             status=200,
         )
