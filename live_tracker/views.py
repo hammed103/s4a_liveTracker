@@ -299,7 +299,7 @@ driver = wirewebdriver.Chrome(
     service=service, options=chrome_options, seleniumwire_options=options
 )
 # Now you can use the `driver` object to interact with the browser and access the requests made
-driver.get("https://artists.spotify.com/home")
+driver.get("http://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/music/songs")
 sleep(4)
 # Find the login input box by its ID and enter the login credentials
 from selenium.webdriver.common.by import By
