@@ -1,4 +1,4 @@
-from utils import *
+from live_tracker.utils import *
 
 # Create a new instance of ChromeDriver
 driver = wirewebdriver.Chrome(
@@ -68,7 +68,6 @@ class UploadView(APIView):
             )
             sleep(3)
             auth_header = login(driver=driver)
-
 
             headers = header(auth_header=auth_header)
 
@@ -300,15 +299,15 @@ class refreshMain(APIView):
 
                     # Create a new instance of ChromeDriver
                     try:
-                    # Now you can use the `driver` object to interact with the browser and access the requests made
+                        # Now you can use the `driver` object to interact with the browser and access the requests made
                         driver.get(
                             "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
                         )
                     except:
                         driver = wirewebdriver.Chrome(
-                        service=service,
-                        options=chrome_options,
-                        seleniumwire_options=options,
+                            service=service,
+                            options=chrome_options,
+                            seleniumwire_options=options,
                         )
                         driver.get(
                             "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
