@@ -295,6 +295,8 @@ class refreshMain(APIView):
                         params=params,
                         headers=headers,
                     )
+
+                    HYPERTECHNO = response.json()["timelinePoint"][:143]
                 except:
 
                     # Create a new instance of ChromeDriver
@@ -304,6 +306,7 @@ class refreshMain(APIView):
                             "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
                         )
                     except:
+
                         driver = wirewebdriver.Chrome(
                             service=service,
                             options=chrome_options,
@@ -322,7 +325,7 @@ class refreshMain(APIView):
                         headers=headers,
                     )
 
-                HYPERTECHNO = response.json()["timelinePoint"][:143]
+                    HYPERTECHNO = response.json()["timelinePoint"][:143]
 
                 # Iterate over each dictionary in the list
                 # Example list of dictionaries
