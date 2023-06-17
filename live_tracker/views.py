@@ -319,6 +319,8 @@ class refreshMain(APIView):
 
                     auth_header = login(driver=driver)
 
+                    headers = header(auth_header=auth_header)
+
                     response = requests.get(
                         f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/{topic.lower()}/{aid}",
                         params=params,
