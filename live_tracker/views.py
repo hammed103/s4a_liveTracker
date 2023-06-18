@@ -312,6 +312,7 @@ class refreshMain(APIView):
                             options=chrome_options,
                             seleniumwire_options=options,
                         )
+                        
                         driver.get(
                             "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
                         )
