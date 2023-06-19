@@ -87,7 +87,7 @@ class UploadView(APIView):
 
                 response = response.json()["timelinePoint"]
 
-        key_mapping = {"date": "Date", "num": artistName}
+        key_mapping = {"date": "Date", "num": aid}
 
         # Create a new list of dictionaries with renamed keys
         response = [
@@ -108,7 +108,7 @@ class UploadView(APIView):
             }
             for item in response
         ]
-        response.insert(0, {"Date": "Date", artistName: aid})
+        response.insert(0, {"Date": "Date", aid: artistName})
         dc = pd.DataFrame(response)
 
         gc = pygsheets.authorize(
