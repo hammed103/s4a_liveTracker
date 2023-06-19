@@ -56,7 +56,11 @@ class UploadView(APIView):
                 headers=headers,
             )
 
-            response = response.json()["timelinePoint"]
+            if response.text == "":
+                response = [{"date": "", "num": "0"}]
+            else:
+
+                response = response.json()["timelinePoint"]
         except:
             # Create a new instance of ChromeDriver
             driver = wirewebdriver.Chrome(
@@ -76,8 +80,11 @@ class UploadView(APIView):
                 params=params,
                 headers=headers,
             )
+            if response.text == "":
+                response = [{"date": "", "num": "0"}]
+            else:
 
-            response = response.json()["timelinePoint"]
+                response = response.json()["timelinePoint"]
 
         key_mapping = {"date": "Date", "num": artistName}
 
@@ -145,7 +152,7 @@ class UploadView(APIView):
         # Concatenate the first row and the sorted rows
         df = pd.concat([first_row, sorted_rows])
 
-        df = df.fillna(0).reset_index(drop=True)
+        df = df.fillna("").reset_index(drop=True)
 
         num_columns = df.shape[1]
 
@@ -156,11 +163,10 @@ class UploadView(APIView):
             columns=["Total Amount"],
         )
 
-        df.loc[0,"Total Amount"] = "Total Amount"
+        df.loc[0, "Total Amount"] = "Total Amount"
 
         wks.clear(start="A1")
         wks.set_dataframe(df, start="A1", extend=True)
-
 
         print("Upload complete")
 
@@ -303,7 +309,7 @@ class refreshMain(APIView):
                             options=chrome_options,
                             seleniumwire_options=options,
                         )
-                        
+
                         driver.get(
                             "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
                         )
