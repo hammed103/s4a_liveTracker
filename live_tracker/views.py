@@ -156,20 +156,11 @@ class UploadView(APIView):
             columns=["Total Amount"],
         )
 
+        df.loc[0,"Total Amount"] = "Total Amount"
+
         wks.clear(start="A1")
         wks.set_dataframe(df, start="A1", extend=True)
 
-        try:
-            for rr in response:
-                records = airtable.first(formula=match({"Date": rr["Date"]}))
-                if not records:
-                    airtable.create(rr)
-                else:
-                    record_id = records["id"]
-                    updated_fields = rr
-                    airtable.update(record_id, rr)
-        except:
-            pass
 
         print("Upload complete")
 
