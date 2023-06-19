@@ -29,6 +29,7 @@ class UploadView(APIView):
     @staticmethod
     def post(req):
         aid = req.data["aid"]
+        sheet = req.data["sheetName"]
         try:
             aid = extract_artist_id(aid)
         except:
@@ -118,7 +119,7 @@ class UploadView(APIView):
         sh = gc.open("Competitors")
         # Find the title row
 
-        wks = sh.worksheet_by_title("Competitor-Grid view")
+        wks = sh.worksheet_by_title(sheet)
         pt = wks.get_as_df(start="A1")
         pt.columns = [i.strip(" ") for i in pt.columns]
         dc.columns = [i.strip(" ") for i in dc.columns]
