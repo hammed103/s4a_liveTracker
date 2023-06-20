@@ -5,7 +5,7 @@ driver = wirewebdriver.Chrome(
     service=service, options=chrome_options, seleniumwire_options=options
 )
 # Now you can use the `driver` object to interact with the browser and access the requests made
-driver.get("http://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/music/songs")
+driver.get("http://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/music/songs")
 sleep(3)
 
 auth_header = login(driver)
