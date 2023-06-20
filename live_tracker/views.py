@@ -4,6 +4,11 @@ from live_tracker.utils import *
 driver = wirewebdriver.Chrome(
     service=service, options=chrome_options, seleniumwire_options=options
 )
+
+# Clear the cache by deleting all cookies
+driver.delete_all_cookies()
+
+driver.refresh()
 # Now you can use the `driver` object to interact with the browser and access the requests made
 driver.get("http://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/music/songs")
 sleep(3)
