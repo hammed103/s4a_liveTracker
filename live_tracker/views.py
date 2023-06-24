@@ -10,7 +10,7 @@ driver.delete_all_cookies()
 
 driver.refresh()
 # Now you can use the `driver` object to interact with the browser and access the requests made
-driver.get("https://artists.spotify.com/c/artist/2MDj296KJIfgWDNBtHzeFi/audience/stats")
+driver.get("https://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/audience/stats")
 sleep(3)
 
 auth_header = login(driver)
@@ -435,33 +435,9 @@ class refreshMain(APIView):
 
                 for aid, anam in artx:
                     try:
-                        for request in driver.requests:
-                            if request.headers:
-                                if "authorization" in request.headers:
-                                    auth_header = request.headers["Authorization"]
-                                    if auth_header != "":
-                                        break
+                        auth_header = login(driver=driver)
 
-                        print("Authorization Header:", auth_header)
-                        headers = {
-                            "authority": "generic.wg.spotify.com",
-                            "accept": "application/json",
-                            "accept-language": "en-US",
-                            "app-platform": "Browser",
-                            "authorization": f"{auth_header}",
-                            "content-type": "application/json",
-                            "origin": "https://artists.spotify.com",
-                            "referer": "https://artists.spotify.com/",
-                            "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                            "sec-ch-ua-mobile": "?0",
-                            "sec-ch-ua-platform": '"Windows"',
-                            "sec-fetch-dest": "empty",
-                            "sec-fetch-mode": "cors",
-                            "sec-fetch-site": "same-site",
-                            "spotify-app-version": "1.0.0.48e3603",
-                            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-                            "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-                        }
+                        headers = header(auth_header=auth_header)
                         response = requests.get(
                             f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age",
                             params=params,
@@ -477,33 +453,9 @@ class refreshMain(APIView):
 
                     except:
 
-                        for request in driver.requests:
-                            if request.headers:
-                                if "authorization" in request.headers:
-                                    auth_header = request.headers["Authorization"]
-                                    if auth_header != "":
-                                        break
+                        auth_header = login(driver=driver)
 
-                        print("Authorization Header:", auth_header)
-                        headers = {
-                            "authority": "generic.wg.spotify.com",
-                            "accept": "application/json",
-                            "accept-language": "en-US",
-                            "app-platform": "Browser",
-                            "authorization": f"{auth_header}",
-                            "content-type": "application/json",
-                            "origin": "https://artists.spotify.com",
-                            "referer": "https://artists.spotify.com/",
-                            "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                            "sec-ch-ua-mobile": "?0",
-                            "sec-ch-ua-platform": '"Windows"',
-                            "sec-fetch-dest": "empty",
-                            "sec-fetch-mode": "cors",
-                            "sec-fetch-site": "same-site",
-                            "spotify-app-version": "1.0.0.48e3603",
-                            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-                            "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-                        }
+                        headers = header(auth_header=auth_header)
                         response = requests.get(
                             f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age",
                             params=params,
@@ -584,33 +536,9 @@ class refreshMain(APIView):
                 ####################################################
 
             ######## COUNTRY MONTHLY ############################
-            for request in driver.requests:
-                if request.headers:
-                    if "authorization" in request.headers:
-                        auth_header = request.headers["Authorization"]
-                        if auth_header != "":
-                            break
+            auth_header = login(driver=driver)
 
-            print("Authorization Header:", auth_header)
-            headers = {
-                "authority": "generic.wg.spotify.com",
-                "accept": "application/json",
-                "accept-language": "en-US",
-                "app-platform": "Browser",
-                "authorization": f"{auth_header}",
-                "content-type": "application/json",
-                "origin": "https://artists.spotify.com",
-                "referer": "https://artists.spotify.com/",
-                "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                "sec-ch-ua-mobile": "?0",
-                "sec-ch-ua-platform": '"Windows"',
-                "sec-fetch-dest": "empty",
-                "sec-fetch-mode": "cors",
-                "sec-fetch-site": "same-site",
-                "spotify-app-version": "1.0.0.48e3603",
-                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-                "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-            }
+            headers = header(auth_header=auth_header)
 
             params = {
                 "time-filter": "28day",
@@ -638,33 +566,9 @@ class refreshMain(APIView):
                         print("running :", aid)
                         HYPERTECHNO = response.json()["geography"]
                 except:
-                    for request in driver.requests:
-                        if request.headers:
-                            if "authorization" in request.headers:
-                                auth_header = request.headers["Authorization"]
-                                if auth_header != "":
-                                    break
+                    auth_header = login(driver=driver)
 
-                    print("Authorization Header:", auth_header)
-                    headers = {
-                        "authority": "generic.wg.spotify.com",
-                        "accept": "application/json",
-                        "accept-language": "en-US",
-                        "app-platform": "Browser",
-                        "authorization": f"{auth_header}",
-                        "content-type": "application/json",
-                        "origin": "https://artists.spotify.com",
-                        "referer": "https://artists.spotify.com/",
-                        "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                        "sec-ch-ua-mobile": "?0",
-                        "sec-ch-ua-platform": '"Windows"',
-                        "sec-fetch-dest": "empty",
-                        "sec-fetch-mode": "cors",
-                        "sec-fetch-site": "same-site",
-                        "spotify-app-version": "1.0.0.48e3603",
-                        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-                        "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-                    }
+                    headers = header(auth_header=auth_header)
                     response = requests.get(
                         f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/locations?time-filter=28day&aggregation-level=recording",
                         params=params,
@@ -744,33 +648,9 @@ class refreshMain(APIView):
 
             ######## CITY MONTHLY ############################
 
-            for request in driver.requests:
-                if request.headers:
-                    if "authorization" in request.headers:
-                        auth_header = request.headers["Authorization"]
-                        if auth_header != "":
-                            break
+            auth_header = login(driver=driver)
 
-            print("Authorization Header:", auth_header)
-            headers = {
-                "authority": "generic.wg.spotify.com",
-                "accept": "application/json",
-                "accept-language": "en-US",
-                "app-platform": "Browser",
-                "authorization": f"{auth_header}",
-                "content-type": "application/json",
-                "origin": "https://artists.spotify.com",
-                "referer": "https://artists.spotify.com/",
-                "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                "sec-ch-ua-mobile": "?0",
-                "sec-ch-ua-platform": '"Windows"',
-                "sec-fetch-dest": "empty",
-                "sec-fetch-mode": "cors",
-                "sec-fetch-site": "same-site",
-                "spotify-app-version": "1.0.0.48e3603",
-                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-                "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-            }
+            headers = header(auth_header=auth_header)
 
             params = {
                 "time-filter": "28day",
@@ -812,34 +692,9 @@ class refreshMain(APIView):
                             HYPERTECHNO = response.json()["geography"]
 
                     except:
+                        auth_header = login(driver=driver)
 
-                        for request in driver.requests:
-                            if request.headers:
-                                if "authorization" in request.headers:
-                                    auth_header = request.headers["Authorization"]
-                                    if auth_header != "":
-                                        break
-
-                        print("Authorization Header:", auth_header)
-                        headers = {
-                            "authority": "generic.wg.spotify.com",
-                            "accept": "application/json",
-                            "accept-language": "en-US",
-                            "app-platform": "Browser",
-                            "authorization": f"{auth_header}",
-                            "content-type": "application/json",
-                            "origin": "https://artists.spotify.com",
-                            "referer": "https://artists.spotify.com/",
-                            "sec-ch-ua": '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                            "sec-ch-ua-mobile": "?0",
-                            "sec-ch-ua-platform": '"Windows"',
-                            "sec-fetch-dest": "empty",
-                            "sec-fetch-mode": "cors",
-                            "sec-fetch-site": "same-site",
-                            "spotify-app-version": "1.0.0.48e3603",
-                            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35",
-                            "x-cloud-trace-context": "00000000000000002a87751b4619e7dc/1588903106916990606;o=1",
-                        }
+                        headers = header(auth_header=auth_header)
 
                         response = requests.get(
                             f"https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording",
