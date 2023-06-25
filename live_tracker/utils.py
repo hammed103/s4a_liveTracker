@@ -24,7 +24,7 @@ slack_token = "xoxb-907605934689-5286686717863-8EN26FvWuun1C8M8ZkUe7uZj"
 channel_id = "C05901NKQSY"
 
 # selenium
-from selenium import webdriver
+"""from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from seleniumwire import webdriver as wirewebdriver
 from selenium.webdriver.chrome.service import Service
@@ -41,10 +41,10 @@ options = {
 # Set up Chrome options
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run Chrome in headless mode
-# chrome_profile_path = "/content/Default"
-chrome_options.add_argument("--user-data-dir=Default")
+chrome_profile_path = "/content/Default"
+chrome_options.add_argument("--user-data-dir=" +chrome_profile_path)
 chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-dev-shm-usage")"""
 
 # extract artist id
 def extract_artist_id(url):

@@ -1,21 +1,66 @@
 from live_tracker.utils import *
+from live_tracker.models import Artist,ArtistMetrics
 
-# Create a new instance of ChromeDriver
-driver = wirewebdriver.Chrome(
-    service=service, options=chrome_options, seleniumwire_options=options
-)
+auth_header = "Bearer BQCYFvjA1IuaxSkkNLYxBLNwfvTalUWUxuy_UmaO8Q6jjOkBP_6OIHexiGBScVl1flcRhOmBuFDK6YlvtJAvw4-T2pmoruVVTTfk95Q51Imf6pej85b0XzAox_XNOYT-wZyethevYzgmhHViCBn55r9OH_r1h55QyKaEmACc2NbyV59GR3Unj0qwMUj8H5tBLUMgZ124uBh7Dvytp53-_ekhDHnv"
 
-# Clear the cache by deleting all cookies
-driver.delete_all_cookies()
+headers = {
+    'authority': 'generic.wg.spotify.com',
+    'accept': 'application/json',
+    'accept-language': 'en-US',
+    'app-platform': 'Browser',
+    'authorization': f'{auth_header}',
+    'content-type': 'application/json',
+    'origin': 'https://artists.spotify.com',
+    'referer': 'https://artists.spotify.com/',
+    'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-site',
+    'spotify-app-version': '1.0.0.d5715c5',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51',
+    'x-cloud-trace-context': '0000000000000000123d34fd4b219e3a/7064777314035793204;o=1',
+}
 
-driver.refresh()
-# Now you can use the `driver` object to interact with the browser and access the requests made
-driver.get("https://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/audience/stats")
-sleep(3)
 
-auth_header = login(driver)
+def get_all_artist_ids():
+    genres = Artist.objects.values_list('id', flat=True).distinct()
+    return list(genres)
 
+def get_all_artist_names():
+    genres = Artist.objects.values_list('name', flat=True).distinct()
+    return list(genres)
 
+def append_artist_metrics(data):
+    # Check if the row already exists based on the unique fields (e.g., date, artist_id)
+    existing_row = ArtistMetrics.objects.filter(date=data['Date'], artist_id=data['ArtistId'],country = data["Country"]).first()
+    
+    if existing_row:
+        # Row already exists, skip the append step
+        print ( 'Row already exists')
+    else:
+    # Row doesn't exist, proceed with appending
+        artist_metrics = ArtistMetrics(
+            date=datetime.strptime(data['Date'], '%Y-%m-%d').date(),
+            artist_name=data['ArtistName'],
+            artist_id=data['ArtistId'],
+            country=data['Country'],
+            listeners=data['listeners'],
+            streams=data['streams'],
+            streams_per_listener=data['streams_per_listener'],
+            saves=data['saves'],
+            playlist_adds=data['playlist_adds'],
+            followers=data['followers'],
+            total_active_audience=data['Total active audience'],
+            super_listeners=data['Super listeners'],
+            moderate_listeners=data['Moderate listeners'],
+            light_listeners=data['Light listeners']
+        )
+        artist_metrics.save()
+        print('Row appended successfully')
+
+from datetime import datetime
 def HomePage(req):
     return render(
         req,
@@ -30,757 +75,91 @@ def Playlist(req):
     )
 
 
-class UploadView(APIView):
-    @staticmethod
-    def post(req):
-        aid = req.data["aid"]
-        sheet = req.data["sheetName"]
-        try:
-            aid = extract_artist_id(aid)
-        except:
-            pass
-        print(aid)
-        rff = requests.get(f"https://open.spotify.com/artist/{aid}")
 
-        artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
-        airtable = pyairtable.Table(api_key, base_id, table_name)
-        global driver
-        auth_header = reload_auth(driver=driver)
+codes = ["","WS","PG","TL","SB","NR","KI","TO","NZ","FJ","VU","PW","TV","AU","FM","MH","MO","MN","TW","JP","KR","HK",
+"VN","MY","KH","LA","PH","BN","SG","TH","ID","BR","MX","CR","SV","PA","HN","BZ","NI","GT","DO","DM","KN","JM",
+"GY","BS","VC","TT","GD","SR","LC","AG","HT","BB","CW","CL","AR","UY","PY","CO","EC","PE","BO","VE","BT","NP","IN",
+"MV","BD","LK","PK","BF","LR","CD","GN","SL","ZW","UG","CI","GM","SZ","MZ","ZA","BJ","GW","TZ","CM","MR","GQ","TD","BI",
+"AO","RW","MU","NA","GH","GA","KE","SN","SC","CV","ZM","NE","BW","ML","ST","KM","NG","CG","LS","MG","TG","ET","MW","LY","MA",
+"LB","QA","KW","DZ","OM","IQ","DJ","TN","JO","AE","EG","PS","SA","BH","CA","US","DK","FI","IS","NO","SE","PL","LT","UA","BG","EE","RO",
+"SK","HR","HU","ME","CZ","SI","XK","AL","MK","LV","RS","BA","GB","IE","ES","CY","SM","IL","GR","MT","AD","PT","TR","IT","LU","FR","MC","NL",
+"BE","DE","LI","AT","CH", "GE","UZ","BY","TJ","KG","AM","KZ","MD","AZ"]
 
-        try:
-
-            headers = header(auth_header=auth_header)
-
-            params = {
-                "aggregation-level": "recording",
-                "time-filter": "last5years",
-            }
-
-            response = requests.get(
-                f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/streams/{aid}",
-                params=params,
-                headers=headers,
-            )
-
-            if response.text == "":
-                response = [{"date": "", "num": "0"}]
-            else:
-
-                response = response.json()["timelinePoint"]
-        except:
-            # Create a new instance of ChromeDriver
-            driver = wirewebdriver.Chrome(
-                service=service, options=chrome_options, seleniumwire_options=options
-            )
-            # Now you can use the `driver` object to interact with the browser and access the requests made
-            driver.get(
-                "https://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/home"
-            )
-            sleep(3)
-            auth_header = login(driver=driver)
-
-            headers = header(auth_header=auth_header)
-
-            response = requests.get(
-                f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/streams/{aid}",
-                params=params,
-                headers=headers,
-            )
-            if response.text == "":
-                response = [{"date": "", "num": "0"}]
-            else:
-
-                response = response.json()["timelinePoint"]
-
-        key_mapping = {"date": "Date", "num": aid}
-
-        # Create a new list of dictionaries with renamed keys
-        response = [
-            {key_mapping.get(key, key): value for key, value in item.items()}
-            for item in response
-        ]
-
-        # Print the updated list of dictionaries
-
-        # Define the keys to convert from string to integer
-        keys_to_convert = [artistName]
-
-        # Convert string values to integers using list comprehension
-        response = [
-            {
-                key: int(value) if key in keys_to_convert else value
-                for key, value in item.items()
-            }
-            for item in response
-        ]
-        response.insert(0, {"Date": "Date", aid: artistName})
-        dc = pd.DataFrame(response)
-
-        gc = pygsheets.authorize(
-            service_file="./my-project-1515950162194-ea018b910e23.json"
-        )
-
-        # Open the Excel sheet by its name
-        sh = gc.open("Competitors")
-        # Find the title row
-
-        wks = sh.worksheet_by_title(sheet)
-        pt = wks.get_as_df(start="A1")
-        pt.columns = [i.strip(" ") for i in pt.columns]
-        dc.columns = [i.strip(" ") for i in dc.columns]
-        # Merge df1 and df2 on 'Date', and if there are common columns, df2's values will be used
-        df = pt.merge(dc, on="Date", how="outer", suffixes=("_yxx", "_xser"))
-
-        # Get the common columns
-        common_columns = [col for col in df.columns if col.endswith("_xser")]
-
-        # Update the old column with new values where they are common
-        for col in common_columns:
-            # Remove the suffix "_y" to get the old column name
-            df[col[:-5] + "_yxx"] = df[col]
-
-        # Delete the columns from df1 which are common with df2
-        to_drop = [x for x in df if x.endswith("_xser")]
-        df.drop(to_drop, axis=1, inplace=True)
-        # Rename columns ending with "_xser"
-        df.rename(columns=lambda x: x[:-4] if x.endswith("_yxx") else x, inplace=True)
-
-        df.loc[1:, "Date"] = pd.to_datetime(
-            df["Date"].iloc[1:], format="%Y-%m-%d"
-        ).dt.date
-
-        # Separate the first row
-        first_row = df.iloc[:1]
-
-        # Sort the remaining rows by column 'A'
-        sorted_rows = df.iloc[1:].sort_values(by="Date", ascending=False)
-
-        # Concatenate the first row and the sorted rows
-        df = pd.concat([first_row, sorted_rows])
-
-        df = df.fillna("").reset_index(drop=True)
-
-        num_columns = df.shape[1]
-
-        # Convert the number of columns into a column label
-        last_column_label = colnum_to_colname(num_columns)
-        df["Total Amount"] = pd.DataFrame(
-            [f"=SUM(C{i+2}:{last_column_label}{i+2})" for i in range(wks.rows - 1)],
-            columns=["Total Amount"],
-        )
-
-        df.loc[0, "Total Amount"] = "Total Amount"
-
-        wks.clear(start="A1")
-        wks.set_dataframe(df, start="A1", extend=True)
-
-        print("Upload complete")
-
-        return Response(
-            {
-                "status": "success",
-                "data": response,
-            },
-            status=201,
-        )
-        print("Upload complete")
-
-
-class UploadPlay(APIView):
-    @staticmethod
-    def post(req):
-        aid = req.data["playid"]
-        try:
-            data = vio(aid)
-        except:
-            aid = extract_playlist_id(aid)
-        data = vio(aid)
-        # Authenticate with Google Sheets
-        gc = pygsheets.authorize(
-            service_file="my-project-1515950162194-ea018b910e23.json"
-        )
-
-        # Open the Google Spreadsheet using its title
-        spreadsheet = gc.open("Playlist Tracker")
-
-        # Select the worksheet
-        worksheet = spreadsheet.sheet1
-
-        # Add new data
-
-        new_row = [
-            data["id"],
-            data["name"],
-            data["total"],
-            0,
-        ]  # Assuming Last24Hours is 0 for new rows
-
-        # Add the new row to the end of the sheet
-        worksheet.append_table(new_row)
-
-        return Response(
-            {
-                "status": "success",
-                "data": new_row,
-            },
-            status=201,
-        )
-        print("Upload complete")
-
-
-class refresh(APIView):
-    @staticmethod
-    def get(req):
-        gc = pygsheets.authorize(
-            service_file="my-project-1515950162194-ea018b910e23.json"
-        )
-
-        # Open the Google Spreadsheet using its title
-        spreadsheet = gc.open("Playlist Tracker")
-
-        # Select the worksheet
-        worksheet = spreadsheet.sheet1
-
-        ll = worksheet.get_as_df()
-        for index, val in ll.iterrows():
-            data = vio(val.PlaylistId)
-            pix = data["total"] - val.Total
-            ll.loc[index, "Total"] = data["total"]
-            ll.loc[index, "Last24Hours"] = pix
-
-        worksheet.clear()
-
-        worksheet.set_dataframe(ll, start="A1", extend=True)
-
-        return Response(
-            {
-                "status": "success",
-            },
-            status=201,
-        )
-        print("Upload complete")
 
 
 class refreshMain(APIView):
     @staticmethod
     def get(req):
-        cont = False
-
-        global driver
-        #########  MAIN   ###################################
-
-        table_name = "main"  # Replace with your Airtable table name
-
-        artx = art.copy()
-        artx.remove(artx[1])
-        artx.remove(artx[4])
-        params = {
-            "aggregation-level": "recording",
-            "time-filter": "last5years",
-        }
-        # Listeners Summary
-        for topic in ["listeners", "Streams", "Followers"]:
-            table_name = f"{topic} Summary"  # Replace with your Airtable table name
-
-            airtable = pyairtable.Table(api_key, base_id, table_name)
-
-            comb = []
-            for aid, anam in art:
-
-                try:
-
-                    auth_header = reload_auth(driver=driver)
-
-                    headers = header(auth_header=auth_header)
-
-                    response = requests.get(
-                        f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/{topic.lower()}/{aid}",
-                        params=params,
-                        headers=headers,
-                    )
-
-                    HYPERTECHNO = response.json()["timelinePoint"][:143]
-                except:
-
-                    # Create a new instance of ChromeDriver
-                    try:
-                        # Now you can use the `driver` object to interact with the browser and access the requests made
-                        driver.get(
-                            "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
-                        )
-                    except:
-
-                        driver = wirewebdriver.Chrome(
-                            service=service,
-                            options=chrome_options,
-                            seleniumwire_options=options,
-                        )
-
-                        driver.get(
-                            "https://artists.spotify.com/c/artist/0aUMVkR8QV0LSdv9VZOATn/home"
-                        )
-                    sleep(3)
-
-                    auth_header = login(driver=driver)
-
-                    headers = header(auth_header=auth_header)
-
-                    response = requests.get(
-                        f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/{topic.lower()}/{aid}",
-                        params=params,
-                        headers=headers,
-                    )
-
-                    HYPERTECHNO = response.json()["timelinePoint"][:143]
-
-                # Iterate over each dictionary in the list
-                # Example list of dictionaries
-
-                # Define a dictionary mapping old keys to new keys
-                key_mapping = {"date": "Date", "num": f"{anam}"}
-
-                # Create a new list of dictionaries with renamed keys
-                new_HYPERTECHNO = [
-                    {key_mapping.get(key, key): value for key, value in item.items()}
-                    for item in HYPERTECHNO
-                ]
-
-                # Print the updated list of dictionaries
-
-                # Define the keys to convert from string to integer
-                keys_to_convert = [f"{anam}"]
-
-                # Convert string values to integers using list comprehension
-                new_HYPERTECHNO = [
-                    {
-                        key: int(value) if key in keys_to_convert else value
-                        for key, value in item.items()
-                    }
-                    for item in new_HYPERTECHNO
-                ]
-
-                # Print the updated dictionary
-                comb.append(new_HYPERTECHNO)
-            comb = [i for j in comb for i in j]
-            # Merge dictionaries based on 'Date'
-            merged_dict = {}
-
-            for item in comb:
-                date = item["Date"]
-                if date not in merged_dict:
-                    merged_dict[date] = {}
-
-                for key, value in item.items():
-                    if key != "Date":
-                        merged_dict[date][key] = value
-
-            # Convert merged_dict to a list of dictionaries
-            merged_list = [{"Date": key, **value} for key, value in merged_dict.items()]
-
-            # Print the merged list
-            # print(merged_list)
-
-            existing_records = airtable.all()
-
-            record_exists = False
-
-            bobo = [i["fields"]["Date"] for i in existing_records]
-            for record in merged_list:
-
-                if record["Date"] in bobo:
-                    pass
-                else:
-                    cont = True
-                    # print(f"Update made for {record['Date'] }")
-                    # Insert the new record at the top
-                    airtable.create(
-                        record,
-                    )
-                    upx = record
-
-        if cont:
-
-            ########## COUNTRY DEMOGRAPHIC #################################################
-
-            #################################################################################################################
-
-            current_date = merged_list[0]["Date"]
-            # Define a function that calculates the difference between the last and first value
-            def diff(x):
-                return x.iloc[-1] - x.iloc[0]
-
-            table_name = "Country Demographics Monthly Listeners"  # Replace with your Airtable table name
-
-            airtable = pyairtable.Table(api_key, base_id, table_name)
-
-            existing_records = airtable.all()
-
-            record_exists = False
-
-            bobo = [
-                (
-                    i["fields"]["Date"],
-                    i["fields"]["Country"],
-                    i["fields"]["ArtistName"],
-                    i["fields"]["Age Group"],
-                )
-                for i in existing_records
-            ]
-            for cd in codes:
+        artid = get_all_artist_ids()
+        artName = get_all_artist_names()
+        for artid,artName in zip(artid,artName) :
+            df = pd.DataFrame()
+            for cd in codes :
                 params = {
-                    "time-filter": "28day",
-                    "aggregation-level": "recording",
-                    "country": f"{cd}",
+                    'country': cd,
+                    'time-filter': '1year',
                 }
 
-                for aid, anam in artx:
-                    try:
-                        auth_header = login(driver=driver)
-
-                        headers = header(auth_header=auth_header)
-                        response = requests.get(
-                            f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age",
-                            params=params,
-                            headers=headers,
-                        )
-
-                        if response.text == "":
-                            # print("skipping", aid)
-                            continue
-                        else:
-                            # print("running :", aid)
-                            data = response.json()
-
-                    except:
-
-                        auth_header = login(driver=driver)
-
-                        headers = header(auth_header=auth_header)
-                        response = requests.get(
-                            f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/gender-by-age",
-                            params=params,
-                            headers=headers,
-                        )
-
-                        if response.text == "":
-                            # print("skipping", aid)
-                            continue
-                        else:
-                            # print("running :", aid)
-                            data = response.json()
-
-                    age_groups = [
-                        "0-17",
-                        "18-22",
-                        "23-27",
-                        "28-34",
-                        "35-44",
-                        "45-59",
-                        "60+",
-                    ]
-
-                    # The current date
-
-                    # List of dictionaries for Airtable
-                    airtable_data = []
-                    for i, age_group in enumerate(age_groups):
-                        age_group_data = {
-                            "Date": current_date,
-                            "ArtistName": anam,
-                            "Age Group": age_group.replace("0-17", "<18"),
-                            "Country": cd,
-                            "Total Amount": int(
-                                data[
-                                    f"age_{age_group.replace('-', '_').replace('+', '')}"
-                                ]
-                            ),
-                            "Female": int(
-                                data[
-                                    f"age_{age_group.replace('-', '_').replace('+', '')}_gender"
-                                ]["female"]
-                            ),
-                            "Male": int(
-                                data[
-                                    f"age_{age_group.replace('-', '_').replace('+', '')}_gender"
-                                ]["male"]
-                            ),
-                            "Nonbinary": int(
-                                data[
-                                    f"age_{age_group.replace('-', '_').replace('+', '')}_gender"
-                                ]["nonbinary"]
-                            ),
-                            "Unknown": int(
-                                data[
-                                    f"age_{age_group.replace('-', '_').replace('+', '')}_gender"
-                                ]["unknown"]
-                            ),
-                        }
-                        airtable_data.append(age_group_data)
-
-                # print("uploading", cd)
-
-                # Print the data to check it
-                for record in airtable_data:
-                    if (
-                        record["Date"],
-                        record["Country"],
-                        record["ArtistName"],
-                        record["Age Group"],
-                    ) in bobo:
-                        pass
-                    else:
-                        # print(f"Update made for {record['Date'] }")
-                        airtable.create(
-                            record,
-                        )
-                ####################################################
-
-            ######## COUNTRY MONTHLY ############################
-            auth_header = login(driver=driver)
-
-            headers = header(auth_header=auth_header)
-
-            params = {
-                "time-filter": "28day",
-                "aggregation-level": "recording",
-            }
-            table_name = (
-                "Country Listeners Monthly"  # Replace with your Airtable table name
-            )
-
-            airtable = pyairtable.Table(api_key, base_id, table_name)
-            comb = []
-
-            for aid, anam in artx:
-
-                try:
-                    response = requests.get(
-                        f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/locations?time-filter=28day&aggregation-level=recording",
-                        params=params,
-                        headers=headers,
-                    )
-                    if response.text == "":
-                        # print("skipping", aid)
-                        continue
-                    else:
-                        print("running :", aid)
-                        HYPERTECHNO = response.json()["geography"]
-                except:
-                    auth_header = login(driver=driver)
-
-                    headers = header(auth_header=auth_header)
-                    response = requests.get(
-                        f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/{aid}/audience/locations?time-filter=28day&aggregation-level=recording",
-                        params=params,
-                        headers=headers,
-                    )
-                    if response.text == "":
-                        # print("skipping", aid)
-                        continue
-                    else:
-                        print("running :", aid)
-                        HYPERTECHNO = response.json()["geography"]
-
-                # Iterate over each dictionary in the list
-                # Example list of dictionaries
-
-                # Define a mapping from old keys to new keys
-                key_mapping = {
-                    "name": "Country",
-                    "num": anam,
-                    "region": "Region",
-                }
-
-                # Create a new list of dictionaries with renamed keys
-                new_HYPERTECHNO = [
-                    {key_mapping.get(key, key): value for key, value in item.items()}
-                    for item in HYPERTECHNO
-                ]
-
-                # Print the updated list of dictionaries
-                # Add 'daye' key to each dictionary
-                new_HYPERTECHNO = [{**d, "Date": current_date} for d in new_HYPERTECHNO]
-                # Define the keys to convert from string to integer
-                keys_to_convert = [f"{anam}"]
-
-                # Convert string values to integers using list comprehension
-                new_HYPERTECHNO = [
-                    {
-                        key: int(value) if key in keys_to_convert else value
-                        for key, value in item.items()
-                    }
-                    for item in new_HYPERTECHNO
-                ]
-
-                # Print the updated dictionary
-                comb.append(new_HYPERTECHNO)
-
-            comb = [i for j in comb for i in j]
-
-            # Merge dictionaries based on 'Date' and 'City'
-            merged_dict = {}
-
-            for item in comb:
-                date = item["Date"]
-                city = item["Country"]
-                if (date, city) not in merged_dict:
-                    merged_dict[(date, city)] = {}
-
-                for key, value in item.items():
-                    # if key not in ['Date', ]:
-                    merged_dict[(date, city)][key] = value
-
-            # Convert merged_dict to a list of dictionaries
-            merged_list = [
-                {"Datex": key, **value} for key, value in merged_dict.items()
-            ]
-            # Remove 'Datex' key from each dictionary
-            merged_list = [
-                {k: v for k, v in d.items() if k != "Datex"} for d in merged_list
-            ]
-            for record in merged_list:
-
-                # print(f"Update made for {record['Date'] }")
-                # Insert the new record at the top
-                airtable.create(
-                    record,
+                response = requests.get(
+                    f'https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{artid}/stats',
+                    params=params,
+                    headers=headers,
                 )
+                if response.text == "":
+                    continue
+                if response.text == "PERMISSION_DENIED" :
 
-            ######## CITY MONTHLY ############################
+                    break
+                nn = response.json()["metricTimelines"]
+                # Extract metrics and their timeline points
+                metrics = [entry['metric'] for entry in nn]
+                timeline_points = [entry['timeline']['timelinePoint'] for entry in nn]
 
-            auth_header = login(driver=driver)
+                # Create a dictionary to store the data
+                data_dict = {metric: [point['num'] for point in points] for metric, points in zip(metrics, timeline_points)}
 
-            headers = header(auth_header=auth_header)
-
-            params = {
-                "time-filter": "28day",
-                "aggregation-level": "recording",
-            }
-            table_name = (
-                "City Listeners Monthly"  # Replace with your Airtable table name
-            )
-
-            airtable = pyairtable.Table(api_key, base_id, table_name)
-
-            # Get all records
-            records = airtable.all()
-
-            # Delete each record
-            for record in records:
-                airtable.delete(record["id"])
-
-            comb = []
-            for cd in codes:
+                # Create the DataFrame
+                df = pd.DataFrame(data_dict)
+                df["Date"] = pd.Series([i["date"] for i in timeline_points[0]])
+                df["Country"] = cd
+                df["ArtistName"] = artName
+                df["ArtistId"] = artid
                 params = {
-                    "time-filter": "28day",
-                    "aggregation-level": "recording",
-                    "country": f"{cd}",
-                }
-                for aid, anam in artx:
-
-                    try:
-                        response = requests.get(
-                            f"https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording",
-                            params=params,
-                            headers=headers,
-                        )
-                        if response.text == "":
-                            # print("skipping", aid)
-                            continue
-                        else:
-                            # print("running :" ,aid)
-                            HYPERTECHNO = response.json()["geography"]
-
-                    except:
-                        auth_header = login(driver=driver)
-
-                        headers = header(auth_header=auth_header)
-
-                        response = requests.get(
-                            f"https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{aid}/audience/top-cities?time-filter=28day&aggregation-level=recording",
-                            params=params,
-                            headers=headers,
-                        )
-                        if response.text == "":
-                            # print("skipping", aid)
-                            continue
-                        else:
-                            # print("running :" ,aid)
-                            HYPERTECHNO = response.json()["geography"]
-                    # Iterate over each dictionary in the list
-                    # Example list of dictionaries
-
-                    # Define a mapping from old keys to new keys
-                    key_mapping = {
-                        "name": "City",
-                        "num": anam,
-                        "country": "Country",
-                        "region": "Region",
-                    }
-
-                    # Create a new list of dictionaries with renamed keys
-                    new_HYPERTECHNO = [
-                        {
-                            key_mapping.get(key, key): value
-                            for key, value in item.items()
-                        }
-                        for item in HYPERTECHNO
-                    ]
-
-                    # Print the updated list of dictionaries
-                    # Add 'daye' key to each dictionary
-                    new_HYPERTECHNO = [
-                        {**d, "Date": current_date} for d in new_HYPERTECHNO
-                    ]
-                    # Define the keys to convert from string to integer
-                    keys_to_convert = [f"{anam}"]
-
-                    # Convert string values to integers using list comprehension
-                    new_HYPERTECHNO = [
-                        {
-                            key: int(value) if key in keys_to_convert else value
-                            for key, value in item.items()
-                        }
-                        for item in new_HYPERTECHNO
-                    ]
-
-                    # Print the updated dictionary
-                    comb.append(new_HYPERTECHNO)
-
-            comb = [i for j in comb for i in j]
-
-            # Merge dictionaries based on 'Date' and 'City'
-            merged_dict = {}
-
-            for item in comb:
-                date = item["Date"]
-                city = item["City"]
-                if (date, city) not in merged_dict:
-                    merged_dict[(date, city)] = {}
-
-                for key, value in item.items():
-                    # if key not in ['Date', ]:
-                    merged_dict[(date, city)][key] = value
-
-            # Convert merged_dict to a list of dictionaries
-            merged_list = [
-                {"Datex": key, **value} for key, value in merged_dict.items()
-            ]
-            # Remove 'Datex' key from each dictionary
-            merged_list = [
-                {k: v for k, v in d.items() if k != "Datex"} for d in merged_list
-            ]
-
-            for record in merged_list:
-
-                # print(f"Update made for {record['Date'] }")
-                # Insert the new record at the top
-                airtable.create(
-                    record,
+                'country': cd
+            }
+                responsex = requests.get(
+                f'https://generic.wg.spotify.com/fanatic-audience-segments/v0/artist/{artid}/segments',
+                params=params,
+                headers=headers,
                 )
+                segment = pd.DataFrame(pd.DataFrame(responsex.json()["segmentCountsTimeline"])["active"].to_list())
+
+                segment.columns = ["Total active audience","Super listeners","Moderate listeners","Light listeners"]
+                segment["Date"] = pd.DataFrame(responsex.json()["segmentCountsTimeline"])["date"]
+                segment["Country"] = cd
+                df = df.merge(segment,how="outer")
+
+                #df.Date = pd.to_datetime(df.Date)
+
+                df = df[['Date',  'ArtistName', 'ArtistId','Country','listeners', 'streams',
+                        'streams_per_listener', 'saves','playlist_adds', 'followers','Total active audience', 'Super listeners',
+                    'Moderate listeners', 'Light listeners' ]]
+
+                df.loc[df.Country == "","Country"] = "World"
+                df = df.sort_values("Date",ascending =False)
+                df = df.reset_index(drop=True).fillna(0)
+                jio = df.to_dict(orient="records")
+
+                for row in jio:
+                    append_artist_metrics(row)
+
+
+
 
         return Response(
-            {},
-            status=200,
+            {
+                "status": "success",
+            },
+            status=201,
         )
         print("Upload complete")
