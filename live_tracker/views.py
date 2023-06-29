@@ -1,7 +1,7 @@
 from live_tracker.utils import *
 from live_tracker.models import Artist, ArtistMetrics
 
-auth_header = "Bearer BQAhvAd_-pD1GdPoqe4gvesAQGGsS74cfjuW5iuFGG67CVe1z0IjF1bx6cWK8siw15uWQ2VHnbVSuljkWfUcMNb8nKYmyrMFTSdIv8MiHzrsCKhEfdTUc2o8PFeV6iJe6ksRdu1PKTKQVlH31k9uPUdooNO3c-nXGda8B-8Mz4362idub9O66nxicy4MakLY9I9H5tAUmlKIkD2a988jTlmG148z"
+auth_header = "Bearer BQB4-EgxoPahBgXJhAA3uBgXQD1JyrjMmV5ph-6etf0IW8oMb3EPHotHu9RKJW2wJcibrPWvJV6NnJKwS56JnnKu7lh1izKJyeLeUx-h661I0vDsFmYdP-J2_y4Cwms8CRjcBP8Ne2GwhN9aH2Vgq3hTwnbYa28lFbAwym9eqw0n094fmyfe59Fwkf5Rlu_L79EDKe2NQausU26VksJpwC3qIUhM"
 
 headers = {
     "authority": "generic.wg.spotify.com",
@@ -281,7 +281,7 @@ class refreshMain(APIView):
             for cd in codes:
                 params = {
                     "country": cd,
-                    "time-filter": "1year",
+                    "time-filter": "last5years",
                 }
 
                 response = requests.get(
