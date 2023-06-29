@@ -1,7 +1,7 @@
 from live_tracker.utils import *
 from live_tracker.models import Artist, ArtistMetrics
 
-auth_header = "Bearer BQCcjMVsNWMNV9-55PgvWjFUyeuXS7GXqmNgSdwKkgjAo4fhylTGU21rO7EKcgt_9Q5_wl4fc5_kVND-xEAnJ7C_nksYQ3LUDUQO78vyYGBT5OpFm0rx5BAfivlq8bi3QUduB6pHyvZ61R1B3xWUW0stfxjLK3hnN34ThYoeveAXNh8kzsTLQKMC-NVjEglPbXsrPqJH3kcjUUQ_EIMIckwuZzoP"
+auth_header = "Bearer BQBZJENrPoPEsTNof_5NIS-jQKewXxBtUurxFnL-XQPHpW94jVnW5BpgPrRl2PxTCL8ejJPKe5xcDo8anQ8T4oFqyVR-qZ5Y3yCrBocz5N9tdtykDoOcR36uhGVKdagYsX2sKgs52bgiXDl6r4sCzpwJ6jTGAox2xH7Lz6F8PZ6s1McxI06XpSicZoE57FPGQepa8EOtYk_qapNam8wniejLuU_L"
 
 headers = {
     "authority": "generic.wg.spotify.com",
@@ -83,16 +83,7 @@ def Playlist(req):
 
 
 codes = [
-    "VU",
-    "PW",
-    "TV",
-    "AU",
-    "FM",
-    "MH",
-    "MO",
-    "MN",
-    "TW",
-    "JP",
+
     "KR",
     "HK",
     "VN",
