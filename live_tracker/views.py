@@ -1,7 +1,7 @@
 from live_tracker.utils import *
 from live_tracker.models import Artist, ArtistMetrics
 
-auth_header = "Bearer BQB4-EgxoPahBgXJhAA3uBgXQD1JyrjMmV5ph-6etf0IW8oMb3EPHotHu9RKJW2wJcibrPWvJV6NnJKwS56JnnKu7lh1izKJyeLeUx-h661I0vDsFmYdP-J2_y4Cwms8CRjcBP8Ne2GwhN9aH2Vgq3hTwnbYa28lFbAwym9eqw0n094fmyfe59Fwkf5Rlu_L79EDKe2NQausU26VksJpwC3qIUhM"
+auth_header = "Bearer BQCcjMVsNWMNV9-55PgvWjFUyeuXS7GXqmNgSdwKkgjAo4fhylTGU21rO7EKcgt_9Q5_wl4fc5_kVND-xEAnJ7C_nksYQ3LUDUQO78vyYGBT5OpFm0rx5BAfivlq8bi3QUduB6pHyvZ61R1B3xWUW0stfxjLK3hnN34ThYoeveAXNh8kzsTLQKMC-NVjEglPbXsrPqJH3kcjUUQ_EIMIckwuZzoP"
 
 headers = {
     "authority": "generic.wg.spotify.com",
