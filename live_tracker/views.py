@@ -48,7 +48,7 @@ def get_all_artist_names():
     return list(genres)
 
 
-def append_artist_metrics(data,cd):
+def append_artist_metrics(data, cd):
     # Check if the row already exists based on the unique fields (e.g., date, artist_id)
     existing_row = ArtistMetrics.objects.filter(
         date=data["Date"], artist_id=data["ArtistId"], country=data["Country"]
@@ -56,7 +56,7 @@ def append_artist_metrics(data,cd):
 
     if existing_row:
         # Row already exists, skip the append step
-        print("Row already exists",cd)
+        print("Row already exists", cd)
     else:
         # Row doesn't exist, proceed with appending
         artist_metrics = ArtistMetrics(
@@ -97,15 +97,6 @@ def Playlist(req):
 
 
 codes = [
-
-    "KR",
-    "HK",
-    "VN",
-    "MY",
-    "KH",
-    "LA",
-    "PH",
-    "BN",
     "SG",
     "TH",
     "ID",
@@ -294,7 +285,9 @@ class refreshMain(APIView):
                     nn = response.json()["metricTimelines"]
                     # Extract metrics and their timeline points
                     metrics = [entry["metric"] for entry in nn]
-                    timeline_points = [entry["timeline"]["timelinePoint"] for entry in nn]
+                    timeline_points = [
+                        entry["timeline"]["timelinePoint"] for entry in nn
+                    ]
 
                     # Create a dictionary to store the data
                     data_dict = {
@@ -355,7 +348,9 @@ class refreshMain(APIView):
                     nn = response.json()["metricTimelines"]
                     # Extract metrics and their timeline points
                     metrics = [entry["metric"] for entry in nn]
-                    timeline_points = [entry["timeline"]["timelinePoint"] for entry in nn]
+                    timeline_points = [
+                        entry["timeline"]["timelinePoint"] for entry in nn
+                    ]
 
                     # Create a dictionary to store the data
                     data_dict = {
@@ -420,7 +415,7 @@ class refreshMain(APIView):
                 jio = df.to_dict(orient="records")
 
                 for row in jio:
-                    append_artist_metrics(row,cd)
+                    append_artist_metrics(row, cd)
 
         return Response(
             {
