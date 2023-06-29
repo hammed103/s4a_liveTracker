@@ -83,16 +83,6 @@ def Playlist(req):
 
 
 codes = [
-    "",
-    "WS",
-    "PG",
-    "TL",
-    "SB",
-    "NR",
-    "KI",
-    "TO",
-    "NZ",
-    "FJ",
     "VU",
     "PW",
     "TV",
