@@ -97,22 +97,6 @@ def Playlist(req):
 
 
 codes = [
-    "VC",
-    "TT",
-    "GD",
-    "SR",
-    "LC",
-    "AG",
-    "HT",
-    "BB",
-    "CW",
-    "CL",
-    "AR",
-    "UY",
-    "PY",
-    "CO",
-    "EC",
-    "PE",
     "BO",
     "VE",
     "BT",
