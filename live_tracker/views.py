@@ -97,22 +97,6 @@ def Playlist(req):
 
 
 codes = [
-    "BO",
-    "VE",
-    "BT",
-    "NP",
-    "IN",
-    "MV",
-    "BD",
-    "LK",
-    "PK",
-    "BF",
-    "LR",
-    "CD",
-    "GN",
-    "SL",
-    "ZW",
-    "UG",
     "CI",
     "GM",
     "SZ",
@@ -292,67 +276,130 @@ class refreshMain(APIView):
                     df = df.merge(segment, how="outer")
 
                 except:
-                    auth_header = reload_auth(driver)
+                    try:
+                        auth_header = reload_auth(driver)
 
-                    headers = header(auth_header=auth_header)
+                        headers = header(auth_header=auth_header)
 
-                    params = {
-                        "country": cd,
-                        "time-filter": "last5years",
-                    }
+                        params = {
+                            "country": cd,
+                            "time-filter": "last5years",
+                        }
 
-                    response = requests.get(
-                        f"https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{artid}/stats",
-                        params=params,
-                        headers=headers,
-                    )
-                    if response.text == "":
-                        continue
-                    if response.text == "PERMISSION_DENIED":
+                        response = requests.get(
+                            f"https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{artid}/stats",
+                            params=params,
+                            headers=headers,
+                        )
+                        if response.text == "":
+                            continue
+                        if response.text == "PERMISSION_DENIED":
 
-                        break
-                    nn = response.json()["metricTimelines"]
-                    # Extract metrics and their timeline points
-                    metrics = [entry["metric"] for entry in nn]
-                    timeline_points = [
-                        entry["timeline"]["timelinePoint"] for entry in nn
-                    ]
+                            break
+                        nn = response.json()["metricTimelines"]
+                        # Extract metrics and their timeline points
+                        metrics = [entry["metric"] for entry in nn]
+                        timeline_points = [
+                            entry["timeline"]["timelinePoint"] for entry in nn
+                        ]
 
-                    # Create a dictionary to store the data
-                    data_dict = {
-                        metric: [point["num"] for point in points]
-                        for metric, points in zip(metrics, timeline_points)
-                    }
+                        # Create a dictionary to store the data
+                        data_dict = {
+                            metric: [point["num"] for point in points]
+                            for metric, points in zip(metrics, timeline_points)
+                        }
 
-                    # Create the DataFrame
-                    df = pd.DataFrame(data_dict)
-                    df["Date"] = pd.Series([i["date"] for i in timeline_points[0]])
-                    df["Country"] = cd
-                    df["ArtistName"] = artName
-                    df["ArtistId"] = artid
-                    params = {"country": cd}
-                    responsex = requests.get(
-                        f"https://generic.wg.spotify.com/fanatic-audience-segments/v0/artist/{artid}/segments",
-                        params=params,
-                        headers=headers,
-                    )
-                    segment = pd.DataFrame(
-                        pd.DataFrame(responsex.json()["segmentCountsTimeline"])[
-                            "active"
-                        ].to_list()
-                    )
+                        # Create the DataFrame
+                        df = pd.DataFrame(data_dict)
+                        df["Date"] = pd.Series([i["date"] for i in timeline_points[0]])
+                        df["Country"] = cd
+                        df["ArtistName"] = artName
+                        df["ArtistId"] = artid
+                        params = {"country": cd}
+                        responsex = requests.get(
+                            f"https://generic.wg.spotify.com/fanatic-audience-segments/v0/artist/{artid}/segments",
+                            params=params,
+                            headers=headers,
+                        )
+                        segment = pd.DataFrame(
+                            pd.DataFrame(responsex.json()["segmentCountsTimeline"])[
+                                "active"
+                            ].to_list()
+                        )
 
-                    segment.columns = [
-                        "Total active audience",
-                        "Super listeners",
-                        "Moderate listeners",
-                        "Light listeners",
-                    ]
-                    segment["Date"] = pd.DataFrame(
-                        responsex.json()["segmentCountsTimeline"]
-                    )["date"]
-                    segment["Country"] = cd
-                    df = df.merge(segment, how="outer")
+                        segment.columns = [
+                            "Total active audience",
+                            "Super listeners",
+                            "Moderate listeners",
+                            "Light listeners",
+                        ]
+                        segment["Date"] = pd.DataFrame(
+                            responsex.json()["segmentCountsTimeline"]
+                        )["date"]
+                        segment["Country"] = cd
+                        df = df.merge(segment, how="outer")
+                    except:
+                        auth_header = reload_auth(driver)
+
+                        headers = header(auth_header=auth_header)
+
+                        params = {
+                            "country": cd,
+                            "time-filter": "last5years",
+                        }
+
+                        response = requests.get(
+                            f"https://generic.wg.spotify.com/s4x-insights-api/v2/artist/{artid}/stats",
+                            params=params,
+                            headers=headers,
+                        )
+                        if response.text == "":
+                            continue
+                        if response.text == "PERMISSION_DENIED":
+
+                            break
+                        nn = response.json()["metricTimelines"]
+                        # Extract metrics and their timeline points
+                        metrics = [entry["metric"] for entry in nn]
+                        timeline_points = [
+                            entry["timeline"]["timelinePoint"] for entry in nn
+                        ]
+
+                        # Create a dictionary to store the data
+                        data_dict = {
+                            metric: [point["num"] for point in points]
+                            for metric, points in zip(metrics, timeline_points)
+                        }
+
+                        # Create the DataFrame
+                        df = pd.DataFrame(data_dict)
+                        df["Date"] = pd.Series([i["date"] for i in timeline_points[0]])
+                        df["Country"] = cd
+                        df["ArtistName"] = artName
+                        df["ArtistId"] = artid
+                        params = {"country": cd}
+                        responsex = requests.get(
+                            f"https://generic.wg.spotify.com/fanatic-audience-segments/v0/artist/{artid}/segments",
+                            params=params,
+                            headers=headers,
+                        )
+                        segment = pd.DataFrame(
+                            pd.DataFrame(responsex.json()["segmentCountsTimeline"])[
+                                "active"
+                            ].to_list()
+                        )
+
+                        segment.columns = [
+                            "Total active audience",
+                            "Super listeners",
+                            "Moderate listeners",
+                            "Light listeners",
+                        ]
+                        segment["Date"] = pd.DataFrame(
+                            responsex.json()["segmentCountsTimeline"]
+                        )["date"]
+                        segment["Country"] = cd
+                        df = df.merge(segment, how="outer")
 
                 # df.Date = pd.to_datetime(df.Date)
 
