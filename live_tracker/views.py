@@ -76,7 +76,7 @@ def append_artist_metrics(data, cd):
             light_listeners=data["Light listeners"],
         )
         artist_metrics.save()
-        print("Row appended successfully")
+        print("Row appended successfully",cd)
 
 
 from datetime import datetime
