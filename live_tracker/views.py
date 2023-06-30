@@ -76,7 +76,7 @@ def append_artist_metrics(data, cd):
             light_listeners=data["Light listeners"],
         )
         artist_metrics.save()
-        print("Row appended successfully",cd)
+        print("Row appended successfully", cd)
 
 
 from datetime import datetime
@@ -97,25 +97,6 @@ def Playlist(req):
 
 
 codes = [
-    "CI",
-    "GM",
-    "SZ",
-    "MZ",
-    "ZA",
-    "BJ",
-    "GW",
-    "TZ",
-    "CM",
-    "MR",
-    "GQ",
-    "TD",
-    "BI",
-    "AO",
-    "RW",
-    "MU",
-    "NA",
-    "GH",
-    "GA",
     "KE",
     "SN",
     "SC",
