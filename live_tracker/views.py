@@ -97,20 +97,6 @@ def Playlist(req):
 
 
 codes = [
-    "MW",
-    "LY",
-    "MA",
-    "LB",
-    "QA",
-    "KW",
-    "DZ",
-    "OM",
-    "IQ",
-    "DJ",
-    "TN",
-    "JO",
-    "AE",
-    "EG",
     "PS",
     "SA",
     "BH",
