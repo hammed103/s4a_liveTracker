@@ -50,9 +50,15 @@ def get_all_artist_names():
 
 def append_artist_metrics(data, cd):
     # Check if the row already exists based on the unique fields (e.g., date, artist_id)
-    existing_row = ArtistMetrics.objects.filter(
-        date=data["Date"], artist_id=data["ArtistId"], country=data["Country"]
-    ).first()
+    try:
+        existing_row = ArtistMetrics.objects.filter(
+            date=data["Date"], artist_id=data["ArtistId"], country=data["Country"]
+        ).first()
+    except:
+        sleep(3)
+        existing_row = ArtistMetrics.objects.filter(
+            date=data["Date"], artist_id=data["ArtistId"], country=data["Country"]
+        ).first()
 
     if existing_row:
         # Row already exists, skip the append step
@@ -75,8 +81,13 @@ def append_artist_metrics(data, cd):
             moderate_listeners=data["Moderate listeners"],
             light_listeners=data["Light listeners"],
         )
-        artist_metrics.save()
-        print("Row appended successfully", cd)
+        try:
+            artist_metrics.save()
+            print("Row appended successfully", cd)
+        except:
+            sleep(3)
+            artist_metrics.save()
+            print("Row appended successfully", cd)
 
 
 from datetime import datetime
@@ -97,10 +108,6 @@ def Playlist(req):
 
 
 codes = [
-    "PS",
-    "SA",
-    "BH",
-    "CA",
     "US",
     "DK",
     "FI",
