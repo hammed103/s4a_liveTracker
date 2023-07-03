@@ -108,11 +108,6 @@ def Playlist(req):
 
 
 codes = [
-    "IT",
-    "LU",
-    "FR",
-    "MC",
-    "NL",
     "BE",
     "DE",
     "LI",
