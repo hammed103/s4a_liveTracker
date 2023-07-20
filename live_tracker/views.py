@@ -301,7 +301,7 @@ class refreshMain(APIView):
         artid = get_all_artist_ids()
         artName = get_all_artist_names()
         global driver
-        for artid, artName in zip(artid[3:], artName[3:]):
+        for artid, artName in zip(artid[4:], artName[4:]):
             df = pd.DataFrame()
             for cd in codes:
                 try:
