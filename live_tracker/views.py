@@ -31,7 +31,7 @@ class start(APIView):
         print("Upload complete")
 
 
-headers = {
+"""headers = {
     "authority": "generic.wg.spotify.com",
     "accept": "application/json",
     "accept-language": "en-US",
@@ -49,7 +49,7 @@ headers = {
     "spotify-app-version": "1.0.0.d5715c5",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51",
     "x-cloud-trace-context": "0000000000000000123d34fd4b219e3a/7064777314035793204;o=1",
-}
+}"""
 
 
 def get_all_artist_ids():
