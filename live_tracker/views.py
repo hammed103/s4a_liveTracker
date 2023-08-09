@@ -21,6 +21,122 @@ class start(APIView):
 
         auth_header = login(driver)
 
+        headers = {
+            "authority": "generic.wg.spotify.com",
+            "accept": "application/json",
+            "accept-language": "en-US",
+            "app-platform": "Browser",
+            "authorization": f"{auth_header}",
+            "content-type": "application/json",
+            "origin": "https://artists.spotify.com",
+            "referer": "https://artists.spotify.com/",
+            "sec-ch-ua": '"Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"',
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"Windows"',
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "spotify-app-version": "1.0.0.d5715c5",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51",
+            "x-cloud-trace-context": "0000000000000000123d34fd4b219e3a/7064777314035793204;o=1",
+        }
+
+        # 1. Authorize the client using the provided JSON key
+        gc = pygsheets.authorize(service_file='my-project-1515950162194-ea018b910e23.json')
+
+        # 2. Open the Google Spreadsheet using its title
+        spreadsheet = gc.open('Competitors')
+
+        # 3. Select a specific worksheet by its title (assuming the name of the sheet is 'Sheet1')
+        worksheet = spreadsheet.worksheet_by_title('11:11')
+
+        # 4. Extract a specific row (for example, the 2nd row)
+        row_values = worksheet.get_row(1)
+
+        ddx = row_values[2:]
+
+        ddx = [i.split(".")[0] for i in ddx ]
+        ddx = [i.strip(" ") for i in ddx]
+        len(ddx)
+
+        dc= pd.DataFrame()
+        # Iterate over the other sheets and merge them with the main dataframe
+        for aid in ddx:
+            print(aid)
+            try:
+                rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
+
+                artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
+            except:
+                try:
+                    sleep(60)
+                    rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
+                    
+                    artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
+                except:
+                    continue
+
+
+
+            params = {
+                "aggregation-level": "recording",
+                "time-filter": "last5years",
+            }
+
+            response = requests.get(
+                f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/streams/{aid}",
+                params=params,
+                headers=headers,
+            )
+
+            if response.text == "":
+                response = [{"date": "", "num": "0"}]
+            else:
+
+                response = response.json()["timelinePoint"]
+
+
+            key_mapping = {"date": "Date", "num": aid}
+
+            # Create a new list of dictionaries with renamed keys
+            response = [
+                {key_mapping.get(key, key): value for key, value in item.items()}
+                for item in response
+            ]
+
+            # Print the updated list of dictionaries
+
+            # Define the keys to convert from string to integer
+            keys_to_convert = [artistName]
+
+            # Convert string values to integers using list comprehension
+            response = [
+                {
+                    key: int(value) if key in keys_to_convert else value
+                    for key, value in item.items()
+                }
+                for item in response
+            ]
+            response.insert(0, {"Date": "Date", aid: artistName})
+            fr = pd.DataFrame(response)
+            if dc.shape == (0,0):
+                dc = fr
+            else:
+                dc = pd.merge(dc, fr, on="Date", how="outer")
+            
+        # Create the "TOTAL AMOUNT" column with SUM formulas
+        last_column_letter = get_column_letter(len(dc.columns))
+        dc["TOTAL AMOUNT"] = [f"=SUM(B{row_num + 2}:{last_column_letter}{row_num + 2})" for row_num in range(len(dc))]
+
+        # Reorder the columns to have "TOTAL AMOUNT" first
+        dc = dc[["TOTAL AMOUNT"] + [col for col in dc if col != "TOTAL AMOUNT"]]
+        dc.iloc[0,0] = "TOTAL AMOUNT"
+        worksheet.clear()
+        # Update the worksheet with the new DataFrame
+        worksheet.set_dataframe(dc, start="A1")
+
+
+
         return Response(
             {
                 "status": "success",
@@ -31,25 +147,7 @@ class start(APIView):
         print("Upload complete")
 
 
-"""headers = {
-    "authority": "generic.wg.spotify.com",
-    "accept": "application/json",
-    "accept-language": "en-US",
-    "app-platform": "Browser",
-    "authorization": f"{auth_header}",
-    "content-type": "application/json",
-    "origin": "https://artists.spotify.com",
-    "referer": "https://artists.spotify.com/",
-    "sec-ch-ua": '"Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"',
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": '"Windows"',
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-site",
-    "spotify-app-version": "1.0.0.d5715c5",
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51",
-    "x-cloud-trace-context": "0000000000000000123d34fd4b219e3a/7064777314035793204;o=1",
-}"""
+
 
 
 def get_all_artist_ids():

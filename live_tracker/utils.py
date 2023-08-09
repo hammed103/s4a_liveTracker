@@ -13,7 +13,9 @@ from time import sleep
 import pandas as pd
 from bs4 import BeautifulSoup
 import pygsheets
-
+import pandas as pd
+import openpyxl
+from openpyxl.utils import get_column_letter
 import pyairtable
 from pyairtable.formulas import match
 from datetime import date
