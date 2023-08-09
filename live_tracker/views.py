@@ -1,20 +1,34 @@
 from live_tracker.utils import *
 from live_tracker.models import Artist, ArtistMetrics
 
-# Create a new instance of ChromeDriver
-driver = wirewebdriver.Chrome(
-    service=service, options=chrome_options, seleniumwire_options=options
-)
 
-# Clear the cache by deleting all cookies
-driver.delete_all_cookies()
+class start(APIView):
+    @staticmethod
+    def get(req):
 
-driver.refresh()
-# Now you can use the `driver` object to interact with the browser and access the requests made
-driver.get("https://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/audience/stats")
-sleep(3)
+        # Create a new instance of ChromeDriver
+        driver = wirewebdriver.Chrome(
+            service=service, options=chrome_options, seleniumwire_options=options
+        )
 
-auth_header = login(driver)
+        # Clear the cache by deleting all cookies
+        driver.delete_all_cookies()
+
+        driver.refresh()
+        # Now you can use the `driver` object to interact with the browser and access the requests made
+        driver.get("https://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/audience/stats")
+        sleep(3)
+
+        auth_header = login(driver)
+
+        return Response(
+            {
+                "status": "success",
+                "data": auth_header
+            },
+            status=201,
+        )
+        print("Upload complete")
 
 
 headers = {
