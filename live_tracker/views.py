@@ -69,7 +69,7 @@ class start(APIView):
                 artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
             except:
                 try:
-                    sleep(60)
+                    sleep(20)
                     rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
                     
                     artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
