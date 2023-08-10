@@ -46,94 +46,95 @@ class start(APIView):
 
         # 2. Open the Google Spreadsheet using its title
         spreadsheet = gc.open('Competitors')
+        for sheet in ['11:11','TAZZY'] :
 
-        # 3. Select a specific worksheet by its title (assuming the name of the sheet is 'Sheet1')
-        worksheet = spreadsheet.worksheet_by_title('11:11')
+            # 3. Select a specific worksheet by its title (assuming the name of the sheet is 'Sheet1')
+            worksheet = spreadsheet.worksheet_by_title(sheet)
 
-        # 4. Extract a specific row (for example, the 2nd row)
-        row_values = worksheet.get_row(1)
+            # 4. Extract a specific row (for example, the 2nd row)
+            row_values = worksheet.get_row(1)
 
-        ddx = row_values[2:]
+            ddx = row_values[2:]
 
-        ddx = [i.split(".")[0] for i in ddx ]
-        ddx = [i.strip(" ") for i in ddx]
-        len(ddx)
+            ddx = [i.split(".")[0] for i in ddx ]
+            ddx = [i.strip(" ") for i in ddx]
+            len(ddx)
 
-        dc= pd.DataFrame()
-        # Iterate over the other sheets and merge them with the main dataframe
-        for aid in ddx:
-            print(aid)
-            try:
-                rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
-
-                artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
-            except:
+            dc= pd.DataFrame()
+            # Iterate over the other sheets and merge them with the main dataframe
+            for aid in ddx:
+                print(aid)
                 try:
-                    sleep(20)
                     rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
-                    
+
                     artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
                 except:
-                    continue
+                    try:
+                        sleep(2)
+                        rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
+                        
+                        artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
+                    except:
+                        continue
 
 
 
-            params = {
-                "aggregation-level": "recording",
-                "time-filter": "last5years",
-            }
-
-            response = requests.get(
-                f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/streams/{aid}",
-                params=params,
-                headers=headers,
-            )
-
-            if response.text == "":
-                response = [{"date": "", "num": "0"}]
-            else:
-
-                response = response.json()["timelinePoint"]
-
-
-            key_mapping = {"date": "Date", "num": aid}
-
-            # Create a new list of dictionaries with renamed keys
-            response = [
-                {key_mapping.get(key, key): value for key, value in item.items()}
-                for item in response
-            ]
-
-            # Print the updated list of dictionaries
-
-            # Define the keys to convert from string to integer
-            keys_to_convert = [artistName]
-
-            # Convert string values to integers using list comprehension
-            response = [
-                {
-                    key: int(value) if key in keys_to_convert else value
-                    for key, value in item.items()
+                params = {
+                    "aggregation-level": "recording",
+                    "time-filter": "last5years",
                 }
-                for item in response
-            ]
-            response.insert(0, {"Date": "Date", aid: artistName})
-            fr = pd.DataFrame(response)
-            if dc.shape == (0,0):
-                dc = fr
-            else:
-                dc = pd.merge(dc, fr, on="Date", how="outer")
-            
-        # Create the "TOTAL AMOUNT" column with SUM formulas
-        last_column_letter = get_column_letter(len(dc.columns))
-        dc["TOTAL AMOUNT"] = [f"=SUM(B{row_num + 2}:{last_column_letter}{row_num + 2})" for row_num in range(len(dc))]
 
-        # Reorder the columns to have "TOTAL AMOUNT" first
-        dc = dc[["TOTAL AMOUNT"] + [col for col in dc if col != "TOTAL AMOUNT"]]
-        dc.iloc[0,0] = "TOTAL AMOUNT"
-        worksheet.clear()
-        # Update the worksheet with the new DataFrame
-        worksheet.set_dataframe(dc, start="A1")
+                response = requests.get(
+                    f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/streams/{aid}",
+                    params=params,
+                    headers=headers,
+                )
+
+                if response.text == "":
+                    response = [{"date": "", "num": "0"}]
+                else:
+
+                    response = response.json()["timelinePoint"]
+
+
+                key_mapping = {"date": "Date", "num": aid}
+
+                # Create a new list of dictionaries with renamed keys
+                response = [
+                    {key_mapping.get(key, key): value for key, value in item.items()}
+                    for item in response
+                ]
+
+                # Print the updated list of dictionaries
+
+                # Define the keys to convert from string to integer
+                keys_to_convert = [artistName]
+
+                # Convert string values to integers using list comprehension
+                response = [
+                    {
+                        key: int(value) if key in keys_to_convert else value
+                        for key, value in item.items()
+                    }
+                    for item in response
+                ]
+                response.insert(0, {"Date": "Date", aid: artistName})
+                fr = pd.DataFrame(response)
+                if dc.shape == (0,0):
+                    dc = fr
+                else:
+                    dc = pd.merge(dc, fr, on="Date", how="outer")
+                
+            # Create the "TOTAL AMOUNT" column with SUM formulas
+            last_column_letter = get_column_letter(len(dc.columns))
+            dc["TOTAL AMOUNT"] = [f"=SUM(C{row_num + 2}:{last_column_letter}{row_num + 2})" for row_num in range(len(dc))]
+
+            # Reorder the columns to have "TOTAL AMOUNT" first
+            dc = dc[["TOTAL AMOUNT"] + [col for col in dc if col != "TOTAL AMOUNT"]]
+            dc.iloc[0,0] = "TOTAL AMOUNT"
+            worksheet.clear()
+            # Update the worksheet with the new DataFrame
+            worksheet.set_dataframe(dc, start="A1")
 
 
 
