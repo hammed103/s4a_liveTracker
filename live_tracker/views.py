@@ -136,6 +136,8 @@ class start(APIView):
             # Update the worksheet with the new DataFrame
             worksheet.set_dataframe(dc, start="A1")
 
+            driver.quit()
+
 
 
         return Response(
