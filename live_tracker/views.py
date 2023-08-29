@@ -83,6 +83,7 @@ class start(APIView):
 
 
                     dt = response.json()
+                    print(dt)
                     print(aid)
                 except:
                     continue
