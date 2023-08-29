@@ -83,7 +83,7 @@ class start(APIView):
 
 
                     dt = response.json()
-                    print(dt)
+
                     print(aid)
                 except:
                     continue
@@ -125,23 +125,23 @@ class start(APIView):
                     fr.columns = pd.MultiIndex.from_tuples(tuples)
                 except:
                     continue
-                dc = pd.concat([dc,fr.iloc[:,1:]],axis=1)
+            dc = pd.concat([dc,fr.iloc[:,1:]],axis=1)
 
-                dc = dc.sort_values((                'Date',                   'Date'),ascending=False)
+            dc = dc.sort_values((                'Date',                   'Date'),ascending=False)
 
-                dc[(           'Day',                   'Day')] = dc[(           'Date',                   'Date')].apply(get_day_of_week)
+            dc[(           'Day',                   'Day')] = dc[(           'Date',                   'Date')].apply(get_day_of_week)
 
-                dc = dc.fillna(0)
+            dc = dc.fillna(0)
 
-                # Assuming you have a DataFrame named 'df'
-                sorted_columns = dc.iloc[2,1:-1].fillna(0).astype(int)
+            # Assuming you have a DataFrame named 'df'
+            sorted_columns = dc.iloc[2,1:-1].fillna(0).astype(int)
 
-                print(sorted_columns)
+            print(sorted_columns)
 
-                barry = dc.iloc[2,1:-1].fillna(0).astype(int).sort_values(ascending =False).index
-                len(list(set(barry)))
-                barry = barry.insert(0,(                'Date',                   'Date'))
-                barry = barry.insert(0,(                'Day',                   'Day'))
+            barry = dc.iloc[2,1:-1].fillna(0).astype(int).sort_values(ascending =False).index
+            len(list(set(barry)))
+            barry = barry.insert(0,(                'Date',                   'Date'))
+            barry = barry.insert(0,(                'Day',                   'Day'))
 
 
             # Create the "TOTAL AMOUNT" column with SUM formulas
