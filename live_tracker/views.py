@@ -22,23 +22,23 @@ class start(APIView):
         auth_header = login(driver)
 
         headers = {
-            "authority": "generic.wg.spotify.com",
-            "accept": "application/json",
-            "accept-language": "en-US",
-            "app-platform": "Browser",
-            "authorization": f"{auth_header}",
-            "content-type": "application/json",
-            "origin": "https://artists.spotify.com",
-            "referer": "https://artists.spotify.com/",
-            "sec-ch-ua": '"Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"',
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": '"Windows"',
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-site",
-            "spotify-app-version": "1.0.0.d5715c5",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51",
-            "x-cloud-trace-context": "0000000000000000123d34fd4b219e3a/7064777314035793204;o=1",
+            'authority': 'generic.wg.spotify.com',
+            'accept': 'application/json',
+            'accept-language': 'en-US',
+            'app-platform': 'Browser',
+            'authorization': f'{auth_header}',
+            'content-type': 'application/json',
+            'grpc-timeout': '10S',
+            'origin': 'https://artists.spotify.com',
+            'referer': 'https://artists.spotify.com/',
+            'sec-ch-ua': '"Not/A)Brand";v="99", "Microsoft Edge";v="115", "Chromium";v="115"',
+            'sec-ch-ua-mobile': '?1',
+            'sec-ch-ua-platform': '"Android"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'spotify-app-version': '1.0.0.4ff711e',
+            'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36 Edg/115.0.1901.203',
         }
 
         # 1. Authorize the client using the provided JSON key
@@ -68,8 +68,8 @@ class start(APIView):
 
 
                 params = {
-                        'from_date': '2022-08-28',
-                        'to_date': '2023-08-27',
+                        'from_date': '2022-08-30',
+                        'to_date': '2023-08-29',
                     }
                 try:
                     rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
