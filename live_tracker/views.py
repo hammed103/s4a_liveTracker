@@ -54,7 +54,7 @@ class start(APIView):
             # 4. Extract a specific row (for example, the 2nd row)
             row_values = worksheet.get_row(2)
 
-            ddx = row_values[2:]
+            ddx = row_values[3:]
 
             ddx = [i.split(".")[0] for i in ddx ]
             ddx = [i.strip(" ") for i in ddx]
@@ -65,15 +65,16 @@ class start(APIView):
             for aid in ddx[:1] :
 
                 
-                rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
 
-                artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
 
                 params = {
                         'from_date': '2022-08-28',
                         'to_date': '2023-08-27',
                     }
                 try:
+                    rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
+
+                    artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
                     response = requests.get(
                         f'https://generic.wg.spotify.com/audience-engagement-view/v1/artist/{aid}/stats',
                         params=params,
