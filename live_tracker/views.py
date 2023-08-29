@@ -127,29 +127,17 @@ class start(APIView):
                     continue
             dc = pd.concat([dc,fr.iloc[:,1:]],axis=1)
 
-            dc = dc.sort_values((                'Date',                   'Date'),ascending=False)
 
-            dc[(           'Day',                   'Day')] = dc[(           'Date',                   'Date')].apply(get_day_of_week)
+            dc["DAY"] = dc["Date"].apply(get_day_of_week)
 
             dc = dc.fillna(0)
-
-            # Assuming you have a DataFrame named 'df'
-            sorted_columns = dc.iloc[2,1:-1].fillna(0).astype(int)
-
-            print(sorted_columns)
-
-            barry = dc.iloc[2,1:-1].fillna(0).astype(int).sort_values(ascending =False).index
-            len(list(set(barry)))
-            barry = barry.insert(0,(                'Date',                   'Date'))
-            barry = barry.insert(0,(                'Day',                   'Day'))
-
 
             # Create the "TOTAL AMOUNT" column with SUM formulas
             last_column_letter = get_column_letter(len(dc.columns))
             dc["TOTAL AMOUNT"] = [f"=SUM(C{row_num + 3}:{last_column_letter}{row_num + 3})" for row_num in range(len(dc))]
 
             # Reorder the columns to have "TOTAL AMOUNT" first
-            dc = dc[["TOTAL AMOUNT"] + [col for col in dc if col != "TOTAL AMOUNT"]]
+            dc = dc[["TOTAL AMOUNT","DAY"] + [col for col in dc if col != "TOTAL AMOUNT" or col != "DAY"]]
             dc.iloc[0,0] = "TOTAL AMOUNT"
             worksheet.clear()
             print(dc)
