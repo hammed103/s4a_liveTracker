@@ -91,10 +91,10 @@ def soup_from_html(html_string):
 def login(driver):
     try:
         username_input = driver.find_element(By.ID, "login-username")
-        username_input.send_keys("hammedfree@gmail.com")
+        username_input.send_keys("x@1111.io")
         sleep(1)
         username_input = driver.find_element(By.ID, "login-password")
-        username_input.send_keys("Hammedbalo2*")
+        username_input.send_keys("Speedbumps123@@_121!")
         sleep(1)
         driver.find_element(By.ID, "login-button").click()
         print("password entered ...")
@@ -163,6 +163,17 @@ def vio(playlist_id):
         "name": playlist_data["name"],
         "total": playlist_data["followers"]["total"],
     }
+
+
+from datetime import datetime
+
+def get_day_of_week(date_string):
+    # Convert the date string to a datetime object
+    date_obj = datetime.strptime(date_string, '%Y-%m-%d')
+    
+    # Return the day of the week
+    days = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"]
+    return days[date_obj.weekday()]
 
 
 def header(auth_header):

@@ -46,13 +46,13 @@ class start(APIView):
 
         # 2. Open the Google Spreadsheet using its title
         spreadsheet = gc.open('Competitors')
-        for sheet in ['11:11','TAZZY'] :
+        for sheet in ['Copy of 11:11'] :
 
             # 3. Select a specific worksheet by its title (assuming the name of the sheet is 'Sheet1')
             worksheet = spreadsheet.worksheet_by_title(sheet)
 
             # 4. Extract a specific row (for example, the 2nd row)
-            row_values = worksheet.get_row(1)
+            row_values = worksheet.get_row(2)
 
             ddx = row_values[2:]
 
@@ -62,81 +62,99 @@ class start(APIView):
 
             dc= pd.DataFrame()
             # Iterate over the other sheets and merge them with the main dataframe
-            for aid in ddx:
-                print(aid)
-                try:
-                    rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
+            for aid in ddx[:1] :
 
-                    artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
-                except:
-                    try:
-                        sleep(2)
-                        rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
-                        
-                        artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
-                    except:
-                        continue
+                
+                rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
 
-
+                artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
 
                 params = {
-                    "aggregation-level": "recording",
-                    "time-filter": "last5years",
-                }
-
-                response = requests.get(
-                    f"https://generic.wg.spotify.com/s4x-insights-api/v1/artist/4YYOTpMoikKdYWWuTWjbqo/audience/timeline/streams/{aid}",
-                    params=params,
-                    headers=headers,
-                )
-
-                if response.text == "":
-                    response = [{"date": "", "num": "0"}]
-                else:
-
-                    response = response.json()["timelinePoint"]
-
-
-                key_mapping = {"date": "Date", "num": aid}
-
-                # Create a new list of dictionaries with renamed keys
-                response = [
-                    {key_mapping.get(key, key): value for key, value in item.items()}
-                    for item in response
-                ]
-
-                # Print the updated list of dictionaries
-
-                # Define the keys to convert from string to integer
-                keys_to_convert = [artistName]
-
-                # Convert string values to integers using list comprehension
-                response = [
-                    {
-                        key: int(value) if key in keys_to_convert else value
-                        for key, value in item.items()
+                        'from_date': '2022-08-28',
+                        'to_date': '2023-08-27',
                     }
-                    for item in response
-                ]
-                response.insert(0, {"Date": "Date", aid: artistName})
-                fr = pd.DataFrame(response)
-                if dc.shape == (0,0):
-                    dc = fr
-                else:
-                    dc = pd.merge(dc, fr, on="Date", how="outer")
+                try:
+                    response = requests.get(
+                        f'https://generic.wg.spotify.com/audience-engagement-view/v1/artist/{aid}/stats',
+                        params=params,
+                        headers=headers,
+                    )
+
+
+                    dt = response.json()
+                    print(aid)
+                except:
+                    continue
+                fr = pd.DataFrame(dt["streams"]["current_period_timeseries"],)
+                try:
+                    header_row = ["Date", artistName, ]
+                    arrays = [header_row, ["Date",aid]]
+                    tuples = list(zip(*arrays))
+                    fr.columns = pd.MultiIndex.from_tuples(tuples)
+                except:
+                    continue
+                dc = pd.concat([dc,fr.iloc[:,:]],axis=1)
                 
+
+            for aid in ddx[1:] :
+                
+                try:
+                    response = requests.get(
+                        f'https://generic.wg.spotify.com/audience-engagement-view/v1/artist/{aid}/stats',
+                        params=params,
+                        headers=headers,
+                    )
+
+
+                    dt = response.json()
+                    fr = pd.DataFrame(dt["streams"]["current_period_timeseries"],)
+                    rff = requests.get(f"https://open.spotify.com/artist/{aid}")
+
+                    artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
+
+                    print(aid)
+
+                except:
+                    continue
+                try:
+                    header_row = ["Date", artistName, ]
+                    arrays = [header_row, ["Date",aid]]
+                    tuples = list(zip(*arrays))
+                    fr.columns = pd.MultiIndex.from_tuples(tuples)
+                except:
+                    continue
+                dc = pd.concat([dc,fr.iloc[:,1:]],axis=1)
+
+                dc = dc.sort_values((                'Date',                   'Date'),ascending=False)
+
+                dc[(           'Day',                   'Day')] = dc[(           'Date',                   'Date')].apply(get_day_of_week)
+
+                dc = dc.fillna(0)
+
+                # Assuming you have a DataFrame named 'df'
+                sorted_columns = dc.iloc[2,1:-1].fillna(0).astype(int)
+
+                print(sorted_columns)
+
+                barry = dc.iloc[2,1:-1].fillna(0).astype(int).sort_values(ascending =False).index
+                len(list(set(barry)))
+                barry = barry.insert(0,(                'Date',                   'Date'))
+                barry = barry.insert(0,(                'Day',                   'Day'))
+
+
             # Create the "TOTAL AMOUNT" column with SUM formulas
             last_column_letter = get_column_letter(len(dc.columns))
-            dc["TOTAL AMOUNT"] = [f"=SUM(C{row_num + 2}:{last_column_letter}{row_num + 2})" for row_num in range(len(dc))]
+            dc["TOTAL AMOUNT"] = [f"=SUM(C{row_num + 3}:{last_column_letter}{row_num + 3})" for row_num in range(len(dc))]
 
             # Reorder the columns to have "TOTAL AMOUNT" first
             dc = dc[["TOTAL AMOUNT"] + [col for col in dc if col != "TOTAL AMOUNT"]]
             dc.iloc[0,0] = "TOTAL AMOUNT"
             worksheet.clear()
+            print(dc)
             # Update the worksheet with the new DataFrame
             worksheet.set_dataframe(dc, start="A1")
 
-            driver.quit()
+        driver.quit()
 
 
 
