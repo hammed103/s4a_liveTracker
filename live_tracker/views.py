@@ -87,6 +87,7 @@ class start(APIView):
                     fr = pd.DataFrame(dt["streams"]["current_period_timeseries"],)
                     print(aid)
                 except:
+                    print(artistName,response.text)
                     continue
 
                 header_row = ["Date", artistName, ]
@@ -101,10 +102,11 @@ class start(APIView):
 
             # Create the "TOTAL AMOUNT" column with SUM formulas
             # Create the "TOTAL AMOUNT" column with SUM formulas
-            last_column_letter = get_column_letter(len(dc.columns))
-            dc["TOTAL AMOUNT"] = [f"=SUM(A{row_num + 2}:{last_column_letter}{row_num + 2})" for row_num in range(len(dc))]
-            dc[('Day', 'Day')] = dc[(           'Date',                   'Dates')].apply(get_day_of_week)
             dc = dc.sort_values((                'Date',                   'Dates'),ascending=False)
+            last_column_letter = get_column_letter(len(dc.columns))
+            dc["TOTAL AMOUNT"] = [f"=SUM(D{row_num + 2}:{last_column_letter}{row_num + 2})" for row_num in range(len(dc))]
+            dc[('Day', 'Day')] = dc[(           'Date',                   'Dates')].apply(get_day_of_week)
+            
             # Reorder the columns to have "TOTAL AMOUNT" first
             dc = dc[[('Day', 'Day')] + [col for col in dc if col != ('Day', 'Day') ]]
             dc = dc[[('TOTAL AMOUNT', '')] + [col for col in dc if col != ('TOTAL AMOUNT', '') ]]
