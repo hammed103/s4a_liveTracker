@@ -18,7 +18,7 @@ import openpyxl
 from openpyxl.utils import get_column_letter
 import pyairtable
 from pyairtable.formulas import match
-from datetime import date
+from datetime import date, timedelta
 from slack_sdk import WebClient
 
 
