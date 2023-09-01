@@ -56,51 +56,24 @@ class start(APIView):
 
             ddx = row_values[3:]
 
-            ddx = [i.split(".")[0] for i in ddx ]
-            ddx = [i.strip(" ") for i in ddx]
-            len(ddx)
+            tod = str(date.today())
+
+            last = str(date.today() - timedelta(364))
+
 
             dc= pd.DataFrame()
             # Iterate over the other sheets and merge them with the main dataframe
-            for aid in ddx[:1] :
-
-                
-
+            for aid in ddx[:]:
 
                 params = {
-                        'from_date': '2022-08-30',
-                        'to_date': '2023-08-29',
+                                        'from_date': f'{last}',
+                                        'to_date': f'{tod}',
                     }
                 try:
                     rff = requests.get(f"https://open.spotify.com/artist/{aid}",headers=headers)
 
                     artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
-                    response = requests.get(
-                        f'https://generic.wg.spotify.com/audience-engagement-view/v1/artist/{aid}/stats',
-                        params=params,
-                        headers=headers,
-                    )
 
-
-                    dt = response.json()
-
-                    print(aid)
-                except:
-                    continue
-                fr = pd.DataFrame(dt["streams"]["current_period_timeseries"],)
-                try:
-                    header_row = ["Date", artistName, ]
-                    arrays = [header_row, ["Date",aid]]
-                    tuples = list(zip(*arrays))
-                    fr.columns = pd.MultiIndex.from_tuples(tuples)
-                except:
-                    continue
-                dc = pd.concat([dc,fr.iloc[:,:]],axis=1)
-                
-
-            for aid in ddx[1:] :
-                
-                try:
                     response = requests.get(
                         f'https://generic.wg.spotify.com/audience-engagement-view/v1/artist/{aid}/stats',
                         params=params,
@@ -110,39 +83,34 @@ class start(APIView):
 
                     dt = response.json()
                     fr = pd.DataFrame(dt["streams"]["current_period_timeseries"],)
-                    rff = requests.get(f"https://open.spotify.com/artist/{aid}")
-
-                    artistName = soup_from_html(rff.text).find("title").text.split("|")[0]
-
                     print(aid)
-
                 except:
                     continue
-                try:
-                    header_row = ["Date", artistName, ]
-                    arrays = [header_row, ["Date",aid]]
-                    tuples = list(zip(*arrays))
-                    fr.columns = pd.MultiIndex.from_tuples(tuples)
-                except:
-                    continue
-            dc = pd.concat([dc,fr.iloc[:,1:]],axis=1)
 
+                header_row = ["Date", artistName, ]
+                arrays = [header_row, ["Dates",aid]]
+                tuples = list(zip(*arrays))
+                fr.columns = pd.MultiIndex.from_tuples(tuples)
 
-            dc["DAY"] = dc["Date"].apply(get_day_of_week)
-
-            dc = dc.fillna(0)
+                if dc.shape == (0,0):
+                    dc = fr
+                else:
+                    dc = pd.merge(dc, fr, on= [('Date','Dates')], how="outer")
 
             # Create the "TOTAL AMOUNT" column with SUM formulas
+            # Create the "TOTAL AMOUNT" column with SUM formulas
             last_column_letter = get_column_letter(len(dc.columns))
-            dc["TOTAL AMOUNT"] = [f"=SUM(C{row_num + 3}:{last_column_letter}{row_num + 3})" for row_num in range(len(dc))]
-
+            dc["TOTAL AMOUNT"] = [f"=SUM(A{row_num + 2}:{last_column_letter}{row_num + 2})" for row_num in range(len(dc))]
+            dc[('Day', 'Day')] = dc[(           'Date',                   'Dates')].apply(get_day_of_week)
             # Reorder the columns to have "TOTAL AMOUNT" first
-            dc = dc[["TOTAL AMOUNT","DAY"] + [col for col in dc if col != "TOTAL AMOUNT" or col != "DAY"]]
+            dc = dc[[('Day', 'Day')] + [col for col in dc if col != ('Day', 'Day') ]]
+            dc = dc[[('TOTAL AMOUNT', '')] + [col for col in dc if col != ('TOTAL AMOUNT', '') ]]
+
             dc.iloc[0,0] = "TOTAL AMOUNT"
             worksheet.clear()
-            print(dc)
             # Update the worksheet with the new DataFrame
             worksheet.set_dataframe(dc, start="A1")
+
 
         driver.quit()
 
