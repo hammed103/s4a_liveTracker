@@ -1,6 +1,6 @@
 from live_tracker.utils import *
 from live_tracker.models import Artist, ArtistMetrics
-
+from datetime import date, timedelta
 
 class start(APIView):
     @staticmethod
