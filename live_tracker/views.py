@@ -60,7 +60,9 @@ class start(APIView):
 
             last = str(date.today() - timedelta(364))
 
+            ddx = [i for i in ddx if i != ""]
 
+            print(len(ddx))
             dc= pd.DataFrame()
             # Iterate over the other sheets and merge them with the main dataframe
             for aid in ddx[:]:
@@ -102,6 +104,7 @@ class start(APIView):
             last_column_letter = get_column_letter(len(dc.columns))
             dc["TOTAL AMOUNT"] = [f"=SUM(A{row_num + 2}:{last_column_letter}{row_num + 2})" for row_num in range(len(dc))]
             dc[('Day', 'Day')] = dc[(           'Date',                   'Dates')].apply(get_day_of_week)
+            dc = dc.sort_values((                'Date',                   'Dates'),ascending=False)
             # Reorder the columns to have "TOTAL AMOUNT" first
             dc = dc[[('Day', 'Day')] + [col for col in dc if col != ('Day', 'Day') ]]
             dc = dc[[('TOTAL AMOUNT', '')] + [col for col in dc if col != ('TOTAL AMOUNT', '') ]]
