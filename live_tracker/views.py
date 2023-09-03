@@ -104,15 +104,15 @@ class start(APIView):
             # Create the "TOTAL AMOUNT" column with SUM formulas
             dc = dc.sort_values((                'Date',                   'Dates'),ascending=False)
             last_column_letter = get_column_letter(len(dc.columns))
-            dc["TOTAL AMOUNT"] = [f"=SUM(D{row_num + 3}:{last_column_letter}{row_num + 3})" for row_num in range(len(dc))]
+            dc[("TOTAL AMOUNT","TOTAL AMOUNT")] = [f"=SUM(D{row_num + 3}:{last_column_letter}{row_num + 3})" for row_num in range(len(dc))]
             dc[('Day', 'Day')] = dc[(           'Date',                   'Dates')].apply(get_day_of_week)
             
             # Reorder the columns to have "TOTAL AMOUNT" first
-            dc = dc[[('TOTAL AMOUNT', '')] + [col for col in dc if col != ('TOTAL AMOUNT', '') ]]
+            dc = dc[[('TOTAL AMOUNT', 'TOTAL AMOUNT')] + [col for col in dc if col != ('TOTAL AMOUNT', 'TOTAL AMOUNT') ]]
             dc = dc[[('Day', 'Day')] + [col for col in dc if col != ('Day', 'Day') ]]
             dc = dc[[('Date', 'Dates')] + [col for col in dc if col != ('Date', 'Dates') ]]
 
-            dc.iloc[0,0] = "TOTAL AMOUNT"
+            #dc.iloc[0,0] = "TOTAL AMOUNT"
             worksheet.clear()
             # Update the worksheet with the new DataFrame
             worksheet.set_dataframe(dc, start="A1")
