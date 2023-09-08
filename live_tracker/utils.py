@@ -94,7 +94,7 @@ def login(driver):
         username_input.send_keys("x@1111.io")
         sleep(1)
         username_input = driver.find_element(By.ID, "login-password")
-        username_input.send_keys("Speedbumps123@@_121!")
+        username_input.send_keys("Speedbumps123@@_121!_!")
         sleep(1)
         driver.find_element(By.ID, "login-button").click()
         print("password entered ...")
