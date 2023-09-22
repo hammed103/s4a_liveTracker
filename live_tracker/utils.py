@@ -452,6 +452,7 @@ def retro(auth_header,ttname,id,driver):
       dt = response.json()
       dt["streams"]
     except:
+      print(dt)
       print("try again")
       auth_header = reload_auth(driver)
       
@@ -620,3 +621,7 @@ def retro(auth_header,ttname,id,driver):
   blow["artist_name"] = f"{ttname}"
   print(ttname)
   return auth_header,blow
+
+
+
+
