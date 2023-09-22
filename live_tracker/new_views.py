@@ -25,8 +25,9 @@ class start(APIView):
 
         print(auth_header)
         basket = []
-        for name,id in [ ( "Dark Ambiental Orchestra","54sRZ8k1rq8Dt83h6LhHey"),("Drill Gates","4anRsJeihT0h3v3YO2q8wQ"),  ( "RAINY JASPER","4rlJtMEpxuem6xZ9DPycFD"),
-                    ("AMBIENT JASPER","3vDFmwP5PXRqcAEd9acoNs")] :
+        for name,id in [ ("HYPERTECHNO","4YYOTpMoikKdYWWuTWjbqo"),( "deadboy","45u4hhyZlr11XAFqO74eTZ"),("SICK LEGEND","3EYY5FwDkHEYLw5V86SAtl"),( "11:11 Music Group","2MDj296KJIfgWDNBtHzeFi"),
+                        ( "90210","4KGcll2G3f04WMGTT19eyz"),
+             ("two punks in love","6pOqcPiFkbjIKUBF86cfuM"),( "Dark Ambiental Orchestra","54sRZ8k1rq8Dt83h6LhHey"),("Drill Gates","4anRsJeihT0h3v3YO2q8wQ")] :
             auth_header,ban = retro(auth_header,name,id,driver)
             basket.append(ban)
 

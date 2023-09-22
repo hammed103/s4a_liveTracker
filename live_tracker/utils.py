@@ -39,7 +39,7 @@ options = {
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run Chrome in headless mode
 #chrome_profile_path = "/Default"
-chrome_options.add_argument("--user-data-dir=Default2")
+chrome_options.add_argument("--user-data-dir=Default")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
@@ -437,7 +437,7 @@ def retro(auth_header,ttname,id,driver):
 
 
   for code, name in countries :
-    print(code)
+    #print(code)
     params = {
         'country': f'{code}',
         'from_date': str(date.today() - timedelta(28)) ,
