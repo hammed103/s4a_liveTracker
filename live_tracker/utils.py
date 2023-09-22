@@ -39,7 +39,7 @@ options = {
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run Chrome in headless mode
 #chrome_profile_path = "/Default"
-chrome_options.add_argument("--user-data-dir=Default2")
+chrome_options.add_argument("--user-data-dir=Default3")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
@@ -93,10 +93,10 @@ def login(driver):
         sleep(1)
         username_input = driver.find_element(By.ID, "login-password")
         username_input.send_keys("Speedbumps123@@_121!_!3")
-        sleep(1)
+        sleep(2)
         driver.find_element(By.ID, "login-button").click()
         print("password entered ...")
-        sleep(11)
+        sleep(8)
     except:
         pass
     # Iterate over the requests made by the browser
