@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-
+import cloudinary
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,7 +32,12 @@ ALLOWED_HOSTS = ["tracker.purpledorm.io",
     "167.99.195.35",
 ]
 
-
+cloudinary.config(
+    cloud_name="dfduoxw3q",
+    api_key="191787125894921",
+    api_secret="ZAwkTmazGqf7Dw5__5J8_lK9MFE",
+    secure=True,
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,6 +88,13 @@ WSGI_APPLICATION = "spotify.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'spotify',
@@ -90,7 +102,7 @@ DATABASES = {
         'PASSWORD': '1111',
         'HOST': '35.202.13.40',  # Typically 'localhost' if running locally
     }
-}
+}"""
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -148,3 +160,10 @@ CORS_ORIGIN_WHITELIST = [
     'http://167.99.195.35:8000',
     'http://tracker.purpledorm.io'
 ]
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": "dfduoxw3q",
+    "API_KEY": "191787125894921",
+    "API_SERET": "ZAwkTmazGqf7Dw5__5J8_lK9MFE",
+}
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"

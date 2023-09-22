@@ -16,10 +16,8 @@ import pygsheets
 import pandas as pd
 import openpyxl
 from openpyxl.utils import get_column_letter
-import pyairtable
-from pyairtable.formulas import match
+
 from datetime import date, timedelta
-from slack_sdk import WebClient
 
 
 # selenium
@@ -94,7 +92,7 @@ def login(driver):
         username_input.send_keys("x@1111.io")
         sleep(1)
         username_input = driver.find_element(By.ID, "login-password")
-        username_input.send_keys("Speedbumps123@@_121!_!")
+        username_input.send_keys("Speedbumps123@@_121!_!3")
         sleep(1)
         driver.find_element(By.ID, "login-button").click()
         print("password entered ...")
@@ -202,8 +200,8 @@ def header(auth_header):
 
 
 art = [
-    ("4JoVRTzdITLFtxPx72MaQ5", "SPED UP DRILL GATES"),
-    ("4anRsJeihT0h3v3YO2q8wQ", "DRILL GATES"),
+    #("4JoVRTzdITLFtxPx72MaQ5", "SPED UP DRILL GATES"),
+   # ("4anRsJeihT0h3v3YO2q8wQ", "DRILL GATES"),
     ("3EYY5FwDkHEYLw5V86SAtl", "SICK LEGEND"),
     ("0aUMVkR8QV0LSdv9VZOATn", "TEKKNO"),
     ("4YYOTpMoikKdYWWuTWjbqo", "HYPERTECHNO"),
@@ -212,201 +210,407 @@ art = [
     ("6pOqcPiFkbjIKUBF86cfuM", "TWO PUNKS IN LOVE"),
     ("4rlJtMEpxuem6xZ9DPycFD", "RAINY JASPER"),
     ("3vDFmwP5PXRqcAEd9acoNs", "AMBIENT JASPER"),
-    ("4KGcll2G3f04WMGTT19eyz", "90210"),
+    #("4KGcll2G3f04WMGTT19eyz", "90210"),
     ("45u4hhyZlr11XAFqO74eTZ", "DEADBOY"),
 ]
 
 # Get today's date
 today = date.today()
 
-api_key = "keyPTU7Oyav6HW5aK"
-base_id = "app4ZilmoeAnakNee"
-table_name = "Competitor"
 
-airtable = pyairtable.Table(api_key, base_id, table_name)
-codes = [
-    "WS",
-    "PG",
-    "TL",
-    "SB",
-    "NR",
-    "KI",
-    "TO",
-    "NZ",
-    "FJ",
-    "VU",
-    "PW",
-    "TV",
-    "AU",
-    "FM",
-    "MH",
-    "MO",
-    "MN",
-    "TW",
-    "JP",
-    "KR",
-    "HK",
-    "VN",
-    "MY",
-    "KH",
-    "LA",
-    "PH",
-    "BN",
-    "SG",
-    "TH",
-    "ID",
-    "BR",
-    "MX",
-    "CR",
-    "SV",
-    "PA",
-    "HN",
-    "BZ",
-    "NI",
-    "GT",
-    "DO",
-    "DM",
-    "KN",
-    "JM",
-    "GY",
-    "BS",
-    "VC",
-    "TT",
-    "GD",
-    "SR",
-    "LC",
-    "AG",
-    "HT",
-    "BB",
-    "CW",
-    "CL",
-    "AR",
-    "UY",
-    "PY",
-    "CO",
-    "EC",
-    "PE",
-    "BO",
-    "VE",
-    "BT",
-    "NP",
-    "IN",
-    "MV",
-    "BD",
-    "LK",
-    "PK",
-    "BF",
-    "LR",
-    "CD",
-    "GN",
-    "SL",
-    "ZW",
-    "UG",
-    "CI",
-    "GM",
-    "SZ",
-    "MZ",
-    "ZA",
-    "BJ",
-    "GW",
-    "TZ",
-    "CM",
-    "MR",
-    "GQ",
-    "TD",
-    "BI",
-    "AO",
-    "RW",
-    "MU",
-    "NA",
-    "GH",
-    "GA",
-    "KE",
-    "SN",
-    "SC",
-    "CV",
-    "ZM",
-    "NE",
-    "BW",
-    "ML",
-    "ST",
-    "KM",
-    "NG",
-    "CG",
-    "LS",
-    "MG",
-    "TG",
-    "ET",
-    "MW",
-    "LY",
-    "MA",
-    "LB",
-    "QA",
-    "KW",
-    "DZ",
-    "OM",
-    "IQ",
-    "DJ",
-    "TN",
-    "JO",
-    "AE",
-    "EG",
-    "PS",
-    "SA",
-    "BH",
-    "CA",
-    "US",
-    "DK",
-    "FI",
-    "IS",
-    "NO",
-    "SE",
-    "PL",
-    "LT",
-    "UA",
-    "BG",
-    "EE",
-    "RO",
-    "SK",
-    "HR",
-    "HU",
-    "ME",
-    "CZ",
-    "SI",
-    "XK",
-    "AL",
-    "MK",
-    "LV",
-    "RS",
-    "BA",
-    "GB",
-    "IE",
-    "ES",
-    "CY",
-    "SM",
-    "IL",
-    "GR",
-    "MT",
-    "AD",
-    "PT",
-    "TR",
-    "IT",
-    "LU",
-    "FR",
-    "MC",
-    "NL",
-    "BE",
-    "DE",
-    "LI",
-    "AT",
-    "CH",
-    "GE",
-    "UZ",
-    "BY",
-    "TJ",
-    "KG",
-    "AM",
-    "KZ",
-    "MD",
-    "AZ",
+import pandas as pd
+countries = [
+    ("","Worldwide"),
+    ("WS", "Samoa"),
+    ("PG", "Papua New Guinea"),
+    ("TL", "Timor-Leste"),
+    ("SB", "Solomon Islands"),
+    ("NR", "Nauru"),
+    ("KI", "Kiribati"),
+    ("TO", "Tonga"),
+    ("NZ", "New Zealand"),
+    ("FJ", "Fiji"),
+    ("VU", "Vanuatu"),
+    ("PW", "Palau"),
+    ("TV", "Tuvalu"),
+    ("AU", "Australia"),
+    ("FM", "Micronesia"),
+    ("MH", "Marshall Islands"),
+    ("MO", "Mongolia"),
+    ("MN", "Mongolia"),
+    ("TW", "Taiwan"),
+    ("JP", "Japan"),
+    ("KR", "South Korea"),
+    ("HK", "Hong Kong"),
+    ("VN", "Vietnam"),
+    ("MY", "Malaysia"),
+    ("KH", "Cambodia"),
+    ("LA", "Laos"),
+    ("PH", "Philippines"),
+    ("BN", "Brunei"),
+    ("SG", "Singapore"),
+    ("TH", "Thailand"),
+    ("ID", "Indonesia"),
+    ("BR", "Brazil"),
+    ("MX", "Mexico"),
+    ("CR", "Costa Rica"),
+    ("SV", "El Salvador"),
+    ("PA", "Panama"),
+    ("HN", "Honduras"),
+    ("BZ", "Belize"),
+    ("NI", "Nicaragua"),
+    ("GT", "Guatemala"),
+    ("DO", "Dominican Republic"),
+    ("DM", "Dominica"),
+    ("KN", "Saint Kitts and Nevis"),
+    ("JM", "Jamaica"),
+    ("GY", "Guyana"),
+    ("BS", "Bahamas"),
+    ("VC", "Saint Vincent and the Grenadines"),
+    ("TT", "Trinidad and Tobago"),
+    ("GD", "Grenada"),
+    ("SR", "Suriname"),
+    ("LC", "Saint Lucia"),
+    ("AG", "Antigua and Barbuda"),
+    ("HT", "Haiti"),
+    ("BB", "Barbados"),
+    ("CW", "Curacao"),
+    ("CL", "Chile"),
+    ("AR", "Argentina"),
+    ("UY", "Uruguay"),
+    ("PY", "Paraguay"),
+    ("CO", "Colombia"),
+    ("EC", "Ecuador"),
+    ("PE", "Peru"),
+    ("BO", "Bolivia"),
+    ("VE", "Venezuela"),
+    ("BT", "Bhutan"),
+    ("NP", "Nepal"),
+    ("IN", "India"),
+    ("MV", "Maldives"),
+    ("BD", "Bangladesh"),
+    ("LK", "Sri Lanka"),
+    ("PK", "Pakistan"),
+    ("BF", "Burkina Faso"),
+    ("LR", "Liberia"),
+    ("CD", "Democratic Republic of the Congo"),
+    ("GN", "Guinea"),
+    ("SL", "Sierra Leone"),
+    ("ZW", "Zimbabwe"),
+    ("UG", "Uganda"),
+    ("CI", "Ivory Coast"),
+    ("GM", "Gambia"),
+    ("SZ", "Eswatini"),
+    ("MZ", "Mozambique"),
+    ("ZA", "South Africa"),
+    ("BJ", "Benin"),
+    ("GW", "Guinea-Bissau"),
+    ("TZ", "Tanzania"),
+    ("CM", "Cameroon"),
+    ("MR", "Mauritania"),
+    ("GQ", "Equatorial Guinea"),
+    ("TD", "Chad"),
+    ("BI", "Burundi"),
+    ("AO", "Angola"),
+    ("RW", "Rwanda"),
+    ("MU", "Mauritius"),
+    ("NA", "Namibia"),
+    ("GH", "Ghana"),
+    ("GA", "Gabon"),
+    ("KE", "Kenya"),
+    ("SN", "Senegal"),
+    ("SC", "Seychelles"),
+    ("CV", "Cape Verde"),
+    ("ZM", "Zambia"),
+    ("NE", "Niger"),
+    ("BW", "Botswana"),
+    ("ML", "Mali"),
+    ("ST", "Sao Tome and Principe"),
+    ("KM", "Comoros"),
+    ("NG", "Nigeria"),
+    ("CG", "Republic of the Congo"),
+    ("LS", "Lesotho"),
+    ("MG", "Madagascar"),
+    ("TG", "Togo"),
+    ("ET", "Ethiopia"),
+    ("MW", "Malawi"),
+    ("LY", "Libya"),
+    ("MA", "Morocco"),
+    ("LB", "Lebanon"),
+    ("QA", "Qatar"),
+    ("KW", "Kuwait"),
+    ("DZ", "Algeria"),
+    ("OM", "Oman"),
+    ("IQ", "Iraq"),
+    ("DJ", "Djibouti"),
+    ("TN", "Tunisia"),
+    ("JO", "Jordan"),
+    ("AE", "United Arab Emirates"),
+    ("EG", "Egypt"),
+    ("PS", "Palestine"),
+    ("SA", "Saudi Arabia"),
+    ("BH", "Bahrain"),
+    ("CA", "Canada"),
+    ("US", "United States"),
+    ("DK", "Denmark"),
+    ("FI", "Finland"),
+    ("IS", "Iceland"),
+    ("NO", "Norway"),
+    ("SE", "Sweden"),
+    ("PL", "Poland"),
+    ("LT", "Lithuania"),
+    ("UA", "Ukraine"),
+    ("BG", "Bulgaria"),
+    ("EE", "Estonia"),
+    ("RO", "Romania"),
+    ("SK", "Slovakia"),
+    ("HR", "Croatia"),
+    ("HU", "Hungary"),
+    ("ME", "Montenegro"),
+    ("CZ", "Czech Republic"),
+    ("SI", "Slovenia"),
+    ("XK", "Kosovo"),
+    ("AL", "Albania"),
+    ("MK", "North Macedonia"),
+    ("LV", "Latvia"),
+    ("RS", "Serbia"),
+    ("BA", "Bosnia and Herzegovina"),
+    ("GB", "United Kingdom"),
+    ("IE", "Ireland"),
+    ("ES", "Spain"),
+    ("CY", "Cyprus"),
+    ("SM", "San Marino"),
+    ("IL", "Israel"),
+    ("GR", "Greece"),
+    ("MT", "Malta"),
+    ("AD", "Andorra"),
+    ("PT", "Portugal"),
+    ("TR", "Turkey"),
+    ("IT", "Italy"),
+    ("LU", "Luxembourg"),
+    ("FR", "France"),
+    ("MC", "Monaco"),
+    ("NL", "Netherlands"),
+    ("BE", "Belgium"),
+    ("DE", "Germany"),
+    ("LI", "Liechtenstein"),
+    ("AT", "Austria"),
+    ("CH", "Switzerland"),
+    ("GE", "Georgia"),
+    ("UZ", "Uzbekistan"),
+    ("BY", "Belarus"),
+    ("TJ", "Tajikistan"),
+    ("KG", "Kyrgyzstan"),
+    ("AM", "Armenia"),
+    ("KZ", "Kazakhstan"),
+    ("MD", "Moldova"),
+    ("AZ", "Azerbaijan")
 ]
+
+
+
+
+def retro(auth_header,ttname,id,driver):
+
+  canalz = []
+
+  headers = {
+      'authority': 'generic.wg.spotify.com',
+      'accept': 'application/json',
+      'accept-language': 'en-US',
+      'app-platform': 'Browser',
+      'authorization': f'{auth_header}',
+      'content-type': 'application/json',
+      'grpc-timeout': '10S',
+      'origin': 'https://artists.spotify.com',
+      'referer': 'https://artists.spotify.com/',
+      'sec-fetch-dest': 'empty',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-site': 'same-site',
+      'spotify-app-version': '1.0.0.9ac0ee2',
+      'user-agent': 'Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.188 Safari/537.36 CrKey/1.54.250320 Edg/115.0.0.0',
+  }
+
+
+
+  for code, name in countries :
+    params = {
+        'country': f'{code}',
+        'from_date': str(date.today() - timedelta(28)) ,
+        'to_date': str(date.today() ),
+    }
+    try:
+
+      response = requests.get(
+      f'https://generic.wg.spotify.com/audience-engagement-view/v1/artist/{id}/stats',
+      params=params,
+      headers=headers,
+      )
+      dt = response.json()
+    except:
+      auth_header = reload_auth(driver)
+      headers = {
+      'authority': 'generic.wg.spotify.com',
+      'accept': 'application/json',
+      'accept-language': 'en-US',
+      'app-platform': 'Browser',
+      'authorization': f'{auth_header}',
+      'content-type': 'application/json',
+      'origin': 'https://artists.spotify.com',
+      'referer': 'https://artists.spotify.com/',
+      'sec-fetch-dest': 'empty',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-site': 'same-site',
+      'spotify-app-version': '1.0.0.9ac0ee2',
+      'user-agent': 'Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.188 Safari/537.36 CrKey/1.54.250320 Edg/115.0.0.0',
+        }
+
+      response = requests.get(
+      f'https://generic.wg.spotify.com/audience-engagement-view/v1/artist/{id}/stats',
+      params=params,
+      headers=headers,
+      )
+      dt = response.json()
+    #print(dt)
+    stre = pd.DataFrame(dt["streams"]["current_period_timeseries"],)
+
+    #return stre
+    try:
+      stre.columns = ["Date","Streams"]
+    except:
+      continue
+
+
+    lst = pd.DataFrame(dt["listeners"]["current_period_timeseries"],)
+
+    lst.columns = ["Date","listeners"]
+
+
+    stre_lst = pd.DataFrame(dt["streams_per_listener"]["current_period_timeseries"],)
+    try:
+      stre_lst.columns = ["Date","streams_per_listener"]
+    except:
+      stre["streams_per_listener"] = 0
+
+
+    play = pd.DataFrame(dt["playlist_adds"]["current_period_timeseries"],)
+    try:
+      play.columns = ["Date","playlist_adds"]
+    except:
+      stre["playlist_adds"] = 0
+
+
+    save = pd.DataFrame(dt["saves"]["current_period_timeseries"],)
+    try:
+      save.columns = ["Date","saves"]
+    except:
+      stre["saves"] = 0
+
+    followers = pd.DataFrame(dt["followers"]["current_period_timeseries"],)
+    try:
+      followers.columns = ["Date","followers"]
+    except:
+      stre["followers"] = 0
+
+
+    # Combine DataFrames using the 'Date' column
+    merged_df = pd.merge(stre, lst, on='Date', how='outer')
+    try:
+      merged_df = pd.merge(merged_df, stre_lst, on='Date', how='outer')
+    except:
+      pass
+    try:
+      merged_df = pd.merge(merged_df, play, on='Date', how='outer')
+    except:
+      pass
+    try:
+      merged_df = pd.merge(merged_df, save, on='Date', how='outer')
+    except:
+      pass
+
+    try:
+      merged_df = pd.merge(merged_df, followers, on='Date', how='outer')
+    except:
+      pass
+    merged_df["country"] = name
+
+
+    canalz.append(merged_df)
+
+
+
+  baller = pd.concat(canalz)
+  print(baller.shape)
+
+  bind = []
+  headers = {
+      'authority': 'generic.wg.spotify.com',
+      'accept': 'application/json',
+      'accept-language': 'en-US',
+      'app-platform': 'Browser',
+      'authorization': f'{auth_header}',
+      'content-type': 'application/json',
+      'origin': 'https://artists.spotify.com',
+      'referer': 'https://artists.spotify.com/',
+      'sec-fetch-dest': 'empty',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-site': 'same-site',
+      'spotify-app-version': '1.0.0.9ac0ee2',
+      'user-agent': 'Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.188 Safari/537.36 CrKey/1.54.250320 Edg/115.0.0.0',
+  }
+  for cd,name in countries:
+    params = {
+        'country': f'{cd}',
+    }
+
+    response = requests.get(
+        f'https://generic.wg.spotify.com/fanatic-audience-segments/v0/artist/{id}/segments',
+        params=params,
+        headers=headers,
+    )
+
+    if response.text == "Token expired":
+       auth_header = reload_auth(driver)
+       headers = {
+        'authority': 'generic.wg.spotify.com',
+        'accept': 'application/json',
+        'accept-language': 'en-US',
+        'app-platform': 'Browser',
+        'authorization': f'{auth_header}',
+        'content-type': 'application/json',
+        'origin': 'https://artists.spotify.com',
+        'referer': 'https://artists.spotify.com/',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-site',
+        'spotify-app-version': '1.0.0.9ac0ee2',
+        'user-agent': 'Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.188 Safari/537.36 CrKey/1.54.250320 Edg/115.0.0.0',
+            }
+       response = requests.get(
+            f'https://generic.wg.spotify.com/fanatic-audience-segments/v0/artist/{id}/segments',
+            params=params,
+            headers=headers,
+        )
+
+    moot = pd.DataFrame(response.json()["segmentCountsTimeline"])
+
+    moot["country"] = name
+
+    bind.append(moot)
+
+  brood = pd.concat(bind)
+  brood = brood.sort_values('date')
+  brood = brood.rename(columns ={"date":"Date"})
+  blow = pd.merge(brood, baller, on=['Date','country'], how='outer')
+
+  blow["active"]
+  expanded_blow = pd.json_normalize(blow['active'])
+  blow = pd.concat([blow.drop('active', axis=1), expanded_blow], axis=1)
+  print(blow)
+
+  blow = blow.rename(columns = {'total':"total_active_audience"})
+  blow.head()
+  blow["artist_id"] = f"{id}"
+  blow["artist_name"] = f"{ttname}"
+  print("asfejrty")
+  return blow
