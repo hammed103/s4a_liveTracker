@@ -17,8 +17,8 @@ class start(APIView):
 
         driver.refresh()
         # Now you can use the `driver` object to interact with the browser and access the requests made
-        driver.get("https://artists.spotify.com/c/artist/4YYOTpMoikKdYWWuTWjbqo/audience/stats")
-        sleep(3)
+        driver.get("https://artists.spotify.com/c/artist/66HmkiTooisb91GPkIdVYC/audience/segments")
+        sleep(5)
 
         auth_header = login(driver)
 
