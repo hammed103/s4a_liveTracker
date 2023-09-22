@@ -97,7 +97,7 @@ def login(driver):
         driver.find_element(By.ID, "login-button").click()
         print("password entered ...")
         sleep(8)
-        print(driver.page_source)
+
     except:
         pass
     # Iterate over the requests made by the browser
@@ -450,7 +450,9 @@ def retro(auth_header,ttname,id,driver):
       headers=headers,
       )
       dt = response.json()
+      dt["streams"]
     except:
+      print("try again")
       auth_header = reload_auth(driver)
       headers = {
       'authority': 'generic.wg.spotify.com',
@@ -609,11 +611,11 @@ def retro(auth_header,ttname,id,driver):
   blow["active"]
   expanded_blow = pd.json_normalize(blow['active'])
   blow = pd.concat([blow.drop('active', axis=1), expanded_blow], axis=1)
-  print(blow)
+  #print(blow)
 
   blow = blow.rename(columns = {'total':"total_active_audience"})
   blow.head()
   blow["artist_id"] = f"{id}"
   blow["artist_name"] = f"{ttname}"
-  print("asfejrty")
+  print(ttname)
   return blow
