@@ -105,7 +105,7 @@ def login(driver):
     for request in driver.requests:
         
         if request.headers:
-            print("l")
+            #print("l")
             if "authorization" in request.headers:
                 auth_header = request.headers["Authorization"]
                 if auth_header != "":
@@ -414,7 +414,7 @@ countries = [
 
 
 def retro(auth_header,ttname,id,driver):
-
+  
   canalz = []
 
   headers = {
@@ -454,6 +454,7 @@ def retro(auth_header,ttname,id,driver):
     except:
       print("try again")
       auth_header = reload_auth(driver)
+      
       headers = {
       'authority': 'generic.wg.spotify.com',
       'accept': 'application/json',
@@ -618,4 +619,4 @@ def retro(auth_header,ttname,id,driver):
   blow["artist_id"] = f"{id}"
   blow["artist_name"] = f"{ttname}"
   print(ttname)
-  return blow
+  return auth_header,blow
