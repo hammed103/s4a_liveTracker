@@ -97,12 +97,15 @@ def login(driver):
         driver.find_element(By.ID, "login-button").click()
         print("password entered ...")
         sleep(8)
+        print(driver.page_source)
     except:
         pass
     # Iterate over the requests made by the browser
     sleep(8)
     for request in driver.requests:
+        
         if request.headers:
+            print("l")
             if "authorization" in request.headers:
                 auth_header = request.headers["Authorization"]
                 if auth_header != "":
