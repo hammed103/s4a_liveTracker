@@ -437,6 +437,7 @@ def retro(auth_header,ttname,id,driver):
 
 
   for code, name in countries :
+    print(code)
     params = {
         'country': f'{code}',
         'from_date': str(date.today() - timedelta(28)) ,
