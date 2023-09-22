@@ -100,7 +100,7 @@ def login(driver):
     except:
         pass
     # Iterate over the requests made by the browser
-    sleep(3)
+    sleep(8)
     for request in driver.requests:
         if request.headers:
             if "authorization" in request.headers:
