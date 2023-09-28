@@ -113,7 +113,7 @@ def login(driver):
     try:
       print("Authorization Header:", auth_header)
     except:
-       auth_header = "Bearer BQAf39X_0UVyDyxemOJtj3TbYEslTw3ud6uPg8z4JUNUuH5XXZ3-8-HX9XOrHikpI2sK4FYzdP5vLJZXpLJ5Ps3uVfLbrMJFnHiL-WNAhY8tlcikZdMnqgNqIbK4X3NTkx4pOQSWCk9aBHm_sElk3q0jnFtIoffq-8OLC8rH6LYVS0Mf8ebKuhdvSZeyPsQldyujazAR3ym15vRP2dzCpT6B"
+       auth_header = "Bearer BQDG0GrbIpe0uU8CXCydePos_5OL7pE4c--UVENB6mqSiH34oLTQaNlxN5_yoxhWEwiB2NdS7cdj9ZrIe4cmJ6XZCW9bFlo3K6PHMV76anXmjYQNQdKraW_LTAgvErKyGMEIdVJKcXjD4hxeRyzBN6cd0FCco2dqTyQHUc4LY4KKCDbDnoeZNRJz2bmVpXJJDRA8NrxPqXMDADdzOQa_957c"
 
     return auth_header
 
