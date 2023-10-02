@@ -175,11 +175,11 @@ class youtube(APIView):
 
         # Iterate through keywords and time filters
         results = []
-        for keyword in keywords:
+        for keyword in keywords[:1]:
             print(keyword)
-            for country_code in country_codes:
+            for country_code in country_codes[:1]:
                 print(country_code)
-                for time_filter in time_filters:
+                for time_filter in time_filters[:1]:
                     print(time_filter)
                     for i in range(len(API_KEYS)):
                         try:
