@@ -628,3 +628,225 @@ def retro(auth_header,ttname,id,driver):
 
 
 
+
+
+
+import re
+
+def lapdog(webpage_text):
+    # Define a regular expression pattern to extract video sections between the first occurrence of videoLockup and the next
+    video_section_pattern = r'videoLockup":{"compactVideoRenderer":(.*?)(?=\},\{"videoLockup":"|$)'
+
+    # Define the pattern to find occurrences of "videoLockup":{"compactVideoRenderer":
+    pattern = r'(?="videoLockup":{"compactVideoRenderer":)'
+
+    # Split the text using the pattern
+    video_sections = re.split(pattern, webpage_text)
+
+    # Initialize lists to store the extracted information
+    results = {}
+
+    # Define regular expressions to extract the relevant information within each video section
+    title_pattern = r'"title":{"simpleText":"([^"]+)"'
+    artist_pattern = r'"ARTIST"},"defaultMetadata":{"simpleText":"([^"]+)"'
+    album_pattern = r'"ALBUM"},"defaultMetadata":{"simpleText":"([^"]+)"'
+    licenses_pattern = r'"LICENSES"},"expandedMetadata":{"simpleText":"([^"]+)"'
+
+    # Iterate through each video section and extract the information
+    for i, video_section in enumerate(video_sections[1:], start=1):
+        title_match = re.search(title_pattern, video_section)
+
+        if title_match.group(1) == "ARTIST":
+            title_match = re.search(r'"title":{"runs":\[\{"text":"([^"]+)"', video_section)
+
+        artist_match = re.search(artist_pattern, video_section)
+        if not artist_match :
+          artist_pattern = r'"ARTIST"},"defaultMetadata":{"runs":\[\{"text":"([^"]+)"'
+          artist_match = re.search(artist_pattern, video_section)
+
+        album_match = re.search(album_pattern, video_section)
+        licenses_match = re.search(licenses_pattern, video_section)
+
+        # Extract the information if found and add to the results dictionary
+        results[f'song{i}'] = title_match.group(1) if title_match else None
+        results[f'artist{i}'] = artist_match.group(1) if artist_match else None
+        results[f'album{i}'] = album_match.group(1) if album_match else None
+        results[f'licenses{i}'] = licenses_match.group(1) if licenses_match else None
+
+    return results
+
+###########################
+import datetime
+from googleapiclient.discovery import build
+
+
+
+
+def search_videos(API_KEY,keyword, max_duration, time_filter,COUNTRY_CODE):
+    youtube = build('youtube', 'v3', developerKey=API_KEY)
+
+    search_response = youtube.search().list(
+        q=keyword,
+        type='video',
+        order='viewCount',  # Sort by view count
+        videoDuration='short',
+        videoDefinition='high',
+        publishedAfter=time_filter[0].isoformat() + 'T00:00:00Z',
+        maxResults=100,
+        regionCode=COUNTRY_CODE,  # Add the country code
+        part='id'
+    ).execute()
+
+    video_ids = [search_result['id']['videoId'] for search_result in search_response.get('items', [])]
+
+    videos = []
+
+    for video_id in video_ids:
+        video_response = youtube.videos().list(
+            part='snippet,contentDetails,statistics',
+            id=video_id
+        ).execute()
+
+        video_info = video_response['items'][0]
+        video_title = video_info['snippet']['title']
+        channel_title = video_info['snippet']['channelTitle']
+        video_url = f'https://www.youtube.com/watch?v={video_id}'
+        channel_url = f'https://www.youtube.com/channel/{video_info["snippet"]["channelId"]}'
+        view_count = video_info['statistics']['viewCount']
+        try:
+          like_count = video_info['statistics']['likeCount']
+        except:
+          like_count = 0
+        publish_date = video_info['snippet']['publishedAt']
+
+        videos.append({
+            'video_title': video_title,
+            'channel_title': channel_title,
+            'video_url': video_url,
+            'channel_url': channel_url,
+            'view_count': view_count,
+            'like_count': like_count,
+            'publish_date': publish_date
+        })
+
+    return videos
+
+
+
+
+
+def get_date_range(time_range):
+    today = datetime.date.today()
+
+    if time_range == "last30days":
+        start_date = today - datetime.timedelta(days=30)
+    elif time_range == "last7days":
+        start_date = today - datetime.timedelta(days=7)
+    elif time_range == "last24hrs":
+        start_date = today - datetime.timedelta(hours=24)
+    else:
+        # Default to "last30days" if an invalid time_range is provided
+        start_date = today - datetime.timedelta(days=30)
+
+    return start_date, today
+
+
+
+import requests
+import re
+import datetime
+import pandas as pd
+
+def search_and_extract_info(API_KEY,keyword, max_duration, time_filterz,COUNTRY_CODE):
+    time_filter = get_date_range(time_filterz)
+    # Perform video search (Replace with your actual search function)
+    videos = search_videos(API_KEY,keyword, max_duration, time_filter,COUNTRY_CODE)
+
+    data = []
+
+    for video in videos:
+        ll = requests.get(video['video_url'])
+        webpage_text = ll.text
+
+        # Define regular expressions to extract the relevant information
+        song_pattern = r'"title":{"simpleText":"SONG"},"defaultMetadata":{"runs":\[{"text":"([^"]+)"'
+        artist_pattern = r'"title":{"simpleText":"ARTIST"},"defaultMetadata":{"runs":\[{"text":"([^"]+)"'
+        album_pattern = r'"title":{"simpleText":"ALBUM"},"defaultMetadata":{"simpleText":"([^"]+)"'
+        licenses_pattern = r'"title":{"simpleText":"LICENSES"},"expandedMetadata":{"simpleText":"([^"]+)"'
+        den = lapdog(webpage_text)
+        if den:
+            song = den.get('song1')
+            artist = den.get('artist1')
+            album = den.get('album1')
+            licenses = den.get('licenses1')
+
+            # Extract information for the second iteration (if available)
+            try:
+                song2 = den.get('song2')
+                artist2 = den.get('artist2')
+                album2 = den.get('album2')
+                licenses2 = den.get('licenses2')
+            except KeyError:
+                song2 = artist2 = album2 = licenses2 = None
+
+            # Extract information for the third iteration (if available)
+            try:
+                song3 = den.get('song3')
+                artist3 = den.get('artist3')
+                album3 = den.get('album3')
+                licenses3 = den.get('licenses3')
+            except KeyError:
+                song3 = artist3 = album3 = licenses3 = None
+
+        else :
+            song3 = artist3 = album3 = licenses3 = None
+            song2 = artist2 = album2 = licenses2 = None
+            # Use regular expressions to find and extract the information
+            song_match = re.search(song_pattern, webpage_text)
+            if not song_match:
+                song_pattern = r'"title":{"simpleText":"SONG"},"defaultMetadata":{"simpleText":"([^"]+)"'
+                song_match = re.search(song_pattern, webpage_text)
+
+            artist_match = re.search(artist_pattern, webpage_text)
+            if not artist_match:
+                artist_pattern = r'"title":{"simpleText":"ARTIST"},"defaultMetadata":{"simpleText":"([^"]+)"'
+                artist_match = re.search(artist_pattern, webpage_text)
+            album_match = re.search(album_pattern, webpage_text)
+            licenses_match = re.search(licenses_pattern, webpage_text)
+
+            # Extract the information if found
+            song = song_match.group(1) if song_match else None
+            artist = artist_match.group(1) if artist_match else None
+            album = album_match.group(1) if album_match else None
+            licenses = licenses_match.group(1) if licenses_match else None
+
+        # Append the extracted information to the data list
+        data.append({
+            'Video Title': video['video_title'],
+            'Channel Title': video['channel_title'],
+            'Video URL': video['video_url'],
+            'SONG': song,
+            'ARTIST': artist,
+            'ALBUM': album,
+            'LICENSES': licenses,
+            'SONG2': song2,
+            'ARTIST2': artist2,
+            'ALBUM2': album2,
+            'LICENSES2': licenses2,
+            'Channel URL': video['channel_url'],
+            'View Count': video['view_count'],
+            'Like Count': video['like_count'],
+            'Publish Date': video['publish_date']
+        })
+
+    # Create a Pandas DataFrame from the extracted data
+    df = pd.DataFrame(data)
+    df = df.reset_index()
+    df["tag"] = keyword
+    df["country"] = COUNTRY_CODE
+    df["Date"] = time_filter[0]
+    df["Date_Range"] = time_filterz
+
+    return df
+
+
