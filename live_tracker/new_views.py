@@ -57,6 +57,14 @@ class start(APIView):
         )
             
 
+        return Response(
+            {
+                "status": "success",
+            },
+            status=201,
+        )
+        print("Upload complete")
+
 
 class youtube(APIView):
     @staticmethod
@@ -199,7 +207,7 @@ class youtube(APIView):
  
         date_str = str(date.today())
         file_name = f"youtube/{date_str}_a.csv"
-
+        final_result = final_result.iloc[:,1:]
         csv_content = final_result.to_csv(index=False, quoting=csv.QUOTE_ALL, sep="|")
         result = cloudinary.uploader.upload(
         StringIO(csv_content),
@@ -210,3 +218,10 @@ class youtube(APIView):
         )
 # Now, final_result contains the combined results for all combinations of keywords and time filters.
 
+        return Response(
+            {
+                "status": "success",
+            },
+            status=201,
+        )
+        print("Upload complete")
