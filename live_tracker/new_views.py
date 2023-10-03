@@ -181,30 +181,34 @@ class youtube(APIView):
         "last30days","last7days","last24hrs"
         ]
         country_codes = [
-            "DE", "GB", "US", "NL", "FR", "AU", "BR", "PL", "SE", "AT","IN", "CA","TR","CH","NO", "ID","MX","NZ", "BE","IE", "IT","PT", "ES", "DK"
+            "DE", "GB", "US", "NL", "FR", "AU", "BR", "PL", "SE", "AT","IN", "CA"
         ]
 
 
 
         # Iterate through keywords and time filters
         results = []
-        for keyword in keywords[:5]:
-            print(keyword)
-            for country_code in country_codes:
-                print(country_code)
-                for time_filter in time_filters:
-                    print(time_filter)
-                    for i in range(len(API_KEYS)):
-                        try:
-                            result_df = search_and_extract_info(API_KEYS[i], keyword, max_duration, time_filter, country_code)
-                            results.append(result_df)
-                            break  # If successful, break out of the retry loop
-                        except Exception as e:
-                            print(f"API Key {i+1} failed with error: {str(e)}")
-                            if i == len(API_KEYS) -1:
-                                raise Exception("All API keys failed. Unable to retrieve data.")  # Raise an error if all tries fail
-                            continue  # Try the next API key
-            
+        try:
+            for keyword in keywords:
+                print(keyword)
+                for country_code in country_codes:
+                    print(country_code)
+                    for time_filter in time_filters:
+                        print(time_filter)
+                        for i in range(len(API_KEYS)):
+                            try:
+                                result_df = search_and_extract_info(API_KEYS[i], keyword, max_duration, time_filter, country_code)
+                                results.append(result_df)
+                                break  # If successful, break out of the retry loop
+                            except Exception as e:
+                                print(f"API Key {i+1} failed with error: {str(e)}")
+                                if i == len(API_KEYS) -1:
+                                    raise Exception("All API keys failed for this combination. Moving to next combination.")  # Raise an error if all tries fail
+                                continue  # Try the next API key
+        except Exception as outer_e:
+            print(f"Error during the iteration: {str(outer_e)}")
+
+
 
         # Concatenate the DataFrames for each combination of keyword, country code, and time filter
         final_result = pd.concat(results, ignore_index=True)
