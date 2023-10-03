@@ -121,23 +121,28 @@ class youtube(APIView):
         print(f"Country Name for '{country_code}': {country_name}")
 
         API_KEYS = ['AIzaSyACizvrGekWinFmDxDwDIPzQXmaGcFksyY',
-        'AIzaSyAsCTltn26rBbdxgmQfjnKTC10JIDm4D3M',
-        'AIzaSyD3Fgh46t4PbTGJDhFCUl5z6CunOdY-7rI',
-        'AIzaSyDuELsjFdWHFKneMJJbFWK66qER5oauH_g',
-        'AIzaSyCaZOqEp5zFkT5yotp4Y5HdNC3Nj_cv7Uo',
-        'AIzaSyAGhD50OAGxkGo1u4CWPUzKr47cAnGNJ8U',
-        'AIzaSyB3-bLwTfA9KnK3cjAcmqLUZqZG9gQoUUU',
-        'AIzaSyDhu6s9kpQWqaaBBLfFFz0svxg_XOm4N_A',
-        'AIzaSyBOrS89w8KbwNBKlgsQtEqkW5T5xtlwyhc',
-        'AIzaSyCxb0O2TySWmqUDYwJijC3saaNNZRmLcoI',
-        'AIzaSyBvFKe4b6igEnRhyP6-sZmsA_WdfxzNUBc',
-        'AIzaSyAV2FGgubcpeK_Edgbxo3gbQQVVS3ns2HM',
-        'AIzaSyAfQgBOf36zUrx05rDI4f58XfcJaPnDTBU',
-        'AIzaSyDxx5LA1Zrmr0QAexG7Ofc8cP74b77iXJ8',
-        'AIzaSyC1h3O-4ZUW81MTXimaXcJw_vxjht_7dxs',
-        'AIzaSyDX8ugQezm24U2iS5Visy_-gm7swrk1dDY'
-         ]
-
+            'AIzaSyAsCTltn26rBbdxgmQfjnKTC10JIDm4D3M',
+            'AIzaSyD3Fgh46t4PbTGJDhFCUl5z6CunOdY-7rI',
+            'AIzaSyDuELsjFdWHFKneMJJbFWK66qER5oauH_g',
+            'AIzaSyCaZOqEp5zFkT5yotp4Y5HdNC3Nj_cv7Uo',
+            'AIzaSyAGhD50OAGxkGo1u4CWPUzKr47cAnGNJ8U',
+            'AIzaSyB3-bLwTfA9KnK3cjAcmqLUZqZG9gQoUUU',
+            'AIzaSyDhu6s9kpQWqaaBBLfFFz0svxg_XOm4N_A',
+            'AIzaSyBOrS89w8KbwNBKlgsQtEqkW5T5xtlwyhc',
+            'AIzaSyCxb0O2TySWmqUDYwJijC3saaNNZRmLcoI',
+            'AIzaSyBvFKe4b6igEnRhyP6-sZmsA_WdfxzNUBc',
+            'AIzaSyAV2FGgubcpeK_Edgbxo3gbQQVVS3ns2HM',
+            'AIzaSyAfQgBOf36zUrx05rDI4f58XfcJaPnDTBU',
+            'AIzaSyDxx5LA1Zrmr0QAexG7Ofc8cP74b77iXJ8',
+            'AIzaSyC1h3O-4ZUW81MTXimaXcJw_vxjht_7dxs',
+            'AIzaSyDX8ugQezm24U2iS5Visy_-gm7swrk1dDY',
+            'AIzaSyAILkvGbTnK_mBd9ND_22ObDFquFRp4h8U',
+            'AIzaSyAHSOMAWKNmkqRg0866rFgvLNRJOTQb1j8',
+            'AIzaSyBAhKMF_bKBGQWafOV-mw2ZOGgp5a1iOhY',
+            'AIzaSyBxXUeSQ01GTzYVZiepNHlZGJn1ksfP8N0',
+                    
+                    
+            ]
 
 
 
@@ -183,7 +188,7 @@ class youtube(APIView):
 
         # Iterate through keywords and time filters
         results = []
-        for keyword in keywords:
+        for keyword in keywords[:5]:
             print(keyword)
             for country_code in country_codes:
                 print(country_code)
