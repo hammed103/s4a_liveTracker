@@ -844,7 +844,7 @@ def search_and_extract_info(API_KEY,keyword, max_duration, time_filterz,COUNTRY_
     df = df.reset_index()
     df["tag"] = keyword
     df["country"] = COUNTRY_CODE
-    df["Date"] = time_filter[0]
+    df["Date"] = time_filter[1]
     df["Date_Range"] = time_filterz
 
     return df
