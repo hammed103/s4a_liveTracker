@@ -234,7 +234,7 @@ class youtube(APIView):
                                 results.append(result_df)
                                 break  # If successful, break out of the retry loop
                             except Exception as e:
-                                #print(f"API Key {i+1} failed with error: {str(e)}")
+                                print(f"API Key {i+1} failed with error: {str(e)}")
                                 if i == len(API_KEYS) -1:
                                     raise Exception("All API keys failed for this combination. Moving to next combination.")  # Raise an error if all tries fail
                                 continue  # Try the next API key
