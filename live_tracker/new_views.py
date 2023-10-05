@@ -224,14 +224,17 @@ class youtube(APIView):
         try:
             for keyword in keywords:
                 print(keyword)
+                print(".........................................................")
                 for country_code in country_codes:
                     print(country_code)
                     for time_filter in time_filters:
                         print(time_filter)
+                        print(".........................................................")
                         for i in range(len(API_KEYS)):
                             try:
                                 result_df = search_and_extract_info(API_KEYS[i], keyword, max_duration, time_filter, country_code)
                                 results.append(result_df)
+                                print(".........................................................")
                                 break  # If successful, break out of the retry loop
                             except Exception as e:
                                 print(f"API Key {i+1} failed with error: {str(e)}")
