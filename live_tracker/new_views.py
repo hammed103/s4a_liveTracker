@@ -222,12 +222,12 @@ class youtube(APIView):
         # Iterate through keywords and time filters
         results = []
         try:
-            for keyword in keywords[:1]:
+            for keyword in keywords:
                 print(keyword)
                 print(".........................................................")
-                for country_code in country_codes[:1]:
+                for country_code in country_codes:
                     print(country_code)
-                    for time_filter in time_filters[:1]:
+                    for time_filter in time_filters:
                         print(time_filter)
                         print(".........................................................")
                         for i in range(len(API_KEYS)):
@@ -272,41 +272,7 @@ class youtube(APIView):
 
 
 
-        # Concatenate the DataFrames for each combination of keyword, country code, and time filter
-        final_result = pd.concat(results, ignore_index=True)
-        from datetime import date,timedelta
- 
-        date_str = str(date.today())
-        file_name = f"youtube/{date_str}_a.csv"
-        final_result = final_result.iloc[:,1:]
-        try:
-            chunks = chunk_dataframe(final_result)
 
-            for index, chunk in enumerate(chunks):
-                csv_content = chunk.to_csv(index=False, quoting=csv.QUOTE_ALL, sep="|")
-                sio = StringIO(csv_content)
-
-                suffix = chr(97 + index)  # 97 is ASCII for 'a'
-                # file_name = f"{base_file_name}_{suffix}.csv"
-                file_name = f"youtube/{date_str}_{suffix}.csv"
-
-                result = cloudinary.uploader.upload(
-                    sio,
-                    public_id=file_name,
-                    folder="/Soundcloud/",
-                    resource_type="raw",
-                    overwrite=True,
-                )
-        except:
-
-            csv_content = final_result.to_csv(index=False, quoting=csv.QUOTE_ALL, sep="|")
-            result = cloudinary.uploader.upload(
-            StringIO(csv_content),
-            public_id=file_name,
-            folder="/Soundcloud/",
-            resource_type="raw",
-            overwrite=True,
-            )
 # Now, final_result contains the combined results for all combinations of keywords and time filters.
 
         return Response(
