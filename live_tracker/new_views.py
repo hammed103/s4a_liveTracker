@@ -241,6 +241,32 @@ class youtube(APIView):
                                 if i == len(API_KEYS) -1:
                                     raise Exception("All API keys failed for this combination. Moving to next combination.")  # Raise an error if all tries fail
                                 continue  # Try the next API key
+                        # Concatenate the DataFrames for each combination of keyword, country code, and time filter
+                final_result = pd.concat(results, ignore_index=True)
+                from datetime import date,timedelta
+        
+                date_str = str(date.today())
+                file_name = f"youtube/{date_str}_a.csv"
+                final_result = final_result.iloc[:,1:]
+
+                chunks = chunk_dataframe(final_result)
+
+                for index, chunk in enumerate(chunks):
+                    csv_content = chunk.to_csv(index=False, quoting=csv.QUOTE_ALL, sep="|")
+                    sio = StringIO(csv_content)
+
+                    suffix = chr(97 + index)  # 97 is ASCII for 'a'
+                    # file_name = f"{base_file_name}_{suffix}.csv"
+                    file_name = f"youtube/{date_str}_{suffix}.csv"
+
+                    result = cloudinary.uploader.upload(
+                        sio,
+                        public_id=file_name,
+                        folder="/Soundcloud/",
+                        resource_type="raw",
+                        overwrite=True,
+                    )
+                    
         except Exception as outer_e:
             print(f"Error during the iteration: {str(outer_e)}")
 
