@@ -86,6 +86,7 @@ def soup_from_html(html_string):
     return soup
 
 
+
 def login(driver):
     try:
         username_input = driver.find_element(By.ID, "login-username")
