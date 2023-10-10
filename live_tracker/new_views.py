@@ -173,6 +173,8 @@ class youtube(APIView):
             'AIzaSyAHSOMAWKNmkqRg0866rFgvLNRJOTQb1j8',
             'AIzaSyBAhKMF_bKBGQWafOV-mw2ZOGgp5a1iOhY',
             'AIzaSyBxXUeSQ01GTzYVZiepNHlZGJn1ksfP8N0',
+            'AIzaSyAy8GgJflH2QwLTBVlvdfwUgjOpnh_ESnw',
+            'AIzaSyAAaxC9umf4jMM_lCFKd9IvyE-nR6ySLiE',
                     
                     
             ]
