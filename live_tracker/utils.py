@@ -86,7 +86,6 @@ def soup_from_html(html_string):
     return soup
 
 
-
 def login(driver):
     try:
         username_input = driver.find_element(By.ID, "login-username")
@@ -114,7 +113,7 @@ def login(driver):
     try:
       print("Authorization Header:", auth_header)
     except:
-       auth_header = "Bearer BQAfYIl5ZI2sewqgpi8ap4rP_GUe5FE4yeOcsC0ukzBbgEYg5uHEGLKNh7zDjg5ewokWUy-pioowLp4LWN-zRtqVC8mq_IE0jfmlJZB1ktlIoYH_TapzbsdgIbUfDecTvjkC-Ty5ugrj-GeipHCmXhq7ZtHeA6_Xr9trTErSRApdnq2_HGppokqMFPvfUQp_65cnRJ97JZsx75gVB4wP2_8l"
+       auth_header = "Bearer BQCNoIcZ26EnjxC57VaK37PwP2Y4gP277jN9HSnsjpEDFRIQJpsni4KOGv0J-xL02zFZZp51Zg5l9rvWYorlYwu33TKxEVCxC0djGMgj1RKPxIKxvK3-D7srPc7fqIhI13Jtsue06bh32pO1hHiV3lnxP5f2T9Yr0xaAUIndxyuKgnde9h6rCw8d0sCPWEglKwS_nKBZPVjNtmDEkWCDTOvr"
 
     return auth_header
 
