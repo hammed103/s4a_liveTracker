@@ -216,7 +216,7 @@ class youtube(APIView):
         "last30days","last7days","last24hrs"
         ]
         country_codes = [
-            "DE", "GB", "US", "NL", "FR", "AU", "BR", "PL", "SE", "AT","IN", "CA"
+            "DE", "GB", "US", "NL", "FR", "AU", "BR", "PL", "SE", "AT","IN", "CA","TR", "CH","NO","ID",
         ]
 
 

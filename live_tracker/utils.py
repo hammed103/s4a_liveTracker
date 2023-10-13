@@ -97,7 +97,6 @@ def login(driver):
         driver.find_element(By.ID, "login-button").click()
         print("password entered ...")
         sleep(8)
-
     except:
         pass
     # Iterate over the requests made by the browser
@@ -113,7 +112,7 @@ def login(driver):
     try:
       print("Authorization Header:", auth_header)
     except:
-       auth_header = "Bearer BQBm_EMh82TwiGiwSSQZZp2louXSMl3hnfv2S9_Mw_zVMMrrn2tyY-qrN_oTx5Mx6Y99QrhfziiIGNB-GXIZurrkhL6iTUql8ZxhemBPO9N787TxRM9hA0xCkMAHM4kRkXxENIUhFr22PCBqqqnd8MM1aUotOpKRVbtn4Zjh9yaYAu1Wu6IBEwXmaOKSss0xgJjzv55T_hxpiG1uZjL7g2Hp"
+       auth_header = "Bearer BQCQMtm6roGR_FE1Y7VTxZ83RUh_Crk-FF3v0Lp6WfG5hgRGhiHT39vXJqrcvAlzELm-9hL-Q-D58_nl_7FSKbUfufqzthtMu23FaNoq1SRhIvbYbq2u0HBF378TPIM_7S6zCSFDdt4tSbYfx0YwMfHEX9B0_2aPLH6tE8C7H8H7ajmRf4rRuGoAewxsEfMrvLlJnvzCTO9bc5FN2jgDLHVy"
 
     return auth_header
 
