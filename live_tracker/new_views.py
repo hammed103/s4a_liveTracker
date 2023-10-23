@@ -65,7 +65,7 @@ class start(APIView):
             if id =="7qSJ2pTGHULkgMGA7ldGt7":
                 auth_header = "Bearer BQAi2vxHHQ4s5BRgVL9sUyklsHjXaI-zOcBk1LK9KvEXdvuEp7mpGkmZpDiVyU3DYyGkPOGyekG0ASfIuvTbqf_TPc7yc8m2DfVdo3sOb78OPrRsquGSaKrgMXuIyVzQHxYFK1fCIupescxIwU8j4-YryritT2LKdU50PPm5iEAGNB29oitEE6bYtRgwLBFQ34m3DbjtjktsrcehyHbX_0BerLTE"
             else:
-                auth_header = "bearer BQARCVky2ThP5bfzfAfpyTY2rVVhfj6xNh16GND51DtiVW9UJOxlu9yR0Rt1Th7NHZ-m60Zl8jiHGXp_LagONVMWDZNmZH4FFRwh32DOQdSCuM1Q1XohlzWSWUXdBUML2yY3QwK0VW8EQAFJk3V3TnyQuz4HqdRLbyyvMs44aaqlLNEBCn1eJgO_Ei5Hc8aHkTgETcX2dK0npZTK1hfZzYpD"
+                auth_header = "Bearer BQARCVky2ThP5bfzfAfpyTY2rVVhfj6xNh16GND51DtiVW9UJOxlu9yR0Rt1Th7NHZ-m60Zl8jiHGXp_LagONVMWDZNmZH4FFRwh32DOQdSCuM1Q1XohlzWSWUXdBUML2yY3QwK0VW8EQAFJk3V3TnyQuz4HqdRLbyyvMs44aaqlLNEBCn1eJgO_Ei5Hc8aHkTgETcX2dK0npZTK1hfZzYpD"
             auth_header,ban = retro(auth_header,name,id,driver)
             basket.append(ban)
 
