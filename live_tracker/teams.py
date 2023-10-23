@@ -9,6 +9,7 @@ teams = [
             "Hammed Balogun"
         ]
     },
+    
     {
         "uri": "spotify:artist:66HmkiTooisb91GPkIdVYC",
         "name": "90s HYPERTECHNO",
@@ -138,7 +139,7 @@ teams = [
     {
         "uri": "spotify:artist:4Jp11pMtkZM9GRgGCMVxHp",
         "name": "CAMOUFLAGE DRILL",
-        "imageUrl": "https://s4a.scdn.co/default-avatars/team/c.png",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e025e4b6d213053376ec1e22a21",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -156,7 +157,7 @@ teams = [
     {
         "uri": "spotify:artist:0KMFS1d5Awf2qIqI3WJ5SM",
         "name": "Charlie Jason",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e023a7bbdf654c6b8d5a0877085",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e027afd237db35c7cbc60fd328c",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -219,7 +220,7 @@ teams = [
     {
         "uri": "spotify:artist:4Mcy0BlRkpIwdre5l8tusO",
         "name": "DJ HARDSTYLE",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02c21db5592c33d523a041c1f8",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02ea0feb0b0724d9aa28a909fe",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -251,13 +252,14 @@ teams = [
         "adminFullNames": [
             "X X",
             "Marinas Florin",
-            "Alex Marcu"
+            "Alex Marcu",
+            "Hammed Balogun"
         ]
     },
     {
         "uri": "spotify:artist:1wsvY9barN3nqzSrJ5h6IW",
         "name": "DRILL OPERATOR",
-        "imageUrl": "https://s4a.scdn.co/default-avatars/team/d.png",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02caa8af653da6debe82c09e98",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -284,17 +286,18 @@ teams = [
     {
         "uri": "spotify:artist:54sRZ8k1rq8Dt83h6LhHey",
         "name": "Dark Ambiental Orchestra",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0259efc6eee7bee20f667f2887",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02bf96b8b9f0d44a11ff966a95",
         "group": "Full Access",
         "adminFullNames": [
             "X X",
-            "Alex Marcu"
+            "Alex Marcu",
+            "Hammed Balogun"
         ]
     },
     {
         "uri": "spotify:artist:3FOlBgjBwMqPwH7BnUv62h",
         "name": "David Fisher",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0250dc8688e31481aa3e45accb",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0224ac2d5f5b3ad0f92dfd8b92",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -321,7 +324,7 @@ teams = [
     {
         "uri": "spotify:artist:0Sji5DOKIuFn7vN100ZFxY",
         "name": "Don Alvera",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02dfff0dd3a73cf80aeee3711e",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02442fb01d16b154c3ab23ceec",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -330,7 +333,7 @@ teams = [
     {
         "uri": "spotify:artist:45uBQR9okT8A3kvTze2mLa",
         "name": "Donnie Oz",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0241724248505026a91e4d7cd0",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02ab8bc560f811abf01315042c",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -348,7 +351,7 @@ teams = [
     {
         "uri": "spotify:artist:6Y1bm1PTNIRDnsTUlQiTzV",
         "name": "EASTWOOD BEAST",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02820fc441d9df9d4ca56cdc3d",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e024659afa9cb1550b426987a03",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -375,7 +378,7 @@ teams = [
     {
         "uri": "spotify:artist:3LvOK3YwWZqn2vGbe62zek",
         "name": "Ernest 99",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02f2225bafca7be2bc56d1dc70",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02cc1e1a17bc729f5225e876e3",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -438,7 +441,7 @@ teams = [
     {
         "uri": "spotify:artist:4bw6fOkOwrbEsyP898rsYo",
         "name": "Guide Trip",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02435de34943f5e2099abfe47d",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02a8002e5e4b0f29ee3075e9e3",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -456,7 +459,7 @@ teams = [
     {
         "uri": "spotify:artist:7ob7Owb6T80SV8ljkJsJdc",
         "name": "HARDSTYLE EDITS",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02579f7cc71661e6a06f676584",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0275ecbd0749a4ee5209755724",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -465,7 +468,7 @@ teams = [
     {
         "uri": "spotify:artist:3t7oTSB7E9B9EyQJ0xq40u",
         "name": "HARDSTYLE HEARTS",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e028e376913a12c719e443dd40d",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0231e657cac71c704b319b1e77",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -492,7 +495,7 @@ teams = [
     {
         "uri": "spotify:artist:5yBBra9YvBlD3EBpCyelME",
         "name": "HARDSTYLE LIMITS",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02fdbc52cbc6b36d23516c0812",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02acb9047e16ccc6043eaede8f",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -610,7 +613,7 @@ teams = [
     {
         "uri": "spotify:artist:3EQYvCnye87F3Z8qdvzTgx",
         "name": "HYPERTECHNO GALAXY",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02106dc7bec03a109153b6a58a",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e027691e665794d7f93e676784f",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -637,7 +640,7 @@ teams = [
     {
         "uri": "spotify:artist:7IPp6ldu9ZLfYqKuuVwfbH",
         "name": "HYPERTECHNO MIX EVOLUTION",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0274f6432e8d5bc53e583cd2be",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02ac82f96370ee45a3fbfab516",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -664,7 +667,7 @@ teams = [
     {
         "uri": "spotify:artist:4JoD5ANT44wpleHfqprwc5",
         "name": "HYPERTECHNO XO",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02e0b16eb80dfaf1ec35fadd57",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0221bfaaea5bbbc5f5a84c1569",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -682,7 +685,7 @@ teams = [
     {
         "uri": "spotify:artist:2YNVvcmQIGumbGUCLtogHY",
         "name": "Hypertechno Tensions",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e029f10835db6ac08d2a3d628d2",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0289cab75bf74ca61ee2b4e2b7",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -700,7 +703,7 @@ teams = [
     {
         "uri": "spotify:artist:6JzASSqBb5GOrhfa4FeXWK",
         "name": "Jackie 99",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e022be63c17738bd59deddd313d",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0294770e22d2966839bac2624b",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -709,7 +712,7 @@ teams = [
     {
         "uri": "spotify:artist:18VnBILoy4pcVK0Phf6imC",
         "name": "Joe Gormella",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0267e27d3c918e606b2d996c00",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e028d57772e1268813d2aca19aa",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -727,7 +730,7 @@ teams = [
     {
         "uri": "spotify:artist:6VchVYNCR9ANrCbfbXiFHK",
         "name": "KNOW THE DRILL",
-        "imageUrl": "https://s4a.scdn.co/default-avatars/team/k.png",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02e10ae4a1e7f0acb5507bcbad",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -799,7 +802,7 @@ teams = [
     {
         "uri": "spotify:artist:69vPDl5AHxO2PA6RuKtwT8",
         "name": "Malibu 99",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e025bab961ba627f71c2c30a232",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0237b45553c12873ae94db5591",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -826,7 +829,7 @@ teams = [
     {
         "uri": "spotify:artist:671meWIuYiugTAj0DRGPck",
         "name": "NIGHTOWL 99",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0237d7ee77fc6e4ed485df52f9",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02259caf4de20ab55bee9c3b98",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -844,7 +847,7 @@ teams = [
     {
         "uri": "spotify:artist:2PZiAlB36peNFaHLWyaYsS",
         "name": "NORTHEN ISLAND TECHNO",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02578904962f9c451d24bc793b",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e025d5727ea6ba36f34a3732893",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -853,7 +856,7 @@ teams = [
     {
         "uri": "spotify:artist:38yp5bZwLSkv4GLzncyuBz",
         "name": "Nathan Crane",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e025ad0ff8b61b6928f2dec0b20",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0265d96c89391b58868f711f0a",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -880,7 +883,7 @@ teams = [
     {
         "uri": "spotify:artist:6dxaNiWwsGeHM3pG1AQhOS",
         "name": "Nolan 99",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0207e2c1e682ebfa3c9e15550b",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02c25fc1df596454b592e1978c",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -925,7 +928,7 @@ teams = [
     {
         "uri": "spotify:artist:7s1RI42xfz4LZeZnQm60GT",
         "name": "Pal Pal",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02f524da2ed5d242dda85f0c12",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02c37c14734a954bbcba0c2a92",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -997,7 +1000,7 @@ teams = [
     {
         "uri": "spotify:artist:17wxeSIyKuwIfMbIhm8FBf",
         "name": "SELF CRITICAL",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0234cd40ef7f1b8da428c32e0b",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02bf04319afef29f53fdcfaf86",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1043,9 +1046,36 @@ teams = [
         ]
     },
     {
+        "uri": "spotify:artist:6KPeVMxIH6PKkE76Qr1Riw",
+        "name": "STUTTER TECH",
+        "imageUrl": "https://s4a.scdn.co/default-avatars/team/s.png",
+        "group": "Full Access",
+        "adminFullNames": [
+            "X X"
+        ]
+    },
+    {
+        "uri": "spotify:artist:7qSJ2pTGHULkgMGA7ldGt7",
+        "name": "STUTTER TECHNO",
+        "imageUrl": "https://i.scdn.co/image/ab676161000051745e7f09887e68835b5020f34e",
+        "group": "Full Access",
+        "adminFullNames": [
+            "X X"
+        ]
+    },
+    {
+        "uri": "spotify:artist:0XjR2bKD2DMooxiGa9rxLj",
+        "name": "STUTTER TECHNOVERSE",
+        "imageUrl": "https://s4a.scdn.co/default-avatars/team/s.png",
+        "group": "Full Access",
+        "adminFullNames": [
+            "X X"
+        ]
+    },
+    {
         "uri": "spotify:artist:2oniRYxAquwzm2QNus4CUA",
         "name": "Stanley Cooper",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e022acaed8697527612002ea9a1",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e029221af577fbb0e31fda7681c",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1081,7 +1111,7 @@ teams = [
     {
         "uri": "spotify:artist:06MEhgbbwtfPMqzB2salV7",
         "name": "TECHNO, Inc",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02719be73e4975c66ec7910178",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e026fe94ff7175f6de9e892ec55",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1153,7 +1183,7 @@ teams = [
     {
         "uri": "spotify:artist:0sSwr6bNO6eDUMkdkcHLea",
         "name": "Techno Louie",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02c50e5afec7fa1ad4dcc9542f",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02393581901461bf98af301d85",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1162,7 +1192,7 @@ teams = [
     {
         "uri": "spotify:artist:5KLtPGOHjRnRyV79eGgitc",
         "name": "Techno Poet",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02b68b8e0d3996ea122c588256",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02104fd5ff737640d392f49383",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1189,7 +1219,7 @@ teams = [
     {
         "uri": "spotify:artist:5KIXgRtgm86lZjqnytPLvx",
         "name": "WINNING BIG",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e029516c97e75b579cc1ed33f1c",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e025fd337d0e9ac6571e6759e5d",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1243,7 +1273,7 @@ teams = [
     {
         "uri": "spotify:artist:6LbS4ozf9SIRjc1xYH8uPt",
         "name": "ZYZZ POSE",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02afe43e883db823b85bf0b82b",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e020e48f8ad3a58bb0159cfae33",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1261,7 +1291,7 @@ teams = [
     {
         "uri": "spotify:artist:25L6Rv1SbszhkxJ2R80Y9b",
         "name": "breakcore girl",
-        "imageUrl": "https://i.scdn.co/image/ab6761610000517406256a4a7f9109235e15660e",
+        "imageUrl": "https://i.scdn.co/image/ab6761610000517414637ed9e0d42092ea37e69e",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1270,7 +1300,7 @@ teams = [
     {
         "uri": "spotify:artist:57dbVGrhbJpNCRCbCTAMYK",
         "name": "breakout year",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02b37788e96613142fea00cc83",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02bf26adb6b778dda3a0c00ee2",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1289,7 +1319,7 @@ teams = [
     {
         "uri": "spotify:artist:4MuWUn09lA0Rmwrf8xKvj1",
         "name": "deaf rabbit",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02b65c6adb70acf32d968ee48e",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02f07987ce4579825902b2055a",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1416,7 +1446,7 @@ teams = [
     {
         "uri": "spotify:artist:4ODbbfUClBWsYe343mKznE",
         "name": "wEb 99",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e0213f43c6ca30858229bf4002b",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02698790c7d7463dcebb808b7c",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1425,7 +1455,7 @@ teams = [
     {
         "uri": "spotify:artist:3aSnAVCG2cBPLxsDO44ljt",
         "name": "you & jennifer",
-        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02c5ada0c3d3c5f747941fc127",
+        "imageUrl": "https://i.scdn.co/image/ab67616d00001e02dc0f8ef55ef47c2a34d5435f",
         "group": "Full Access",
         "adminFullNames": [
             "X X"
@@ -1441,4 +1471,193 @@ teams = [
             "Alex Marcu"
         ]
     }
+]
+
+
+countries = [
+    ("", "Worldwide"),
+    ("WS", "Samoa"),
+    ("PG", "Papua New Guinea"),
+    ("TL", "Timor-Leste"),
+    ("SB", "Solomon Islands"),
+    ("NR", "Nauru"),
+    ("KI", "Kiribati"),
+    ("TO", "Tonga"),
+    ("NZ", "New Zealand"),
+    ("FJ", "Fiji"),
+    ("VU", "Vanuatu"),
+    ("PW", "Palau"),
+    ("TV", "Tuvalu"),
+    ("AU", "Australia"),
+    ("FM", "Micronesia"),
+    ("MH", "Marshall Islands"),
+    ("MO", "Mongolia"),
+    ("MN", "Mongolia"),
+    ("TW", "Taiwan"),
+    ("JP", "Japan"),
+    ("KR", "South Korea"),
+    ("HK", "Hong Kong"),
+    ("VN", "Vietnam"),
+    ("MY", "Malaysia"),
+    ("KH", "Cambodia"),
+    ("LA", "Laos"),
+    ("PH", "Philippines"),
+    ("BN", "Brunei"),
+    ("SG", "Singapore"),
+    ("TH", "Thailand"),
+    ("ID", "Indonesia"),
+    ("BR", "Brazil"),
+    ("MX", "Mexico"),
+    ("CR", "Costa Rica"),
+    ("SV", "El Salvador"),
+    ("PA", "Panama"),
+    ("HN", "Honduras"),
+    ("BZ", "Belize"),
+    ("NI", "Nicaragua"),
+    ("GT", "Guatemala"),
+    ("DO", "Dominican Republic"),
+    ("DM", "Dominica"),
+    ("KN", "Saint Kitts and Nevis"),
+    ("JM", "Jamaica"),
+    ("GY", "Guyana"),
+    ("BS", "Bahamas"),
+    ("VC", "Saint Vincent and the Grenadines"),
+    ("TT", "Trinidad and Tobago"),
+    ("GD", "Grenada"),
+    ("SR", "Suriname"),
+    ("LC", "Saint Lucia"),
+    ("AG", "Antigua and Barbuda"),
+    ("HT", "Haiti"),
+    ("BB", "Barbados"),
+    ("CW", "Curacao"),
+    ("CL", "Chile"),
+    ("AR", "Argentina"),
+    ("UY", "Uruguay"),
+    ("PY", "Paraguay"),
+    ("CO", "Colombia"),
+    ("EC", "Ecuador"),
+    ("PE", "Peru"),
+    ("BO", "Bolivia"),
+    ("VE", "Venezuela"),
+    ("BT", "Bhutan"),
+    ("NP", "Nepal"),
+    ("IN", "India"),
+    ("MV", "Maldives"),
+    ("BD", "Bangladesh"),
+    ("LK", "Sri Lanka"),
+    ("PK", "Pakistan"),
+    ("BF", "Burkina Faso"),
+    ("LR", "Liberia"),
+    ("CD", "Democratic Republic of the Congo"),
+    ("GN", "Guinea"),
+    ("SL", "Sierra Leone"),
+    ("ZW", "Zimbabwe"),
+    ("UG", "Uganda"),
+    ("CI", "Ivory Coast"),
+    ("GM", "Gambia"),
+    ("SZ", "Eswatini"),
+    ("MZ", "Mozambique"),
+    ("ZA", "South Africa"),
+    ("BJ", "Benin"),
+    ("GW", "Guinea-Bissau"),
+    ("TZ", "Tanzania"),
+    ("CM", "Cameroon"),
+    ("MR", "Mauritania"),
+    ("GQ", "Equatorial Guinea"),
+    ("TD", "Chad"),
+    ("BI", "Burundi"),
+    ("AO", "Angola"),
+    ("RW", "Rwanda"),
+    ("MU", "Mauritius"),
+    ("NA", "Namibia"),
+    ("GH", "Ghana"),
+    ("GA", "Gabon"),
+    ("KE", "Kenya"),
+    ("SN", "Senegal"),
+    ("SC", "Seychelles"),
+    ("CV", "Cape Verde"),
+    ("ZM", "Zambia"),
+    ("NE", "Niger"),
+    ("BW", "Botswana"),
+    ("ML", "Mali"),
+    ("ST", "Sao Tome and Principe"),
+    ("KM", "Comoros"),
+    ("NG", "Nigeria"),
+    ("CG", "Republic of the Congo"),
+    ("LS", "Lesotho"),
+    ("MG", "Madagascar"),
+    ("TG", "Togo"),
+    ("ET", "Ethiopia"),
+    ("MW", "Malawi"),
+    ("LY", "Libya"),
+    ("MA", "Morocco"),
+    ("LB", "Lebanon"),
+    ("QA", "Qatar"),
+    ("KW", "Kuwait"),
+    ("DZ", "Algeria"),
+    ("OM", "Oman"),
+    ("IQ", "Iraq"),
+    ("DJ", "Djibouti"),
+    ("TN", "Tunisia"),
+    ("JO", "Jordan"),
+    ("AE", "United Arab Emirates"),
+    ("EG", "Egypt"),
+    ("PS", "Palestine"),
+    ("SA", "Saudi Arabia"),
+    ("BH", "Bahrain"),
+    ("CA", "Canada"),
+    ("US", "United States"),
+    ("DK", "Denmark"),
+    ("FI", "Finland"),
+    ("IS", "Iceland"),
+    ("NO", "Norway"),
+    ("SE", "Sweden"),
+    ("PL", "Poland"),
+    ("LT", "Lithuania"),
+    ("UA", "Ukraine"),
+    ("BG", "Bulgaria"),
+    ("EE", "Estonia"),
+    ("RO", "Romania"),
+    ("SK", "Slovakia"),
+    ("HR", "Croatia"),
+    ("HU", "Hungary"),
+    ("ME", "Montenegro"),
+    ("CZ", "Czech Republic"),
+    ("SI", "Slovenia"),
+    ("XK", "Kosovo"),
+    ("AL", "Albania"),
+    ("MK", "North Macedonia"),
+    ("LV", "Latvia"),
+    ("RS", "Serbia"),
+    ("BA", "Bosnia and Herzegovina"),
+    ("GB", "United Kingdom"),
+    ("IE", "Ireland"),
+    ("ES", "Spain"),
+    ("CY", "Cyprus"),
+    ("SM", "San Marino"),
+    ("IL", "Israel"),
+    ("GR", "Greece"),
+    ("MT", "Malta"),
+    ("AD", "Andorra"),
+    ("PT", "Portugal"),
+    ("TR", "Turkey"),
+    ("IT", "Italy"),
+    ("LU", "Luxembourg"),
+    ("FR", "France"),
+    ("MC", "Monaco"),
+    ("NL", "Netherlands"),
+    ("BE", "Belgium"),
+    ("DE", "Germany"),
+    ("LI", "Liechtenstein"),
+    ("AT", "Austria"),
+    ("CH", "Switzerland"),
+    ("GE", "Georgia"),
+    ("UZ", "Uzbekistan"),
+    ("BY", "Belarus"),
+    ("TJ", "Tajikistan"),
+    ("KG", "Kyrgyzstan"),
+    ("AM", "Armenia"),
+    ("KZ", "Kazakhstan"),
+    ("MD", "Moldova"),
+    ("AZ", "Azerbaijan"),
 ]

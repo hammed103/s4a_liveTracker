@@ -109,10 +109,9 @@ def login(driver):
                 auth_header = request.headers["Authorization"]
                 if auth_header != "":
                     break
-    try:
-      print("Authorization Header:", auth_header)
-    except:
-       auth_header = "Bearer BQAoumKiv8MKwUaCo1eXX3ggt_fGCK0sfOjh-U9QHQsX6HKeLcUTH1iQ8d12v7_KHtj6HepHp93Kq_k9m9i3qbEuASBBSiEO_nHSas62ixmeze5sNS5GF69PTxA6pxcVOPO8GWPsN4e1jnIVD6W-LUF0aCKGAmJigehQrRgesxzQ_fweuZhXUK08Hj3d5-nu5HQ1Bm7ZAtPXEeJNYY5Qxp63"
+    
+    print("Authorization Header:", auth_header)
+
     return auth_header
 
 
@@ -848,3 +847,38 @@ def search_and_extract_info(API_KEY,keyword, max_duration, time_filterz,COUNTRY_
     return df
 
 
+
+def extract_audience_info(row):
+    total_active = int(row["active"]["total"])
+    super_active = int(row["active"]["super"])
+    moderate_active = int(row["active"]["moderate"])
+    light_active = int(row["active"]["light"])
+    programmed = int(row["programmed"])
+    previously_active = int(row["previouslyActive"])
+
+    return pd.Series(
+        [
+            total_active,
+            super_active,
+            moderate_active,
+            light_active,
+            programmed,
+            previously_active,
+        ]
+    )
+
+
+from datetime import datetime
+
+
+def get_latest_date(dates):
+    """
+    Return the latest date from a list of date strings.
+
+    Args:
+    - dates (list of str): List of date strings in the format 'YYYY-MM-DD'.
+
+    Returns:
+    - str: Latest date string in the format 'YYYY-MM-DD'.
+    """
+    return max(dates, key=lambda date: datetime.strptime(date, "%Y-%m-%d"))
