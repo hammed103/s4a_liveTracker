@@ -109,10 +109,10 @@ def login(driver):
                 auth_header = request.headers["Authorization"]
                 if auth_header != "":
                     break
-    try:
-      print("Authorization Header:", auth_header)
-    except:
-       auth_header = "Bearer BQAoumKiv8MKwUaCo1eXX3ggt_fGCK0sfOjh-U9QHQsX6HKeLcUTH1iQ8d12v7_KHtj6HepHp93Kq_k9m9i3qbEuASBBSiEO_nHSas62ixmeze5sNS5GF69PTxA6pxcVOPO8GWPsN4e1jnIVD6W-LUF0aCKGAmJigehQrRgesxzQ_fweuZhXUK08Hj3d5-nu5HQ1Bm7ZAtPXEeJNYY5Qxp63"
+
+    print("Authorization Header:", auth_header)
+    dfgvfbr
+
     return auth_header
 
 
