@@ -60,7 +60,7 @@ class start(APIView):
         basket = []
         for name,id in [ ("HYPERTECHNO","4YYOTpMoikKdYWWuTWjbqo"),( "deadboy","45u4hhyZlr11XAFqO74eTZ"),("SICK LEGEND","3EYY5FwDkHEYLw5V86SAtl"),( "11:11 Music Group","2MDj296KJIfgWDNBtHzeFi"),("TEKKNO","0aUMVkR8QV0LSdv9VZOATn"),
                         ( "90210","4KGcll2G3f04WMGTT19eyz"),
-             ("two punks in love","6pOqcPiFkbjIKUBF86cfuM"),( "Dark Ambiental Orchestra","54sRZ8k1rq8Dt83h6LhHey"),("Drill Gates","4anRsJeihT0h3v3YO2q8wQ"),("7qSJ2pTGHULkgMGA7ldGt7","STUTTER TECHNO")] :
+             ("two punks in love","6pOqcPiFkbjIKUBF86cfuM"),( "Dark Ambiental Orchestra","54sRZ8k1rq8Dt83h6LhHey"),("Drill Gates","4anRsJeihT0h3v3YO2q8wQ")] :
             print(name,id)
             auth_header,ban = retro(auth_header,name,id,driver)
             basket.append(ban)
