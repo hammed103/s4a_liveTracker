@@ -58,16 +58,20 @@ class start(APIView):
 
         print(auth_header)
         basket = []
-        for name,id in [ ("HYPERTECHNO","4YYOTpMoikKdYWWuTWjbqo"),( "deadboy","45u4hhyZlr11XAFqO74eTZ"),("SICK LEGEND","3EYY5FwDkHEYLw5V86SAtl"),( "11:11 Music Group","2MDj296KJIfgWDNBtHzeFi"),("TEKKNO","0aUMVkR8QV0LSdv9VZOATn"),
+        for name,id in [ ("STUTTER TECHNO","7qSJ2pTGHULkgMGA7ldGt7"),("HYPERTECHNO","4YYOTpMoikKdYWWuTWjbqo"),( "deadboy","45u4hhyZlr11XAFqO74eTZ"),("SICK LEGEND","3EYY5FwDkHEYLw5V86SAtl"),( "11:11 Music Group","2MDj296KJIfgWDNBtHzeFi"),("TEKKNO","0aUMVkR8QV0LSdv9VZOATn"),
                         ( "90210","4KGcll2G3f04WMGTT19eyz"),
-             ("two punks in love","6pOqcPiFkbjIKUBF86cfuM"),( "Dark Ambiental Orchestra","54sRZ8k1rq8Dt83h6LhHey"),("Drill Gates","4anRsJeihT0h3v3YO2q8wQ")] :
+             ("two punks in love","6pOqcPiFkbjIKUBF86cfuM"),( "Dark Ambiental Orchestra","54sRZ8k1rq8Dt83h6LhHey"),("Drill Gates","4anRsJeihT0h3v3YO2q8wQ"),("7qSJ2pTGHULkgMGA7ldGt7","STUTTER TECHNO")] :
             print(name,id)
+            if id =="7qSJ2pTGHULkgMGA7ldGt7":
+                auth_header = "Bearer BQAi2vxHHQ4s5BRgVL9sUyklsHjXaI-zOcBk1LK9KvEXdvuEp7mpGkmZpDiVyU3DYyGkPOGyekG0ASfIuvTbqf_TPc7yc8m2DfVdo3sOb78OPrRsquGSaKrgMXuIyVzQHxYFK1fCIupescxIwU8j4-YryritT2LKdU50PPm5iEAGNB29oitEE6bYtRgwLBFQ34m3DbjtjktsrcehyHbX_0BerLTE"
+            else:
+                auth_header = "bearer BQARCVky2ThP5bfzfAfpyTY2rVVhfj6xNh16GND51DtiVW9UJOxlu9yR0Rt1Th7NHZ-m60Zl8jiHGXp_LagONVMWDZNmZH4FFRwh32DOQdSCuM1Q1XohlzWSWUXdBUML2yY3QwK0VW8EQAFJk3V3TnyQuz4HqdRLbyyvMs44aaqlLNEBCn1eJgO_Ei5Hc8aHkTgETcX2dK0npZTK1hfZzYpD"
             auth_header,ban = retro(auth_header,name,id,driver)
             basket.append(ban)
 
         jk = pd.concat(basket)
         from datetime import date,timedelta
-        oki = jk[jk.Date.isin([str(date.today() - timedelta(6)),str(date.today() - timedelta(5)),str(date.today() - timedelta(4)),str(date.today() - timedelta(3)),str(date.today() - timedelta(2)),str(date.today() - timedelta(1))])]
+        oki = jk[jk.Date.isin([str(date.today() - timedelta(8)),str(date.today() - timedelta(7)),str(date.today() - timedelta(6)),str(date.today() - timedelta(5)),str(date.today() - timedelta(4)),str(date.today() - timedelta(3)),str(date.today() - timedelta(2)),str(date.today() - timedelta(1))])]
 
         unique_dates = oki['Date'].unique()
 
