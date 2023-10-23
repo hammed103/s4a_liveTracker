@@ -60,7 +60,7 @@ class start(APIView):
         basket = []
         for name,id in [ ("STUTTER TECHNO","7qSJ2pTGHULkgMGA7ldGt7"),("HYPERTECHNO","4YYOTpMoikKdYWWuTWjbqo"),( "deadboy","45u4hhyZlr11XAFqO74eTZ"),("SICK LEGEND","3EYY5FwDkHEYLw5V86SAtl"),( "11:11 Music Group","2MDj296KJIfgWDNBtHzeFi"),("TEKKNO","0aUMVkR8QV0LSdv9VZOATn"),
                         ( "90210","4KGcll2G3f04WMGTT19eyz"),
-             ("two punks in love","6pOqcPiFkbjIKUBF86cfuM"),( "Dark Ambiental Orchestra","54sRZ8k1rq8Dt83h6LhHey"),("Drill Gates","4anRsJeihT0h3v3YO2q8wQ"),("7qSJ2pTGHULkgMGA7ldGt7",)] :
+             ("two punks in love","6pOqcPiFkbjIKUBF86cfuM"),( "Dark Ambiental Orchestra","54sRZ8k1rq8Dt83h6LhHey"),("Drill Gates","4anRsJeihT0h3v3YO2q8wQ")] :
             print(name,id)
             if id =="7qSJ2pTGHULkgMGA7ldGt7":
                 auth_header = "Bearer BQAni5ynw6zW9H3Ae5YW4j2vHhw7YqPSCGSr2jw3jMAbG5JEo4oTYOmImp86RqNsF_F2VKFp3leWvOp56CFnUax7WrzgJlsj5CVgiM5q1QBqqFXz37MUJMz5Udd2BT4fdW2A5-A_JZgYXTWzJ-9gcB3SeT_FcFmFUZHPmsAAjbCUAqgfXSVnt7CQvzP74aJh75g_Uv1PdsnOJ_aAXTuBAUYN"
