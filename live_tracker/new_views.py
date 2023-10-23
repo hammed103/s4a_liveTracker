@@ -67,7 +67,7 @@ class start(APIView):
 
         jk = pd.concat(basket)
         from datetime import date,timedelta
-        oki = jk[jk.Date.isin([str(date.today() - timedelta(2)),str(date.today() - timedelta(1))])]
+        oki = jk[jk.Date.isin([str(date.today() - timedelta(6)),str(date.today() - timedelta(5)),str(date.today() - timedelta(4)),str(date.today() - timedelta(3)),str(date.today() - timedelta(2)),str(date.today() - timedelta(1))])]
 
         unique_dates = oki['Date'].unique()
 
